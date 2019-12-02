@@ -1,12 +1,24 @@
+# -*- coding: utf-8 -*-
+import pygame
+
 SETTINGS = {'SFX': 100,'MUSIC': 100,'UP': 'W','DOWN': 'S','LEFT': 'A','RIGHT': 'D','ACT': 'J','LANGUAGE': 'PT','SPEED': 2,'STYLE': 'GREEN'}
+
+SPRITES = {'UP_Sid': [pygame.image.load('Sprites/hero_walkU_0.png'), pygame.image.load('Sprites/hero_walkU_1.png'), pygame.image.load('Sprites/hero_walkU_2.png'), pygame.image.load('Sprites/hero_walkU_3.png')],\
+'DOWN_Sid': [pygame.image.load('Sprites/hero_walkD_0.png'), pygame.image.load('Sprites/hero_walkD_1.png'), pygame.image.load('Sprites/hero_walkD_2.png'), pygame.image.load('Sprites/hero_walkD_3.png')],\
+'LEFT_Sid': [pygame.image.load('Sprites/hero_walkL_0.png'), pygame.image.load('Sprites/hero_walkL_1.png'), pygame.image.load('Sprites/hero_walkL_2.png'), pygame.image.load('Sprites/hero_walkL_3.png')],\
+'RIGHT_Sid': [pygame.image.load('Sprites/hero_walkR_0.png'), pygame.image.load('Sprites/hero_walkR_1.png'), pygame.image.load('Sprites/hero_walkR_2.png'), pygame.image.load('Sprites/hero_walkR_3.png')]}
 
 PLAYER = ['','']
 
-PLAYER[0] = {'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','LEVEL': 0,'HP': 80, 'MAXHP': 100,'XP': 1,'MAXXP': 100,'HEALTH': 0,\
-'ATTACK': [3,4],'AGILITY': [2,2],'RESISTANCE': [2,2.5]}
+PLAYER[0] = {'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','LEVEL': 0,'HP': 100, 'MAXHP': 100, 'BARHP': 100,'XP': 1,'MAXXP': 100,'HEALTH': 0,\
+'ATTACK': [0,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],\
+'AGILITY': [0,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],\
+'RESISTANCE': [2,2,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3]}
 
-PLAYER[1] = {'NAME': 'Sandra', 'LASTNAME': 'Oliveira','GENDER': 'female','LEVEL': 0,'HP': 80, 'MAXHP': 100,'XP': 1,'MAXXP': 100,'HEALTH': 0,\
-'ATTACK': [0,5,5,5,6,6,8,8,8,8,8,10],'AGILITY': [0,0.25,0.25,0.5,0.5,0.5,0.5,0.75],'RESISTANCE': [2,2.5]}
+PLAYER[1] = {'NAME': 'Jane', 'LASTNAME': 'Oliveira','GENDER': 'female','LEVEL': 0,'HP': 100, 'MAXHP': 100,'BARHP': 100,'XP': 1,'MAXXP': 100,'HEALTH': 0,\
+'ATTACK': [0,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],\
+'AGILITY': [0,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],\
+'RESISTANCE': [2,2,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3]}
 
 ATM = 300
 MONEY = 200
@@ -85,10 +97,9 @@ FREAKS = [{'NAME': 'Madladcat','INFO': 'É um felino sobrenatural que flutua com
 'HABILITIES': [['Atacar','A pintura se joga contra o oponente, machucando a si no processo.',-10,1]]}]
 
 EQUIPMENT = [[['pistola',{'DAMAGE': 3, 'RECHARGE': 1, 'CAPACITY': 8}],['carabina',{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],'_','_'],\
-[['pistola',{'DAMAGE': 3, 'RECHARGE': 1, 'CAPACITY': 8}],['carabina',{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],'_','_'],\
 [['pistola',{'DAMAGE': 3, 'RECHARGE': 1, 'CAPACITY': 8}],['carabina',{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],'_','_']]
 
-INVENTORY = [['_',['_','_','_'],['_','_','_'],['_','_','_'],['_','_','_']],['_',['_','_'],['_','_']]]
+INVENTORY = [['_',['_','_','_'],['_','paçoca','_'],['_','_','_'],['_','_','_']],['_',['brigadeiro','_'],['_','_']]]
 
 ITEMS = [['bolsa','Guarde seus itens nele e leve para qualquer lugar, ou guarde para uso futuro, possui capacidade de 2x2.',1],\
 ['mochila','Guarde seus itens nele e leve para qualquer lugar, ou guarde para uso futuro, possui capacidade de 3x4.',1],\
@@ -101,7 +112,7 @@ ITEMS = [['bolsa','Guarde seus itens nele e leve para qualquer lugar, ou guarde 
 ['pistola','Arma de fogo para ataques de média distância, ela usa munição de calibre 38.',1,{'DAMAGE': 3, 'RECHARGE': 1, 'CAPACITY': 8}],\
 ['carabina','Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.',1,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],\
 ['cookie','Restaura 5 HP',0],['identidade','Mostra suas informações básicas e prova sua autoridade acima dos civis',1],\
-['paçoca','Doce de amendoim, fácil de encontrar em padarias.',3,2],\
+['pacoca','Doce de amendoim, fácil de encontrar em padarias.',3,2],\
 ['coxinha','Salgado feito com massa frita e recheada com frango, fácil de encontrar em lanchonetes.',3,8],\
 ['pastel','Salgado feito com massa frita e recheado com queijo.',3,5],\
 ['pastel folheado','Salgado feito com várias camadas de massa e queijo.',3,12],\
@@ -118,6 +129,7 @@ ITEMS = [['bolsa','Guarde seus itens nele e leve para qualquer lugar, ou guarde 
 def load_game(slt):
 	file=open(str(slt)+'userdata.db','r')
 	step=0
+	dct=''
 	x=0
 	y=0
 	z=0
@@ -151,6 +163,24 @@ def load_game(slt):
 				if y==len(INVENTORY[x]):
 					y=0
 					x+=1
+				if x==len(INVENTORY):
+					x=0
+					y=0
+					z=0
+		elif step==3:
+			if line!='-\n':
+				EQUIPMENT[x][y]=[line[0:-1]]
+				for i in ITEMS:
+					if i[0]==line[0:-1]:	
+						EQUIPMENT[x][y].append(i[3])
+				y+=1
+				if y==len(EQUIPMENT[x]):
+					y=0
+					x+=1
+				if x==len(EQUIPMENT):
+					x=0
+					y=0
+
 	file.close()
 
 def save_game(slt):
@@ -221,4 +251,5 @@ RESISTÊNCIA: velocidade de consumo da barra de HP\n\n'],\
 ['LOCAIS']]
 
 DIALOGS = {'990435671': [[PLAYER[1]['NAME']+'! Precisamos de você aqui AGORA!','Parece que é um poltergeist, estamos na Av. Jobim, venha logo!'],['Porra '+PLAYER[1]['NAME']+', será que você não entende a gravidade da situação??','Só você pode deter essa anomalia!']],\
-'940028922': [['Oh, olá! como vai, '+PLAYER[1]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],['oie']]}
+'940028922': [['Oh, olá! como vai, '+PLAYER[1]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],['oie']],\
+'NPC_1': [['Meu nome é Francisco Irineu','Eu odeio meu nome...'],['Hey, você é o cara que expurgou aquele poltergeist?']]}
