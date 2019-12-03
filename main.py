@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import database
 import menu
 
@@ -6,46 +7,64 @@ import pytmx
 import random
 import sys
 
+class TiledMap():
+    def __init__(self):
+        self.gameMap = pytmx.load_pygame("Maps/city.tmx", pixelalpha=True)
+        self.mapwidth = self.gameMap.tilewidth * self.gameMap.width
+        self.mapheight = self.gameMap.tileheight * self.gameMap.height
+
+    def render(self, surface):
+        for layer in self.gameMap.visible_layers:
+            if isinstance(layer, pytmx.TiledTileLayer):
+                for x, y, gid in layer:
+                    tile = self.gameMap.get_tile_image_by_gid(gid)
+                    if tile:
+                        surface.blit(tile, (x * self.gameMap.tilewidth, y * self.gameMap.tileheight))
+
+    def make_map(self):
+        mapSurface = pygame.Surface((self.mapwidth, self.mapheight))
+        self.render(mapSurface)
+        return mapSurface
+
+	def rendermap(self, mp):
+		self.map = pytmx.load_pygame('Maps/'+mp+'.tmx')
+		self.tilmap = pygame.Surface((self.map.width*self.map.tilewidth,self.map.height*self.map.tileheight))
+		for x in range(0, self.map.width):
+			for y in range(0, self.map.height):
+				self.tilmap.blit(self.map.get_tile_image(x, y, 0), (x*self.map.tilewidth-self.cam_x, y*self.map.tileheight-self.cam_y))
 class Game:
 	def __init__(self):
 		pygame.init()
 		self.screen = pygame.display.set_mode((1200, 800))
 		self.display = pygame.Surface((600, 400))
-		pygame.display.set_caption('The Freak Hunter')
+		pygame.display.set_caption('Mutation Purge')
 		self.dlgt = 50
 		self.FPS = 60
 
 		self.sound = False
 		self.pressed = pygame.key.get_pressed()
 		self.font = pygame.font.SysFont("calibri", 30)
-		self.map = pytmx.load_pygame('Maps/city.tmx')
 		self.cam_x = 0
 		self.cam_y = 0
 
-		self.en = []
-		self.en.append(database.FREAKS[0])
-		self.en[0]['HP'] = self.en[0]['MAXHP']
-		self.en[0]['SPRITE']=pygame.image.load('Sprites/' + (self.en[0]['NAME']).lower() + '_stand.png')
-		self.en.append(database.FREAKS[0])
-		self.en[1]['HP'] = self.en[0]['MAXHP']
-		self.en[1]['SPRITE']=pygame.image.load('Sprites/' + (self.en[1]['NAME']).lower() + '_stand.png')
-
 		self.dlg = ''
 		self.battle = False
-		self.btime = 10
+		self.bbg = ''
+		self.btime = 100
+		self.hits = 0
+		self.tdmg = 0
+		self.hpl = 0
+		self.tbt = 0
 		self.inventory = False
 		self.phone = 0
 		self.winbar = 0
 		self.turn = -1
-		self.opt = 0
+		self.opt = 1
 		self.mnu = 1
 		self.aimx = 300
-		self.player_barhp=[]
 		self.pp=[]
 		x=0
 		for i in database.PLAYER:
-			print(i)
-			self.player_barhp.append(i['MAXHP'])
 			self.pp.append([])
 			for j in database.EQUIPMENT[x]:
 				try:self.pp[x].append(j[1]['CAPACITY'])
@@ -53,7 +72,6 @@ class Game:
 			self.pp[x].append(0)
 			self.pp[x].append(0)
 			x+=1
-		print(self.pp)
 		self.player_rect = pygame.Rect(100,100,10,16)
 		self.player_spd = 3
 		self.player_sprite = [pygame.image.load('Sprites/hero_walkD_0.png')]
@@ -61,42 +79,74 @@ class Game:
 		self.player_mov = False
 		self.player_color = (100, 100, 100)
 
-		self.en_rect = pygame.Rect(100,100,10,16)
-		self.en_hp = 7
-		self.en_xp = 10
-		self.en_attack = 3
+		self.en = []
+		self.en_rect = pygame.Rect(0,0,10,16)
+		self.en.append(database.FREAKS[0])
+		self.en[0]['HP'] = self.en[0]['MAXHP']
+		self.en[0]['SPRITE']=pygame.image.load('Sprites/' + (self.en[0]['NAME']).lower() + '_stand.png')
+		self.en.append(database.FREAKS[0])
+		self.en[1]['HP'] = self.en[1]['MAXHP']
+		self.en[1]['SPRITE']=pygame.image.load('Sprites/' + (self.en[1]['NAME']).lower() + '_stand.png')
+
+		TiledMap().rendermap('city')
 
 		pygame.mixer.music.load('Music/City.mp3')
 		if self.sound == True: pygame.mixer.music.play(-1)
 
 	def enemy(self, frk):
-		if self.en_rect.x < self.player_rect.x: self.en_rect.x+=2
-		if self.en_rect.x > self.player_rect.x: self.en_rect.x-=2
-		if self.en_rect.y < self.player_rect.y: self.en_rect.y+=2
-		if self.en_rect.y > self.player_rect.y: self.en_rect.y-=2
+		if self.en_rect.x - self.cam_x < self.player_rect.x - self.cam_x: self.en_rect.x+=2
+		if self.en_rect.x - self.cam_x > self.player_rect.x - self.cam_x: self.en_rect.x-=2
+		if self.en_rect.y - self.cam_y < self.player_rect.y - self.cam_y: self.en_rect.y+=2
+		if self.en_rect.y - self.cam_y > self.player_rect.y - self.cam_y: self.en_rect.y-=2
 
 		if self.colide(self.en_rect, self.player_rect) == True:
 			self.patt=[]
 			self.pagi=[]
 			self.tatt=[]
 			self.tagi=[]
+			self.player_mov = False
+			self.opt = 0
+			self.bbg = pygame.image.load('Backgrounds/mountains.png')
 			for i in database.PLAYER:
 				self.patt.append(i['ATTACK'][i['LEVEL']])
 				self.pagi.append(i['AGILITY'][i['LEVEL']])
 				self.tatt.append(0)
 				self.tagi.append(0)
 			self.battle = True
-			while self.winbar<100:
-				self.winbar += 5
-				self.update()
-				self.draw()
+			self.transiction(True, 100)
 			self.dialog([self.en[0]['NAME'] + ' aparece!!']); self.turn=0
 
-		self.display.blit(pygame.image.load('Sprites/' + (self.en[frk]['NAME']).lower() + '_mini.png'), (self.en_rect.x, self.en_rect.y))
+		if self.battle == False: self.display.blit(pygame.image.load('Sprites/' + (self.en[0]['NAME']).lower() + '_mini.png'), (self.en_rect.x - self.cam_x, self.en_rect.y - self.cam_y))
+
+	def npc(self, x, y, ndg):
+		rect = pygame.Rect(x,y,60,60)
+		if self.colide(self.player_rect, rect) == True:
+			for event in pygame.event.get():
+				if self.pressed[pygame.K_SPACE]:
+					self.dialog(database.DIALOGS['NPC_'+str(ndg)][0])
+
+		if self.battle == False: self.display.blit(pygame.image.load('Sprites/npc.png'), (rect.x+30-self.cam_x, rect.y+30-self.cam_y))
+
+	def chest(self, x, y, rwd):
+		rect = pygame.Rect(x,y,60,60)
+		if self.colide(self.player_rect, rect) == True:
+			for event in pygame.event.get():
+				if self.pressed[pygame.K_SPACE]:
+					self.dialog(['Você achou '+rwd])
+					menu.Inventory().add(rwd)
+
+		if self.battle == False: self.display.blit(pygame.image.load('Sprites/chest.png'), (rect.x+30-self.cam_x, rect.y+30-self.cam_y))
+
+	def portal(self, x, y, mp):
+		rect = pygame.Rect(x,y,20,40)
+		if self.colide(self.player_rect, rect) == True:
+			self.rendermap(mp)
+
+		if self.battle == False: self.display.blit(pygame.image.load('Sprites/door.png'), (rect.x-self.cam_x, rect.y-self.cam_y))
 
 	def colide(self, i1, i2):
-		if i1.x > i2.x and i1.x < i2.x + i2.width or i1.x + i1.width > i2.x and i1.x + i1.width < i2.x + i2.width:
-			if i1.y > i2.y and i1.y < i2.y + i2.height or i1.y + i1.height > i2.y and i1.y + i1.height < i2.y + i2.height:
+		if i1.x - self.cam_x > i2.x - self.cam_x and i1.x - self.cam_x < i2.x - self.cam_x + i2.width or i1.x - self.cam_x + i1.width > i2.x - self.cam_x and i1.x - self.cam_x + i1.width < i2.x - self.cam_x + i2.width:
+			if i1.y - self.cam_y > i2.y - self.cam_y and i1.y - self.cam_y < i2.y - self.cam_y + i2.height or i1.y - self.cam_y + i1.height > i2.y - self.cam_y and i1.y - self.cam_y + i1.height < i2.y - self.cam_y + i2.height:
 				return True
 			else: return False
 		else: return False
@@ -113,48 +163,66 @@ class Game:
 				self.pressed = pygame.key.get_pressed()
 
 				if self.mnu == 2:
+					#DEBUG
+					if self.pressed[pygame.K_UP]: database.PLAYER[self.turn]['LEVEL'] += 1
+
 					if self.pressed[pygame.K_SPACE]:
+						self.fight(self.turn)
 						self.turn += 1
 						self.mnu = 1
 						if self.turn == len(database.PLAYER):
-							self.fight()
+							self.fight(self.turn)
 				elif self.mnu == 1:
-					if self.pressed[pygame.K_UP]: self.opt -=1
-					if self.pressed[pygame.K_DOWN]: self.opt +=1
+					if self.pressed[pygame.K_LEFT]: self.opt -=1
+					if self.pressed[pygame.K_RIGHT]: self.opt +=1
 				
-					if self.opt < 0: self.opt = 0
-					if self.opt > 1: self.opt = 1
+					if self.opt < 0: self.opt = 4
+					if self.opt > 4: self.opt = 0
 
 					if self.pressed[pygame.K_SPACE]:
 						if self.opt < 4:
-							self.mnu = 2
+							if self.pp[self.turn][self.opt] > 0:
+								self.mnu = 2
+							else:
+								self.dialog(['Você não tem munição!'])
 						elif self.opt == 4:
-							self.turn += 1
-							if self.turn == len(database.PLAYER):
-								self.fight()
+							self.fight(self.turn)
+							self.fight(len(database.PLAYER))
 
 			#MENU OPTIONS
-			if self.pressed[pygame.K_RETURN]: self.inventory = not self.inventory
+			if self.pressed[pygame.K_RETURN]:
+				self.inventory = not self.inventory
+				if self.inventory == False: self.player_spd = 3
+				if self.inventory == True: self.player_spd = 0
+
+			if self.inventory == True:
+				if self.pressed[pygame.K_LEFT]: self.opt -=1
+				if self.pressed[pygame.K_RIGHT]: self.opt +=1
+
+				if self.opt < 0: self.opt = 0
+				#if self.opt > 4: self.opt = 0
+
 			if self.pressed[pygame.K_BACKSPACE]: self.phone += 1
 
 		#PLAYER MOVEMENT
 		if self.battle == False:
-			self.player_mov = True
+			self.player_mov = False
 			self.pressed = pygame.key.get_pressed()
-			if self.pressed[pygame.K_UP]: self.player_rect.y -= self.player_spd; self.player_sprite = [ pygame.image.load('Sprites/hero_walkU_0.png'), pygame.image.load('Sprites/hero_walkU_1.png'), pygame.image.load('Sprites/hero_walkU_2.png'), pygame.image.load('Sprites/hero_walkU_3.png') ]
-			elif self.pressed[pygame.K_DOWN]: self.player_rect.y += self.player_spd; self.player_sprite = [ pygame.image.load('Sprites/hero_walkD_0.png'), pygame.image.load('Sprites/hero_walkD_1.png'), pygame.image.load('Sprites/hero_walkD_2.png'), pygame.image.load('Sprites/hero_walkD_3.png') ]
-			elif self.pressed[pygame.K_LEFT]: self.player_rect.x -= self.player_spd; self.player_sprite = [ pygame.image.load('Sprites/hero_walkL_0.png'), pygame.image.load('Sprites/hero_walkL_1.png'), pygame.image.load('Sprites/hero_walkL_2.png'), pygame.image.load('Sprites/hero_walkL_3.png') ]
-			elif self.pressed[pygame.K_RIGHT]: self.player_rect.x += self.player_spd; self.player_sprite = [ pygame.image.load('Sprites/hero_walkR_0.png'), pygame.image.load('Sprites/hero_walkR_1.png'), pygame.image.load('Sprites/hero_walkR_2.png'), pygame.image.load('Sprites/hero_walkR_3.png') ]
-			else: self.player_mov = False
+			if self.pressed[pygame.K_UP]: self.player_mov = True; self.player_rect.y -= self.player_spd; self.player_sprite = database.SPRITES['UP_Sid']
+			elif self.pressed[pygame.K_DOWN]: self.player_mov = True; self.player_rect.y += self.player_spd; self.player_sprite = database.SPRITES['DOWN_Sid']
+			if self.pressed[pygame.K_LEFT]: self.player_mov = True; self.player_rect.x -= self.player_spd; self.player_sprite = database.SPRITES['LEFT_Sid']
+			elif self.pressed[pygame.K_RIGHT]: self.player_mov = True; self.player_rect.x += self.player_spd; self.player_sprite = database.SPRITES['RIGHT_Sid']
 
 	def dialog(self, txt):
 		dlg = ''
 		ind = 0
-		self.draw()
+		#self.draw()
+		pygame.draw.rect(self.screen, (255, 255, 255), pygame.Rect(100,60,1000,200))
+		pygame.draw.rect(self.screen, (0, 0, 0), pygame.Rect(105,65,990,190))
 		for l in txt:
 			for i in l:
 				dlg+=i
-				self.screen.blit(self.font.render(dlg, True, (200, 200, 200)), (250, 30 + ind))
+				self.screen.blit(self.font.render(dlg, True, (200, 200, 200)), (150, 110 + ind))
 				pygame.display.update()
 				pygame.display.flip()
 				pygame.time.Clock().tick(self.dlgt)
@@ -174,107 +242,145 @@ class Game:
 				if event.type == pygame.KEYUP:
 					waiting = False
 
-	def fight(self):
-		#PLAYERS TURN
-		self.dialog([''])
-		self.turn=0
-		self.mnu = 3
-		for i in database.PLAYER:
-			if self.opt < 4:
-				if self.pp[self.turn][self.opt] > 0:
-					self.pp[self.turn][self.opt] -= 1
-					if self.aimx > 299 and self.aimx < 351:
-						dmg = int(random.randint(database.EQUIPMENT[self.turn][self.opt][1]['DAMAGE'] - 2, database.EQUIPMENT[self.turn][self.opt][1]['DAMAGE'] + 2))
-						self.en[self.turn]['SPRITE']=pygame.image.load('Sprites/' + (self.en[self.turn]['NAME']).lower() + '_damage.png')
-						self.dialog([self.en[self.turn]['NAME'] + ' tomou ' + str(dmg) + ' de dano'])
-						self.en[self.turn]['HP'] -= dmg
-					else: self.dialog(['errou...'])
-				else:self.dialog(['Você não tem munição!'])
-
-			elif self.opt == 4:
-				self.dialog([self.PLAYER[self.turn]['NAME'] + ' está em guarda'])
-
-		#CHECK WIN - LEVEL UP
-		if self.en[self.turn]['HP'] <= 0:
-			self.dialog([self.en[self.turn]['NAME'] + ' foi derrotado'])
-			pygame.mixer.Sound('SFX/victory.ogg').play()
-			while self.winbar<210:
-				self.winbar += 5
-				self.update()
-				self.draw()
-			self.dialog(['VITÓRIA'])
-			database.PLAYER[self.turn]['XP'] += self.en_xp
-			if database.PLAYER[self.turn]['XP'] >= database.PLAYER[self.turn]['MAXXP']:
-				database.PLAYER[self.turn]['LEVEL'] += 1
-				database.PLAYER[self.turn]['XP'] = 1
-				database.PLAYER[self.turn]['MAXXP'] *= 2
-				self.dialog(['SUBIU PARA O NÍVEL ' + str(database.PLAYER[self.turn]['LEVEL'])])
-			self.turn = 0
-			self.battle = False
-			while self.winbar>0:
+	def transiction(self, fade, limit):
+		if fade == False:
+			while self.winbar > limit:
 				self.winbar -= 5
 				self.update()
 				self.draw()
+		else:
+			while self.winbar < limit:
+				self.winbar += 5
+				self.update()
+				self.draw()
+
+	def fight(self, turn):
+		#PLAYERS TURN
+		if turn < len(database.PLAYER):
+			self.mnu = 3
+			if self.opt < 4:
+				self.pp[self.turn][self.opt] -= 1
+				if self.aimx > 299 and self.aimx < 351:
+					dmg = int(random.randint(database.EQUIPMENT[self.turn][self.opt][1]['DAMAGE'] - 2, database.EQUIPMENT[self.turn][self.opt][1]['DAMAGE'] + 2))
+					self.en[self.turn]['SPRITE']=pygame.image.load('Sprites/' + (self.en[self.turn]['NAME']).lower() + '_damage.png')
+					self.dialog([self.en[self.turn]['NAME'] + ' tomou ' + str(dmg) + ' de dano'])
+					self.en[self.turn]['HP'] -= dmg
+					self.hits += 1
+					self.tdmg += dmg
+				else: self.dialog(['errou...'])
+
+			elif self.opt == 4:
+				self.dialog([database.PLAYER[self.turn]['NAME'] + ' tenta fugir'])
+				run = round(random.randint(0,100))
+				if run > 49:
+					self.dialog(['...e consegue!'])
+					self.transiction(True, 210)
+					self.turn = -1
+					self.mnu = 0
+					self.hits = 0
+					self.tdmg = 0
+					self.hpl = 0
+					self.tbt = 0
+					self.battle = False
+					self.opt = 1
+					self.player_mov = True
+					self.player_rect.x += 150
+					self.transiction(False, 0)
+				else:
+					self.dialog(['Mas não conseguiu...'])
+
+			#CHECK WIN - LEVEL UP
+			if self.en[self.turn]['HP'] <= 0:
+				self.dialog([self.en[self.turn]['NAME'] + ' foi derrotado'])
+				pygame.mixer.Sound('SFX/victory.ogg').play()
+				self.transiction(True, 210)
+				self.tbt += round(self.btime/10)
+				xp = ((self.hits*self.tdmg)-self.hpl+self.tbt)/len(database.PLAYER)
+				self.dialog(['VITÓRIA','hits: '+str(self.hits),'x total damage: '+str(self.tdmg),'- lost vitality: '+str(self.hpl),'+ time bonus: '+str(self.tbt),'players: '+str(len(database.PLAYER)),'= '+str(xp)+' experience'])
+				database.PLAYER[self.turn]['XP'] += xp
+				if database.PLAYER[self.turn]['XP'] >= database.PLAYER[self.turn]['MAXXP']:
+					database.PLAYER[self.turn]['LEVEL'] += 1
+					database.PLAYER[self.turn]['XP'] = 1
+					database.PLAYER[self.turn]['MAXXP'] *= 2
+					self.dialog(['SUBIU PARA O NÍVEL ' + str(database.PLAYER[self.turn]['LEVEL'])])
+				self.turn = 0
+				self.hits = 0
+				self.tdmg = 0
+				self.hpl = 0
+				self.tbt = 0
+				self.battle = False
+				self.opt = 1
+				self.transiction(False, 0)
+			self.mnu = 0
 
 		#ENEMIES TURN
 		else:
+			self.tbt += round(self.btime/10)
+			self.btime = 100
+			self.turn = 0
+			self.mnu = 3
 			for i in self.en:
-				ht=database.PLAYER[self.turn]['HEALTH']
-				if ht==0:print('normal')
-				if ht==1:print('poison')
-				opt=int(random.randint(0,4))
-				if opt>3:opt=3
-				act=self.en[self.turn]['HABILITIES'][opt]
-				dd=self.en[self.turn]['NAME'] + ' usa ' + act[0]
-				self.en[self.turn]['SPRITE']=pygame.image.load('Sprites/' + (self.en[self.turn]['NAME']).lower() + '_attack.png')
+				opt = int(random.randint(0,4))
+				if opt > 3:opt = 3
+				act=i['HABILITIES'][opt]
+				dd=i['NAME'] + ' usa ' + act[0]
+				i['SPRITE']=pygame.image.load('Sprites/' + (i['NAME']).lower() + '_attack.png')
+				pl=int(random.randint(0,len(database.PLAYER)-1))
+				if act[3] == 2 and self.tatt ==2: act=i['HABILITIES'][0]
+				if act[3] == 3 and self.tagi ==2: act=i['HABILITIES'][0]
 
-				if act[3]==1:
-					if act[2]<0:
-						database.PLAYER[self.turn]['HP']+=act[2]
-						self.dialog([dd, database.PLAYER[self.turn]['NAME'] + ' tomou ' + str(act[2]) + ' de dano'])
-					elif act[2]>0:
-						self.en[self.turn]['HP']+=act[2]
-				elif act[3]==2:
-					if act[2]<0:
-						if self.tatt[self.turn]<2:
-							self.patt[self.turn]+=act[2]
-							self.dialog([dd, database.PLAYER[self.turn]['NAME'] + ' perdeu ' + str(act[2]) + ' de ATAQUE'])
-							self.tatt[self.turn]+=1
-					elif act[2]>0:
-						act[2]+=act[2]
-				elif act[3]==3:
-					if act[2]<0:
+				if act[3] == 1:
+					if act[2] < 0:
+						database.PLAYER[pl]['HP']+=act[2]
+						self.dialog([dd, database.PLAYER[pl]['NAME'] + ' tomou ' + str(act[2]) + ' de dano'])
+						self.hpl += act[2]
+					elif act[2] > 0:
+						i['HP'] += act[2]
+				elif act[3] == 2:
+					if act[2] < 0:
+						if self.tatt[pl] < 2:
+							self.patt[pl] += act[2]
+							self.dialog([dd, database.PLAYER[pl]['NAME'] + ' perdeu ' + str(act[2]) + ' de ATAQUE'])
+							self.tatt[pl] += 1
+					elif act[2] > 0:
+						act[2] += act[2]
+				elif act[3] == 3:
+					if act[2] < 0:
 						if self.tagi[self.turn]<2:
 							self.pagi[self.turn]+=act[2]
-							self.dialog([dd, database.PLAYER[self.turn]['NAME'] + ' perdeu ' + str(act[2]) + ' de AGILIDADE'])
+							self.dialog([dd, database.PLAYER[pl]['NAME'] + ' perdeu ' + str(act[2]) + ' de AGILIDADE'])
 							self.tagi[self.turn]+=1
-					elif act[2]>0:
-						self.en[self.turn]['AGILITY']+=act[2]
-				elif act[3]==4:	
-					database.PLAYER[self.turn]['HEALTH']=act[2]
-					if act[2]==1:self.dialog([dd, database.PLAYER[self.turn]['NAME'] + ' foi envenenado'])
-					if act[2]==2:self.dialog([dd, database.PLAYER[self.turn]['NAME'] + ' está com náusea'])
+					elif act[2] > 0:
+						i['AGILITY']+=act[2]
+				elif act[3] == 4:	
+					database.PLAYER[pl]['HEALTH']=act[2]
+					if act[2] == 1:self.dialog([dd, database.PLAYER[pl]['NAME'] + ' foi envenenado'])
+					if act[2] == 2:self.dialog([dd, database.PLAYER[pl]['NAME'] + ' está com náusea'])
 
-				if database.PLAYER[self.turn]['HP'] <= 0:
-					self.dialog([database.PLAYER[self.turn]['NAME'] + ' desmaiou...', 'você perdeu'])
+				if database.PLAYER[pl]['HP'] <= 0:
+					self.dialog([database.PLAYER[pl]['NAME'] + ' desmaiou...'])
+					self.transiction(True, 200)
 					self.turn = 0
 					self.battle = False
-					database.PLAYER[self.turn]['HP'] = database.PLAYER[self.turn]['MAXHP']
+					database.PLAYER[pl]['HP'] = database.PLAYER[pl]['MAXHP']
+					database.PLAYER[pl]['BARHP'] = database.PLAYER[pl]['MAXHP']
 
-				self.en[self.turn]['SPRITE']=pygame.image.load('Sprites/' + (self.en[self.turn]['NAME']).lower() + '_stand.png')
+				i['SPRITE']=pygame.image.load('Sprites/' + (i['NAME']).lower() + '_stand.png')
 			self.turn = 0
 			self.mnu = 1
-		self.aimx+=40
+			self.aimx = 100 + database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']]
 
 	def draw(self):
 		self.display.fill((0, 0, 200))
+		self.screen.blit(self.tilmap, (0-self.cam_x, 0-self.cam_y))
 
 		#BATTLE
 		if self.battle == True:
-			self.display.blit(pygame.image.load('Backgrounds/mountains.png'), (0, 160))
+			self.display.blit(self.bbg, (0, 0))
 			enx=0
 			for i in self.en:
-				self.display.blit(i['SPRITE'], (300+enx, 180))
+				self.display.blit(i['SPRITE'], (230+enx, 180))
+				print(str(enx)+'- '+str(i['HP']))
 				enx+=80
 
 			#BLACK BARS
@@ -285,60 +391,73 @@ class Game:
 			if self.winbar==100:
 				if self.turn < len(database.PLAYER) and self.turn!=-1:
 					pygame.draw.rect(self.display, (50, 50, 50), pygame.Rect(10,10,100,20))
-					while float(self.player_barhp[self.turn]) > float(database.PLAYER[self.turn]['HP']):
-						self.player_barhp[self.turn] -= database.PLAYER[self.turn]['RESISTANCE'][database.PLAYER[self.turn]['LEVEL']]
-						if self.player_barhp[self.turn]>0:pygame.draw.rect(self.display, (255, 255, 0), pygame.Rect(10,10,int(100/(database.PLAYER[self.turn]['MAXHP']/self.player_barhp[self.turn])),20))
-					if database.PLAYER[self.turn]['HP']>0:pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(10,10,int(100/(database.PLAYER[self.turn]['MAXHP']/database.PLAYER[self.turn]['HP'])),20))
+					while float(database.PLAYER[0]['BARHP']) > float(database.PLAYER[0]['HP']):
+						#database.PLAYER[0]['BARHP'] -= ['RESISTANCE'][database.PLAYER[0]['LEVEL']]
+						if database.PLAYER[0]['BARHP']>0:pygame.draw.rect(self.display, (255, 255, 0), pygame.Rect(10,10,int(100/(database.PLAYER[0]['MAXHP']/database.PLAYER[0]['BARHP'])),20))
+					if database.PLAYER[0]['HP']>database.PLAYER[0]['MAXHP']/5:pygame.draw.rect(self.display, (0, 255, 0), pygame.Rect(10,10,int(100/(database.PLAYER[0]['MAXHP']/database.PLAYER[0]['HP'])),20))
+					elif database.PLAYER[0]['HP']>0:pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(10,10,int(100/(database.PLAYER[0]['MAXHP']/database.PLAYER[0]['HP'])),20))
 
 					pygame.draw.rect(self.display, (50, 50, 50), pygame.Rect(10,40,100,20))
-					if self.pp[self.turn][self.opt]>0:pygame.draw.rect(self.display, (0, 100, 255), pygame.Rect(10,40,int(100/(database.EQUIPMENT[self.turn][self.opt][1]['CAPACITY']/self.pp[self.turn][self.opt])),20))
+					if self.opt != 4:
+						if self.pp[self.turn][self.opt] > 0:pygame.draw.rect(self.display, (0, 100, 255), pygame.Rect(10,40,int(100/(database.EQUIPMENT[self.turn][self.opt][1]['CAPACITY']/self.pp[self.turn][self.opt])),20))
 
 					pygame.draw.rect(self.display, (50, 50, 50), pygame.Rect(10,70,100,20))
-					if database.PLAYER[self.turn]['XP']>0:pygame.draw.rect(self.display, (0, 255, 100), pygame.Rect(10,70,int(100/(database.PLAYER[self.turn]['MAXXP']/database.PLAYER[self.turn]['XP'])),20))
+					if database.PLAYER[0]['XP']>0:pygame.draw.rect(self.display, (0, 255, 100), pygame.Rect(10,70,int(100/(database.PLAYER[0]['MAXXP']/database.PLAYER[0]['XP'])),20))
 
-				#ENEMIES BARS
-				y=0
-				for i  in self.en:
-					pygame.draw.rect(self.display, (50, 50, 50), pygame.Rect(10+y,310,100,20))
-					if i['HP']>0:pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(10+y,310,int(100/(i['MAXHP']/i['HP'])),20))
-					y+=110
-			
-			if self.turn < len(database.PLAYER) and self.turn!=-1:
-				#OPTIONS
-				if self.mnu == 1:
-					self.display.blit(self.font.render(database.PLAYER[self.turn]['NAME'], True, (200, 200, 200)), (150, 10))
-					if self.opt == 0: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][0][0], True, (255, 255, 100)), (150, 20))
-					else: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][0][0], True, (200, 200, 200)), (150, 20))
-					if self.opt == 1: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][1][0], True, (255, 255, 100)), (150, 50))
-					else: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][1][0], True, (200, 200, 200)), (150, 50))
-					if self.opt == 2: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][2][0], True, (255, 255, 100)), (300, 20))
-					else: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][2][0], True, (200, 200, 200)), (300, 20))
-					if self.opt == 3: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][3][0], True, (255, 255, 100)), (300, 50))
-					else: self.display.blit(self.font.render(database.EQUIPMENT[self.turn][3][0], True, (200, 200, 200)), (300, 50))
+				if self.turn < len(database.PLAYER) and self.turn!=-1:
+					#TIME BAR
+					if self.mnu < 3:
+						pygame.draw.rect(self.display, (255, 0, 255), pygame.Rect(0,302,int(600/(100/self.btime)),10))
+						self.btime -= 0.5
+						if self.btime == 0:
+							self.fight(len(database.PLAYER))
 
-				#AIM BAR
-				elif self.mnu == 2:
-					if self.opt < 4:
-						self.aimx += 12 - database.PLAYER[self.turn]['AGILITY'][database.PLAYER[self.turn]['LEVEL']]
-						if self.aimx > 400 - database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']]: self.aimx = 100 + database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']]
-						self.display.blit(pygame.image.load('Sprites/aim.png'), (self.aimx, 200))
+					#OPTIONS
+					if self.mnu == 1:
+						x=0
+						for i in database.EQUIPMENT[self.turn]:
+							if self.opt == x:pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(118+x*35,338,32,32))
+							else:pygame.draw.rect(self.display, (255, 255, 255), pygame.Rect(118+x*35,338,32,32))
+							pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(120+x*35,340,28,28))
+							if i[0] != '_':self.display.blit(pygame.image.load('Sprites/' + i[0] + '.png'), (120+x*35, 340))
+							x+=1
+
+						if self.opt == 4:pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(400,338,32,32))
+						else:pygame.draw.rect(self.display, (255, 255, 255), pygame.Rect(400,338,32,32))
+						pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(402,340,28,28))
+						self.display.blit(pygame.image.load('Sprites/run.png'), (402, 340))
+
+					#AIM BAR
+					elif self.mnu == 2:
+						if self.opt < 4:
+							self.aimx += 12 - database.PLAYER[self.turn]['AGILITY'][database.PLAYER[self.turn]['LEVEL']]
+							if self.aimx > 500 - database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']]: self.aimx = 100 + database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']]
+							self.display.blit(pygame.image.load('Sprites/aim.png'), (self.aimx, 200))
+							pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(100 + database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']],200,3,8))
+							pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(500 - database.PLAYER[self.turn]['ATTACK'][database.PLAYER[self.turn]['LEVEL']],200,3,8))
 
 		#MAP
 		elif self.battle == False:
-			for x in range(0, 22):
-				for y in range(0, 15):
-					self.display.blit(self.map.get_tile_image(x, y, 0), (x*30-self.cam_x, y*30-self.cam_y))
-
-			pygame.draw.rect(self.display, (255, 0, 0), self.player_rect)
+			#self.map = TiledMap()
+			#self.map_img = self.map.make_map()
+			#self.map_rect = self.map_img.get_rect()
+			#for x in range(0, 22):
+			#	for y in range(0, 15):
+			#		self.display.blit(self.map.get_tile_image(x, y, 0), (x*30-self.cam_x, y*30-self.cam_y))
 
 			#OBJECTS
+			#self.colorhero = pygame.PixelArray.surface(self.player_sprite[self.player_gif//len(self.player_sprite)])
+			#self.colorhero.replace((65,146,85), (255,56,59))
 			self.display.blit(self.player_sprite[self.player_gif//len(self.player_sprite)], (self.player_rect.x-self.cam_x, self.player_rect.y-self.cam_y))
 			if self.en[0]['HP']>0:self.enemy(0)
+			self.npc(300,100,1)
+			self.chest(400,200,'paçoca')
+			self.portal(500,200,'drugstore')
 
 		#INVENTORY
 		if self.inventory == True:
 			inv = menu.Inventory()
-			inv.show(0,self.display)
+			inv.show(self.display, self.opt)
 
 		#PHONE
 		if self.phone > 0:
@@ -398,8 +517,8 @@ class Game:
 			pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(0,400,600,-self.winbar))
 
 		#CAMERA
-		self.cam_x += self.player_rect.x - self.cam_x - 300
-		self.cam_y += self.player_rect.y - self.cam_y - 200
+		self.cam_x += (self.player_rect.x  - self.cam_x - 300)/12
+		self.cam_y += (self.player_rect.y  - self.cam_y - 200)/12
 
 		self.screen.blit(pygame.transform.scale(self.display, (1200, 800)), (0, 0))
 

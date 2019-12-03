@@ -4,6 +4,7 @@ GENDER: male
 LEVEL: 1
 HP: 10
 MAXHP: 10
+BARHP: 100
 XP: 0
 MAXXP: 100
 HEALTH: 0
@@ -16,12 +17,12 @@ mochila
 _
 _
 _
-faca
+brigadeiro
 _
 _
 _
 _
-_
+pacoca
 _
 _
 _

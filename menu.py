@@ -1,27 +1,46 @@
 import database
 
 import random
+# -*- coding: utf-8 -*-
 import pygame
 
 class Inventory:
 	def __init__(self):
 		self.invind=0
 		
-	def show(self,ind,dpy):
+	def show(self,dpy, opt):
 		pygame.draw.rect(dpy, (255, 255, 255), pygame.Rect(100,60,400,270))
 		pygame.draw.rect(dpy, (0, 0, 0), pygame.Rect(105,65,390,260))
-
-		x=120
-		y=50
-		for j in database.INVENTORY[ind]:
-			if database.INVENTORY[ind][0]!=j:
-				for i in j:
-					pygame.draw.rect(dpy, (255, 255, 255), pygame.Rect(x,y,30,30))
-					pygame.draw.rect(dpy, (0, 0, 0), pygame.Rect(x+1,y+1,28,28))
-					if i != '_':dpy.blit(pygame.image.load('Sprites/' + i + '.png'), (x, y))
-					x+=35
-			x=120
-			y+=35
+		x = 120
+		y = 45
+		xy = 0
+		ind = 0
+		xx = 0
+		while ind < len(database.INVENTORY):
+			for j in database.INVENTORY[ind]:
+				if database.INVENTORY[ind][0]!=j:
+					for i in j:
+						if opt==xy:pygame.draw.rect(dpy, (255, 0, 0), pygame.Rect(x+xx,y,32,32))
+						else:pygame.draw.rect(dpy, (255, 255, 255), pygame.Rect(x+xx,y,32,32))
+						pygame.draw.rect(dpy, (0, 0, 0), pygame.Rect(x+xx+2,y+2,28,28))
+						if i != '_':dpy.blit(pygame.image.load('Sprites/' + i + '.png'), (x+xx+2, y))
+						x+=35
+						xy+=1
+				x=120+xx
+				y+=35
+				xy+=1
+			x=120+xx
+			for e in database.EQUIPMENT[ind]:
+				if opt==xy:pygame.draw.rect(dpy, (255, 0, 0), pygame.Rect(x+xx,280,32,32))
+				else:pygame.draw.rect(dpy, (255, 255, 255), pygame.Rect(x+xx,280,32,32))
+				pygame.draw.rect(dpy, (0, 0, 0), pygame.Rect(x+xx+2,282,28,28))
+				if e[0] != '_':dpy.blit(pygame.image.load('Sprites/' + e[0] + '.png'), (x+xx+2, 280))
+				x+=35
+				xy+=1
+			ind += 1
+			xx = 100
+			x = 120
+			y = 45
 			
 	def add(self,item):
 		i=0
