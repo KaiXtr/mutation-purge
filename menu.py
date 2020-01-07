@@ -29,7 +29,7 @@ class Inventory:
 		self.invind = 0
 		self.invfade = 0
 		
-	def show(self, opt, lopt, fd):
+	def show(self, opt, lopt, mn, fd):
 		self.scr = pygame.Surface((400, 250))
 		pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,0,400,250))
 		pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(5,5,390,240))
@@ -39,7 +39,6 @@ class Inventory:
 		optx = 0
 		opty = 0
 		ind = 0
-		mn = 1
 		scroll = 0
 		if opt > 3: scroll += (opt - 3) * 60
 		while ind < len(database.PLAYER):
@@ -70,11 +69,12 @@ class Inventory:
 			y = 5
 
 			if mn == 2:
-				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(opt * 35 + 120,lopt * 35 + 45,200,50))
-				pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(opt * 35 + 125,lopt * 35 + 50,190,40))
-				self.scr.blit(self.fnt.render('usar', True, (200, 200, 200)), (opt * 35 + 127, lopt * 35 + 52))
-				self.scr.blit(self.fnt.render('trocar', True, (200, 200, 200)), (opt * 35 + 127, lopt * 35 + 52 + 28))
-				self.scr.blit(self.fnt.render('descartar', True, (200, 200, 200)), (opt * 35 + 127, lopt * 35 + 52 + 52))
+				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect((opt * 35) + 120, (lopt * 35) + 45,160,50))
+				pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect((opt * 35) + 122, (lopt * 35) + 50,156,46))
+				pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect((opt * 35) + 122, (lopt * 35) + 50 + mn * 25,156,46))
+				self.scr.blit(self.fnt.render('usar', True, (200, 200, 200)), ((opt * 35) + 127, (lopt * 35) + 52))
+				self.scr.blit(self.fnt.render('trocar', True, (200, 200, 200)), ((opt * 35) + 127, (lopt * 35) + 52 + 28))
+				self.scr.blit(self.fnt.render('descartar', True, (200, 200, 200)), ((opt * 35) + 127, (lopt * 35) + 52 + 52))
 
 			ind += 1
 			x = 20
@@ -185,6 +185,35 @@ class Shop:
 			pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,215,370,12)); tcol = (0,0,0)
 			self.scr.blit(self.fnt.render('cancelar', True, (0, 0, 0)), (20, 212))
 		else: self.scr.blit(self.fnt.render('cancelar', True, (255, 255, 255)), (20, 212))
+
+		return self.scr
+
+	def bank(self, opt, lopt, mn):
+		self.scr = pygame.Surface((400, 250))
+		pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,0,400,250))
+		pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(5,5,390,240))
+
+		self.scr.blit(self.fnt.render('BANCO: $' + str(database.ATM), True, (255, 255, 255)), (20, 10))
+		self.scr.blit(self.fnt.render('DINHEIRO: $' + str(database.MONEY), True, (255, 255, 255)), (20, 30))
+
+		if mn == 2:
+			if lopt == 0:
+				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,203,370,12))
+				self.scr.blit(self.fnt.render('sacar', True, (0,0,0)), (20, 200))
+			else: self.scr.blit(self.fnt.render('sacar', True, (255, 255, 255)), (20, 200))
+
+			if lopt == 1:
+				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,215,370,12)); tcol = (0,0,0)
+				self.scr.blit(self.fnt.render('depositar', True, (0, 0, 0)), (20, 212))
+			else: self.scr.blit(self.fnt.render('depositar', True, (255, 255, 255)), (20, 212))
+
+			if lopt == 2:
+				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,227,370,12)); tcol = (0,0,0)
+				self.scr.blit(self.fnt.render('cancelar', True, (0, 0, 0)), (20, 224))
+			else: self.scr.blit(self.fnt.render('cancelar', True, (255, 255, 255)), (20, 224))
+		elif mn == 12:
+			pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15 + (opt * 7),210,370,3))
+			self.scr.blit(self.fnt.render(str(database.ATM), True, (255,255,255)), (20, 200))
 
 		return self.scr
 
@@ -319,7 +348,6 @@ class Phone:
 				if pay==False:
 					if database.CREDIT > 0:
 						database.CREDIT -= 1
-						pygame.mixer.Sound('SFX/ringtone_1.ogg').play()
 						database.CALLHIST.insert(0,[nb,who])
 						return database.DIALOGS[nb][sc]
 						break
@@ -328,7 +356,6 @@ class Phone:
 				if pay==True:
 					if database.MONEY > 0:
 						database.MONEY -= 5
-						pygame.mixer.Sound('SFX/ringtone_1.ogg').play()
 						database.CALLHIST.insert(0,[nb,who])
 						return database.DIALOGS[nb][sc]
 						break
@@ -472,49 +499,55 @@ class Phone:
 
 		pygame.draw.rect(self.scr, (10, 10, 10), pygame.Rect(0,40,180,210))
 		if sg > 0:
-			if mnu == 0:
-				y = 0
-				for i in database.BESTIARY:
-					if lopt != y/51: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 + y - scroll,180,50))
-					else: pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(0,41 + y - scroll,180,50))
-					self.scr.blit(self.fnt.render(i['NAME'], True, (0, 0, 0)), (10, 51 + y - scroll))
-					y += 51
+			if len(database.BESTIARY) > 0:
+				if mnu == 0:
+					y = 0
+					for i in database.BESTIARY:
+						if lopt != y/51: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 + y - scroll,180,50))
+						else: pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(0,41 + y - scroll,180,50))
+						self.scr.blit(self.fnt.render(i['NAME'], True, (0, 0, 0)), (10, 51 + y - scroll))
+						y += 51
 
-			if mnu == 1:
-				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(5,45,170,200))
-				pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(5,243,83,3))
-				self.scr.blit(self.fnt.render(database.BESTIARY[opt]['NAME'], True, (0, 0, 0)), (10, 55))
-				self.scr.blit(pygame.image.load('Sprites/' + database.BESTIARY[opt]['NAME'] + '_stand.png'), (60, 70))
-				j = 0
-				for l in database.BESTIARY[opt]['INFO']:
-					self.scr.blit(self.fnt.render(l, True, (0, 0, 0)), (10, 170 + j))
-					j += 15
+				if mnu == 1:
+					pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(5,45,170,200))
+					pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(5,243,83,3))
+					self.scr.blit(self.fnt.render(database.BESTIARY[opt]['NAME'], True, (0, 0, 0)), (10, 55))
+					self.scr.blit(pygame.image.load('Sprites/' + database.BESTIARY[opt]['NAME'] + '_stand.png'), (60, 70))
+					self.scr.blit(self.fnt.render('ID: ' + database.BESTIARY[opt]['ID'], True, (0, 0, 0)), (10, 160))
+					self.scr.blit(self.fnt.render('RG: ' + database.BESTIARY[opt]['DATE'], True, (0, 0, 0)), (50, 160))
+					self.scr.blit(self.fnt.render('HG: ' + database.BESTIARY[opt]['HEIGHT'], True, (0, 0, 0)), (100, 160))
 
-			if mnu == 2:
-				pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(5,45,170,200))
-				pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(92,243,83,3))
-				pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(10,50,160,77))
+					j = 0
+					for l in database.BESTIARY[opt]['INFO']:
+						self.scr.blit(self.fnt.render(l, True, (0, 0, 0)), (10, 170 + j))
+						j += 15
 
-				y = 0
-				for i in database.BESTIARY[opt]['HABILITIES']:
-					if lopt != y/19: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(11,51 + y,158,18))
-					else: pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(11,51 + y,158,18))
-					self.scr.blit(self.fnt.render(i[0], True, (0, 0, 0)), (20, 53 + y))
-					y += 19
+				if mnu == 2:
+					pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(5,45,170,200))
+					pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(92,243,83,3))
+					pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(10,50,160,77))
 
-				j = 0
-				for l in database.BESTIARY[opt]['HABILITIES'][lopt][1]:
-					self.scr.blit(self.fnt.render(l, True, (0, 0, 0)), (10, 140 + j))
-					j += 15
+					y = 0
+					for i in database.BESTIARY[opt]['HABILITIES']:
+						if lopt != y/19: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(11,51 + y,158,18))
+						else: pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(11,51 + y,158,18))
+						self.scr.blit(self.fnt.render(i[0], True, (0, 0, 0)), (20, 53 + y))
+						y += 19
 
-				if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 1: dmg = 'VITALIDADE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
-				if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 2: dmg = 'ATAQUE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
-				if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 3: dmg = 'AGILIDADE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
-				if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 4:
-					if database.BESTIARY[opt]['HABILITIES'][lopt][2] == 1: dmg = 'VENENO'
-					if database.BESTIARY[opt]['HABILITIES'][lopt][2] == 1: dmg = 'NÁUSEA'
+					j = 0
+					for l in database.BESTIARY[opt]['HABILITIES'][lopt][1]:
+						self.scr.blit(self.fnt.render(l, True, (0, 0, 0)), (10, 140 + j))
+						j += 15
 
-				self.scr.blit(self.fnt.render(dmg, True, (0, 0, 0)), (20, 210))
+					if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 1: dmg = 'VITALIDADE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
+					if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 2: dmg = 'ATAQUE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
+					if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 3: dmg = 'AGILIDADE: ' + str(database.BESTIARY[opt]['HABILITIES'][lopt][2])
+					if database.BESTIARY[opt]['HABILITIES'][lopt][3] == 4:
+						if database.BESTIARY[opt]['HABILITIES'][lopt][2] == 1: dmg = 'VENENO'
+						if database.BESTIARY[opt]['HABILITIES'][lopt][2] == 1: dmg = 'NÁUSEA'
+
+					self.scr.blit(self.fnt.render(dmg, True, (0, 0, 0)), (20, 210))
+			else: self.scr.blit(self.fnt.render('nenhuma anomalia registrada', True, (255, 255, 255)), (10, 140))
 		else: self.scr.blit(self.fnt.render('sem conexão', True, (255, 255, 255)), (25, 140))
 
 		pygame.draw.rect(self.scr, (134, 0, 211), pygame.Rect(0,0,180,40))
@@ -583,7 +616,15 @@ class Phone:
 		if opt > 2: scroll += (opt - 2) * 51
 
 		pygame.draw.rect(self.scr, (10, 10, 10), pygame.Rect(0,40,180,210))
-		if sg > 0: pass
+		if sg > 0:
+			y = 0
+			for i in database.ACHIEVEMENTS:
+				if opt != y/51: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,66 + y - scroll,180,50))
+				else: pygame.draw.rect(self.scr, (255, 191, 0), pygame.Rect(0,66 + y - scroll,180,50))
+				self.scr.blit(self.fnt.render(i[0], True, (0, 0, 0)), (10, 76 + y - scroll))
+				self.scr.blit(self.fnt.render(i[1], True, (0, 0, 0)), (10, 86 + y - scroll))
+				y += 51
+
 		else: self.scr.blit(self.fnt.render('sem conexão', True, (255, 255, 255)), (25, 140))
 
 		pygame.draw.rect(self.scr, (255, 191, 0), pygame.Rect(0,0,180,40))
