@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="100" height="100" tilewidth="30" tileheight="30" infinite="0" nextlayerid="8" nextobjectid="20">
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="100" height="100" tilewidth="30" tileheight="30" infinite="0" nextlayerid="8" nextobjectid="28">
  <properties>
-  <property name="CHEST" type="int" value="1"/>
-  <property name="NPC" type="int" value="3"/>
-  <property name="PORTAL" type="int" value="1"/>
-  <property name="SHOP" type="int" value="4"/>
+  <property name="ENEMIES" value="00"/>
+  <property name="NPC" type="int" value="4"/>
+  <property name="PORTAL" type="int" value="3"/>
+  <property name="SHOP" type="int" value="7"/>
   <property name="VEHICLE" type="int" value="2"/>
  </properties>
  <tileset firstgid="1" name="city" tilewidth="30" tileheight="30" tilecount="25" columns="5">
@@ -139,57 +139,106 @@
 </data>
  </layer>
  <objectgroup id="3" name="Camada de Objetos 1">
-  <object id="5" name="portal_0" x="569" y="379">
+  <object id="5" name="portal_1" x="663" y="369">
    <properties>
-    <property name="MAP" value="drugstore"/>
-    <property name="PX" type="int" value="510"/>
-    <property name="PY" type="int" value="330"/>
+    <property name="MAP" value="bank_"/>
+    <property name="PX" type="int" value="569"/>
+    <property name="PY" type="int" value="510"/>
+    <property name="TIME" value="08002100"/>
    </properties>
    <point/>
   </object>
-  <object id="8" name="chest_0" x="1570" y="353">
-   <properties>
-    <property name="ITEM" value="pacoca"/>
-   </properties>
-   <point/>
-  </object>
-  <object id="9" name="vehicle_0" x="1119" y="385">
+  <object id="9" name="vehicle_0" x="322.03" y="488.03">
    <properties>
     <property name="INDEX" value="moto_0"/>
    </properties>
    <point/>
   </object>
-  <object id="12" name="vehicle_1" x="984" y="368">
+  <object id="12" name="vehicle_1" x="187.03" y="471.03">
    <properties>
     <property name="INDEX" value="moto_1"/>
    </properties>
    <point/>
   </object>
-  <object id="15" name="shop_1" type="1" x="670" y="1330">
+  <object id="15" name="shop_1" type="1" x="224.545" y="763.333">
+   <properties>
+    <property name="INDEX" value="INGRID"/>
+   </properties>
    <point/>
   </object>
-  <object id="16" name="shop_2" type="2" x="806.667" y="1324">
+  <object id="16" name="shop_2" type="2" x="361.212" y="757.333">
+   <properties>
+    <property name="INDEX" value="ALBERTO"/>
+   </properties>
    <point/>
   </object>
-  <object id="17" name="shop_3" type="3" x="926.667" y="1326.67">
+  <object id="17" name="shop_3" type="3" x="481.212" y="760.003">
+   <properties>
+    <property name="INDEX" value="0"/>
+   </properties>
    <point/>
   </object>
-  <object id="18" name="npc_2" x="729.333" y="1222.67">
+  <object id="18" name="npc_2" x="283.878" y="656.003">
    <properties>
     <property name="WHO" value="HOTEL ATTENDANT"/>
    </properties>
    <point/>
   </object>
-  <object id="19" name="shop_0" type="0" x="581" y="1115" width="21" height="191"/>
+  <object id="19" name="shop_0" type="0" x="135.545" y="548.333" width="21" height="191">
+   <properties>
+    <property name="INDEX" type="int" value="0"/>
+   </properties>
+  </object>
+  <object id="22" name="npc_3" x="205.545" y="602.333" width="30" height="11">
+   <properties>
+    <property name="WHO" value="SIDNEY NIGHTSTAND"/>
+   </properties>
+  </object>
+  <object id="23" name="shop_6" type="5" x="368" y="362">
+   <properties>
+    <property name="INDEX" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="24" name="shop_4" type="3" x="251" y="358">
+   <properties>
+    <property name="INDEX" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="25" name="shop_5" type="4" x="313" y="351">
+   <properties>
+    <property name="INDEX" type="int" value="0"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="26" name="portal_0" x="574" y="362">
+   <properties>
+    <property name="MAP" value="drugstore_"/>
+    <property name="PX" type="int" value="326"/>
+    <property name="PY" type="int" value="510"/>
+    <property name="TIME" value="06102355"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="27" name="portal_2" x="719" y="375">
+   <properties>
+    <property name="MAP" value="market_"/>
+    <property name="PX" type="int" value="569"/>
+    <property name="PY" type="int" value="510"/>
+    <property name="TIME" value="07302230"/>
+   </properties>
+   <point/>
+  </object>
  </objectgroup>
  <objectgroup id="6" name="NPC">
-  <object id="13" name="npc_1" x="1328" y="488">
+  <object id="13" name="npc_1" x="531.03" y="591.03">
    <properties>
     <property name="WHO" value="TEST"/>
    </properties>
    <point/>
   </object>
-  <object id="14" name="npc_0" x="1496" y="472">
+  <object id="14" name="npc_0" x="699.03" y="575.03">
    <properties>
     <property name="WHO" type="int" value="1"/>
    </properties>
