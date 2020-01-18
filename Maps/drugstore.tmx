@@ -4,6 +4,7 @@
   <property name="CHEST" type="int" value="0"/>
   <property name="NPC" type="int" value="0"/>
   <property name="PORTAL" type="int" value="0"/>
+  <property name="REST" type="int" value="0"/>
   <property name="SHOP" type="int" value="0"/>
   <property name="VEHICLE" type="int" value="0"/>
  </properties>
