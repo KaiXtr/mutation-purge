@@ -56,7 +56,7 @@ class Naming:
 		self.ch_sfx = pygame.mixer.Channel(1)
 		self.ch_ton = pygame.mixer.Channel(2)
 		self.wdw = pygame.Surface((200, 200))
-		pygame.draw.rect(self.wdw, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(0,0,400,250))
+		pygame.draw.rect(self.wdw, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(0,0,200,200))
 		for x in range(20):
 			for y in range(20):
 				self.wdw.blit(pygame.image.load('Sprites/border.png'), (x * 10, y * 10))
@@ -158,7 +158,7 @@ class Inventory:
 				self.wdw.blit(pygame.image.load('Sprites/border.png'), (x * 10, y * 10))
 		self.scr = pygame.Surface((380,220))
 		self.itmov = ''
-		self.scroll = 0
+		self.scroll = 50
 		
 	def show(self, opt, lopt, mn):
 		self.scr.fill((0,0,0))
@@ -172,9 +172,9 @@ class Inventory:
 		wei = 0
 
 		if mn > 0:
-			if self.scroll < 160 + (mn * 70):
+			if self.scroll < (mn * 150):
 				self.scroll += 10
-		if self.scroll > (mn * 70):
+		if self.scroll > (mn * 150):
 			self.scroll -= 10
 
 		for n in database.PARTY[database.FORMATION]:
@@ -247,6 +247,93 @@ class Inventory:
 				y += 15
 		return self.wdw
 	
+	def deposit(self, opt, lopt, mn, ex):
+		self.scr.fill((0,0,0))
+		x = 20
+		y = 45
+		optx = 0
+		opty = 0
+		mnc = 0
+
+		vlm = 0
+		wei = 0
+
+		if mn > 0:
+			if self.scroll < (mn * 150):
+				self.scroll += 10
+		if self.scroll > (mn * 150):
+			self.scroll -= 10
+
+		for n in database.PARTY[database.FORMATION]:
+			self.scr.blit(self.fnt.render(database.CHARACTERS[n]['NAME'], True, (255, 255, 255)), (20, 10 + (200 * mnc) - self.scroll))
+			for j in range(len(database.INVENTORY[n])):
+				if opty == 4: y += 5
+				for i in database.INVENTORY[n][j]:
+					if optx == 1: x += 5
+
+					if optx > 0 and opty < 4:
+						if database.INVENTORY[mnc][4][0][0] != '_':
+							if opt == optx and lopt == opty and mn == mnc:
+								pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+							else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+							if i[0] != '_':
+								self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x, y + (200 * mnc) - self.scroll))
+								if optx > 0 and opty < 4:
+									vlm += database.ITEMS[i[0]][3]
+									wei += database.ITEMS[i[0]][4]
+					else:
+						if opt == optx and lopt == opty and mn == mnc:
+							pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+						else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+						if i[0] != '_':
+							self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x, y + (200 * mnc) - self.scroll))
+							if optx > 0 and opty < 4:
+								vlm += database.ITEMS[i[0]][3]
+								wei += database.ITEMS[i[0]][4]
+
+					x += 30
+					optx += 1
+				x = 20
+				y += 30
+				optx = 0
+				opty += 1
+
+			self.scr.blit(self.fnt.render(database.MENU[78] + ':', True, (255, 255, 255)), (85, 10 + (200 * mnc) - self.scroll))
+			pygame.draw.rect(self.scr, (100, 100, 100), pygame.Rect(125,12 + (200 * mnc) - self.scroll,50,10))
+			if vlm > 0 and database.INVENTORY[mnc][4][0][0] != '_': pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(125,12 + (200 * mnc) - self.scroll,int(50/(database.ITEMS[database.INVENTORY[mnc][4][0][0]][3]/vlm)),10))
+			self.scr.blit(self.fnt.render(database.MENU[79] + ':', True, (255, 255, 255)), (85, 25 + (200 * mnc) - self.scroll))
+			pygame.draw.rect(self.scr, (100, 100, 100), pygame.Rect(125,27 + (200 * mnc) - self.scroll,50,10))
+			if wei > 0 and database.INVENTORY[mnc][4][0][0] != '_': pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(125,27 + (200 * mnc) - self.scroll,int(50/(database.ITEMS[database.INVENTORY[mnc][4][0][0]][4]/wei)),10))
+
+			x = 20
+			y = 45
+			vlm = 0
+			wei = 0
+			optx = 0
+			opty = 0
+			mnc += 1
+			pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(3,(200 * mnc) - self.scroll,200,3))
+
+		if self.itmov != '':
+			img = pygame.image.load('Sprites/it_' + self.itmov[0] + '.png')
+			img.convert_alpha()
+			img.set_alpha(100)
+			ox = (opt * 30) 
+			lox = (lopt * 30)
+			if opt > 0: ox += 5
+			if lopt == 4: lox += 5
+			self.scr.blit(pygame.image.load('Sprites/it_shade.png'), (25 + ox,62 + lox + (mn * 200) - self.scroll))
+			self.scr.blit(img, (20 + ox,35 + lox + (mn * 200) - self.scroll))
+
+		self.wdw.blit(self.scr, (10,10))
+		pygame.draw.rect(self.wdw, (0, 0, 0), pygame.Rect(10,240,380,50))
+		if database.INVENTORY[database.PARTY[database.FORMATION][mn]][lopt][opt][0] != '_':
+			y = 0
+			for t in database.ITEMS[database.INVENTORY[database.PARTY[database.FORMATION][mn]][lopt][opt][0]][1]:
+				self.wdw.blit(self.fnt.render(t, True, (255, 255, 255)), (20, 250 + y))
+				y += 15
+		return self.wdw
+
 	def find(self, where, item):
 		fnd = False
 		for y in database.INVENTORY[where]:
@@ -254,24 +341,43 @@ class Inventory:
 				if x[0] == item: fnd = True
 		return fnd
 
-	def add(self,item):
+	def add(self, where, item):
 		i = 0
 		j = 0
-		trigg=False
-		for y in database.INVENTORY[0]:
-			if database.INVENTORY[0][0] != y:
-				for x in y:
-					if x == '_' and trigg == False:
-						database.INVENTORY[0][i][j] = item
-						trigg = True
-					j += 1
-			i += 1
-			j = 0
+		vlm = 0
+		wei = 0
+		trigg = 0
+		for y in database.INVENTORY[where]:
+			for x in y:
+				if x[0] != '_' and trigg == 0:
+					vlm += database.ITEMS[x[0]][3]
+					wei += database.ITEMS[x[0]][4]
+					if vlm < database.ITEMS[database.INVENTORY[where][4][0][0]][3]:
+						if wei < database.ITEMS[database.INVENTORY[where][4][0][0]][4]:
+							vi = '0000'
+							if item.startswith('food'):
+								dd = database.DATE[0] + database.ITEMS[item][5][0:2]
+								mm = database.DATE[1] + database.ITEMS[item][5][2:4]
+								if dd > 30: dd -= 30; mm += 1
+								if mm > 12: dd += 1; mm -= 12
+								if dd < 10: dd = '0' + str(dd)
+								if mm < 10: mm = '0' + str(mm)
+								vi = str(dd) + str(mm)
+							print('got?')
+							database.INVENTORY[where][j][i] = [item,vi,'_','_']
+							trigg = 3
+						else: trigg = 2
+					else: trigg = 1
+				i += 1
+			j += 1
+			i = 0
+		return trigg
 
 class Shop:
 	def __init__(self):
 		self.fnt = pygame.font.Font('Fonts/monotype.ttf', 10)
 		self.pxf = pygame.font.Font('Fonts/pixel-font.ttf', 20)
+		self.dtt = pygame.font.Font('Fonts/datetype.ttf', 10)
 		self.wdw = pygame.Surface((400, 250))
 		pygame.draw.rect(self.wdw, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(0,0,400,250))
 		for x in range(40):
@@ -349,34 +455,38 @@ class Shop:
 		self.wdw.blit(self.scr, (10,10))
 		return self.wdw
 
-	def mercator(self, opt, lopt, lst):
+	def mercator(self, opt, lopt, lst, prm):
 		self.scr.fill((10,10,10))
 
 		self.scr.blit(self.fnt.render('$' + str(database.MONEY), True, (255, 255, 255)), (20, 10))
 
-		if opt == 0: self.scr.blit(self.fnt.render(database.SHOP[8], True, (255, 255, 255)), (20, 30))
-		else: self.scr.blit(self.fnt.render(database.SHOP[8], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20, 30))
+		if opt == 0: self.scr.blit(self.fnt.render(database.SHOP[8], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20, 30))
+		else: self.scr.blit(self.fnt.render(database.SHOP[8], True, (255,255,255)), (20, 30))
 		x = 1
 		for i in database.PARTY[database.FORMATION]:
-			if opt == x: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (255, 255, 255)), (20 + (x * 60), 30))
-			else: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20 + (x * 60), 30))
+			if opt == x: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20 + (x * 60), 30))
+			else: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (255,255,255)), (20 + (x * 60), 30))
 			x += 1
 
 		y = 0
 		for i in lst:
 			if opt == 0:
+				prc = database.ITEMS[i][2] - int(database.ITEMS[i][2]/prm)
 				if lopt == y:
 					pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,50 + (y * 15),370,15))
-					self.scr.blit(self.fnt.render('$' + str(database.ITEMS[i][2]) + ' - ' + database.ITEMS[i][0], True, (0, 0, 0)), (20, 50 + (y * 15)))
+					self.scr.blit(self.fnt.render('$' + str(prc) + ' - ' + database.ITEMS[i][0], True, (0, 0, 0)), (20, 50 + (y * 15)))
 				else:
-					self.scr.blit(self.fnt.render('$' + str(database.ITEMS[i][2]) + ' - ' + database.ITEMS[i][0], True, (255, 255, 255)), (20, 50 + (y * 15)))
+					self.scr.blit(self.fnt.render('$' + str(prc) + ' - ' + database.ITEMS[i][0], True, (255, 255, 255)), (20, 50 + (y * 15)))
+				if prm > 0:
+					pygame.draw.rect(self.scr, (255, 170, 0), pygame.Rect(350,50 + (y * 15),20,20))
+					self.scr.blit(self.dtt.render(str(prm) + '%', True, (255, 255, 255)), (350, 50 + (y * 15)))
 				y += 1
-			else:
+			elif i[0] == database.PARTY[database.FORMATION][opt - 1]:
 				if lopt == y:
 					pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(15,50 + (y * 15),370,15))
-					self.scr.blit(self.fnt.render('$' + str(int(database.ITEMS[database.INVENTORY[opt - 1][i[0]][i[1]][0]][2]/2)) + ' - ' + database.ITEMS[database.INVENTORY[opt - 1][i[0]][i[1]][0]][0], True, (0, 0, 0)), (20, 50 + (y * 15)))
+					self.scr.blit(self.fnt.render('$' + str(int(database.ITEMS[database.INVENTORY[i[0]][i[1]][i[2]][0]][2]/2)) + ' - ' + database.ITEMS[database.INVENTORY[i[0]][i[1]][i[2]][0]][0], True, (0, 0, 0)), (20, 50 + (y * 15)))
 				else:
-					self.scr.blit(self.fnt.render('$' + str(int(database.ITEMS[database.INVENTORY[opt - 1][i[0]][i[1]][0]][2]/2)) + ' - ' + database.ITEMS[database.INVENTORY[opt - 1][i[0]][i[1]][0]][0], True, (255, 255, 255)), (20, 50 + (y * 15)))
+					self.scr.blit(self.fnt.render('$' + str(int(database.ITEMS[database.INVENTORY[i[0]][i[1]][i[2]][0]][2]/2)) + ' - ' + database.ITEMS[database.INVENTORY[i[0]][i[1]][i[2]][0]][0], True, (255, 255, 255)), (20, 50 + (y * 15)))
 				y += 1
 
 		if lopt != len(lst):
@@ -386,7 +496,8 @@ class Shop:
 					self.scr.blit(self.fnt.render(j, True, (255, 255, 255)), (20,200 + (l * 15)))
 					l += 1
 			else:
-				for t in database.ITEMS[database.INVENTORY[opt - 1][lst[lopt][0]][lst[lopt][1]][0]][1]:
+				print(database.INVENTORY[lst[lopt][0]][lst[lopt][1]][lst[lopt][2]][0])
+				for t in database.ITEMS[database.INVENTORY[lst[lopt][0]][lst[lopt][1]][lst[lopt][2]][0]][1]:
 					self.scr.blit(self.fnt.render(t, True, (255, 255, 255)), (20,200 + (l * 15)))
 					l += 1
 
@@ -1110,19 +1221,19 @@ class Phone:
 		if opt == 11: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,382 - self.scroll,180,30))
 		else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,382 - self.scroll,180,30))
 		pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,392 - self.scroll,110,10))
-		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(212/database.COLOR[0])),392 - self.scroll,10,10))
+		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[0])),392 - self.scroll,10,10))
 		self.scr.blit(self.fnt.render(database.MENU[73] + ':', True, (0,0,0)), (10, 390 - self.scroll))
 
 		if opt == 12: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,413 - self.scroll,180,30))
 		else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,413 - self.scroll,180,30))
 		pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,423 - self.scroll,110,10))
-		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(212/database.COLOR[1])),423 - self.scroll,10,10))
+		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[1])),423 - self.scroll,10,10))
 		self.scr.blit(self.fnt.render(database.MENU[74] + ':', True, (0,0,0)), (10, 421 - self.scroll))
 
 		if opt == 13: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,444 - self.scroll,180,30))
 		else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,444 - self.scroll,180,30))
 		pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,454 - self.scroll,110,10))
-		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(212/database.COLOR[2])),454 - self.scroll,10,10))
+		pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[2])),454 - self.scroll,10,10))
 		self.scr.blit(self.fnt.render(database.MENU[75] + ':', True, (0,0,0)), (10, 452 - self.scroll))
 
 		if opt == 14: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,475 - self.scroll,180,30))

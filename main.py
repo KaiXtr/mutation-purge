@@ -173,7 +173,7 @@ class Recap:
 		#self.display.blit(pygame.image.load('Backgrounds/recap_' + str(database.CHAPTER) + '.png').convert(), (0, -(self.scroll/3)))
 
 		lt = 0
-		for y in database.CHAPTERS[database.CHAPTER][1:]:
+		for y in database.CHAPTERS[database.CHAPTER - 1][1:]:
 			self.display.blit(self.monotype.render(y, True, (255,255,255)), (50, 360 - self.scroll + lt))
 			lt += 20
 
@@ -214,10 +214,8 @@ class Game:
 		self.monotype = pygame.font.Font('Fonts/monotype.ttf', 15)
 		self.cam = pygame.Rect(0,0,self.displayzw,self.displayzh)
 		self.driving = 0
-		self.dridir = 0
 		self.sleepin = False
 		self.tilemation = 0
-		self.gt = 0
 
 		#MIXER
 		pygame.mixer.init(frequency = 44100, size = -16, channels = 1, buffer = 2**12)
@@ -236,7 +234,7 @@ class Game:
 		self.dlgfa = 500
 		self.dmginfo = ''
 		self.dmgy = 200
-		self.dmgcol = (255,0,0)
+		self.speakin = 0
 		self.equip = []
 		self.battle = False
 		self.btime = 100
@@ -279,7 +277,7 @@ class Game:
 		self.lopt = 0
 		self.mnu = 1
 		self.exvar = 0
-		self.inventory = False
+		self.inventory = 0
 		self.invfade = 1050
 		self.phone = 0
 		self.phofa = 0
@@ -287,6 +285,7 @@ class Game:
 		self.basket = []
 		self.products = []
 		self.extract = [0,0,0,0,0,0]
+		self.promo = 0
 		self.winbar = 210
 		self.radonoff = False
 		self.fm = 0
@@ -298,7 +297,7 @@ class Game:
 		self.notx = 0
 
 		#PLAYER VARIABLES
-		self.player = {'RECT': pygame.Rect(database.PX,database.PY,20,20),'SPD': 3,'SPRITE': database.SPRITES['STANDD_0'],'GIF': 0.0,'DIRECTION': 3}
+		self.player = {'RECT': pygame.Rect(database.PX,database.PY,20,20),'SPD': 3,'JUMP': 0,'SPRITE': database.SPRITES['STANDD_0'],'GIF': 0.0,'DIRECTION': 3}
 		self.objects = []
 		self.tilrect = []
 		self.en = []
@@ -311,7 +310,7 @@ class Game:
 		self.portals = []
 
 	def enemy(self, en):
-		if self.battle == False:
+		if self.battle == False and self.colide(self.en[en]['RECT'], self.cam):
 			pygame.draw.rect(self.display, (255,0,0), pygame.Rect(self.en[en]['RECT'].x - self.cam.x, self.en[en]['RECT'].y - self.cam.y, self.en[en]['RECT'].width, self.en[en]['RECT'].height))
 			self.display.blit(pygame.image.load('Sprites/' + (self.en[en]['FILE']) + '_mini.png'), (self.en[en]['RECT'].x - self.cam.x, self.en[en]['RECT'].y - self.cam.y))
 			if self.en[en]['PATH'] == 'notice': self.display.blit(pygame.image.load('Sprites/notice.png'), (self.en[en]['RECT'].x - self.cam.x, self.en[en]['RECT'].y - self.cam.y - 30))
@@ -375,7 +374,7 @@ class Game:
 		else: rect = pygame.Rect(i['RECT'].x - 5,i['RECT'].y - 5,i['RECT'].width,i['RECT'].height)
 
 		pygame.draw.rect(self.display, (255,0,0), pygame.Rect(rect.x - self.cam.x, rect.y - self.cam.y, rect.width, rect.height))
-		if self.battle == False:
+		if self.battle == False and self.colide(rect, self.cam):
 			if i['RECT'].width == 0 and i['RECT'].height == 0:
 				if self.colide(self.player['RECT'], rect) == True and self.dlgfa == 0: img = pygame.image.load('Sprites/npc_' + i['INDEX'] + '_talk_' + str(math.floor(i['IMAGE'])) +'.png')
 				else: img = pygame.image.load('Sprites/npc_' + i['INDEX'] + '_stand_0.png')
@@ -406,22 +405,24 @@ class Game:
 
 	def vehicle(self, i):
 		rect = pygame.Rect(i['RECT'].x - 5,i['RECT'].y - 5,60,40)
-		if self.driving == int(i['INDEX'][-1]) + 1:
-			self.player['RECT'].x = rect.x
-			self.player['RECT'].y = rect.y
+		if self.driving == i['INDEX'] + 1:
+			i['RECT'].x = self.player['RECT'].x
+			i['RECT'].y = self.player['RECT'].y
+
+		pygame.draw.rect(self.display, (255,0,0), pygame.Rect(rect.x - self.cam.x, rect.y - self.cam.y, rect.width, rect.height))
+		if self.battle == False and self.colide(rect, self.cam):
+			self.display.blit(pygame.image.load('Sprites/moto_' + str(i['INDEX']) + '_walkL.png'), (rect.x - self.cam.x + 10, rect.y + rect.height - self.cam.y - 50))
 
 		if self.colide(self.player['RECT'], rect) == True:
 			for event in pygame.event.get():
 				if self.pressed[database.ACT] and self.driving == 0:
 					trigger = True
-					self.driving = int(i['INDEX'][-1]) + 1
+					self.driving = i['INDEX'] + 1
 					self.displayzw = 1200
 					self.displayzh = 800
 					self.display = pygame.Surface((1200, 800))
+					self.cam = pygame.Rect(0,0,self.displayzw,self.displayzh)
 			if self.battle == False: self.display.blit(pygame.image.load('Sprites/arw.png'), (rect.x - self.cam.x + int(rect.width/2) - 5, rect.y - self.cam.y - int(rect.height/2)))
-
-		pygame.draw.rect(self.display, (255,0,0), pygame.Rect(rect.x - self.cam.x, rect.y - self.cam.y, rect.width, rect.height))
-		if self.battle == False: self.display.blit(pygame.image.load('Sprites/' + i['INDEX'] + '_walkL.png'), (rect.x - self.cam.x + 10, rect.y - self.cam.y - 50))
 
 	def shop(self, i):
 		if i['TYPE'] == 0: rect = pygame.Rect(i['RECT'].x,i['RECT'].y,i['RECT'].width,i['RECT'].height)
@@ -431,7 +432,7 @@ class Game:
 		else: rect = pygame.Rect(i['RECT'].x,i['RECT'].y,20,20)
 
 		pygame.draw.rect(self.display, (255,0,0), pygame.Rect(rect.x - self.cam.x, rect.y - self.cam.y, rect.width, rect.height))
-		if self.battle == False:
+		if self.battle == False and self.colide(rect, self.cam):
 			if i['TYPE'] == 1:
 				img = pygame.image.load('Sprites/npc_' + i['INDEX'] + '_stand_0.png')
 				self.display.blit(img, (rect.x - self.cam.x - int(img.get_rect().width/2) + 10, rect.y - self.cam.y - int(img.get_rect().height/2) - 3))
@@ -444,20 +445,39 @@ class Game:
 				self.display.blit(pygame.image.load('Sprites/bed.png'), (rect.x - self.cam.x + 5, rect.y - self.cam.y + 5))
 				if self.sleepin == True: self.display.blit(pygame.image.load('Sprites/char_0_rest.png'), (rect.x - self.cam.x + 5, rect.y - self.cam.y + 5))
 			if i['TYPE'] == 6: self.display.blit(pygame.image.load('Sprites/plug.png'), (rect.x - self.cam.x, rect.y - self.cam.y - 10))
+			if i['TYPE'] == 8: self.display.blit(pygame.image.load('Sprites/trash_' + str(i['WHO']) + '.png'), (rect.x - self.cam.x, rect.y - self.cam.y - 10))
 
-		if self.colide(self.player['RECT'], rect) == True:
+		if self.colide(self.player['RECT'], rect) == True and self.shp == False:
 			for event in pygame.event.get():
 				if self.pressed[database.ACT]:
 					self.player['DIRECTION'] = 0
 					if i['TYPE'] == 1 and self.basket == []:
-						if self.dlgfa > 0: self.dialog(database.DIALOGS['CASHIER ' + i['WHO']][0].copy())
+						if self.dlgfa > 0:
+							self.speakin = rect
+							self.dialog(database.DIALOGS['CASHIER ' + i['WHO']][0].copy())
+							self.speakin = 0
 					elif i['TYPE'] == 5: self.sleepin = not self.sleepin
 					elif i['TYPE'] == 6:
 						if self.inv.find(0,'charger') == True: database.BATTERY = 360
 						else: self.dialog(database.DIALOGS['PLUG'])
+					elif i['TYPE'] == 7:
+						self.inventory = 2
+						self.ch_sfx.play(database.SOUND['INVENTORY_OPEN'])
+						self.invfade = 0
+						self.opt = 0
+						self.lopt = 1
+						self.mnu = 0
+						self.exvar = 0
+					elif i['TYPE'] == 8:
+						self.inventory = 3
+						self.ch_sfx.play(database.SOUND['INVENTORY_OPEN'])
+						self.invfade = 0
+						self.opt = 0
+						self.lopt = 1
+						self.mnu = 0
 					elif i['TYPE'] != 4:
 						if i['TYPE'] == 2:
-							self.dialog(database.DIALOGS['MERCATOR'])
+							self.dialog(database.DIALOGS['MERCATOR'][0])
 							self.basket = []
 							j = 0
 							x = 0
@@ -466,31 +486,32 @@ class Game:
 									for t in database.INVENTORY[p]:
 										for k in t:
 											if k[0] != '_' and database.ITEMS[database.INVENTORY[p][j][x][0]][2] != 0:
-												self.basket.append([j,x])
+												self.basket.append([p,j,x])
 											x += 1
 										x = 0
 										j += 1
 								x = 0
 								j = 0
+							if database.DATE[3] == database.PRODUCTS[int(i['INDEX'])][1]:
+								self.promo = database.PRODUCTS[int(i['INDEX'])][2]
 							self.products = []
-							for p in database.PRODUCTS[int(i['INDEX'])]:
+							for p in database.PRODUCTS[int(i['INDEX'])][0]:
 								self.products.append(p)
-							print(self.basket)
+						if i['TYPE'] == 0:
+							if database.DATE[3] == database.PRODUCTS[int(i['INDEX'])][1]:
+								self.promo = database.PRODUCTS[int(i['INDEX'])][2]
+							self.products = []
+							for p in database.PRODUCTS[int(i['INDEX'])][0]:
+								self.products.append(p)
+						if i['TYPE'] == 3: self.extract = [0,0,0,0,0,0]
 						self.shp = True
 						self.lopt = 0
 						self.opt = 0
 						self.mnu = i['TYPE']
-						if i['TYPE'] == 0:
-							self.products = []
-							for p in database.PRODUCTS[int(i['INDEX'])]:
-								self.products.append(p)
-						if i['TYPE'] == 3: self.extract = [0,0,0,0,0,0]
 
 			if i['TYPE'] == 4 and self.player['SPD'] == 0 and self.driving > 0:
 				while database.GAS < self.vehicles[self.driving - 1]['CAPACITY']:
 					database.GAS += 1
-					self.draw()
-					pygame.time.wait(10)
 
 			if self.battle == False: self.display.blit(pygame.image.load('Sprites/arw.png'), (rect.x - self.cam.x + int(rect.width/2) - 5, rect.y - self.cam.y - rect.height * 2))
 
@@ -499,7 +520,7 @@ class Game:
 		goto = False
 
 		pygame.draw.rect(self.display, (255,0,0), pygame.Rect(rect.x - self.cam.x, rect.y - self.cam.y, rect.width, rect.height))
-		if self.battle == False:
+		if self.battle == False and self.colide(rect, self.cam):
 			if self.colide(self.player['RECT'], rect) == True and self.winbar > 0: spr = '1'
 			else: spr = '0'
 			if database.MAP > 0:
@@ -590,6 +611,7 @@ class Game:
 			if self.pressed[pygame.K_DELETE]:
 				self.__init__()
 				self.rendermap('urban_')
+				self.transiction(False,0)
 
 			#BATTLE OPTIONS
 			if self.battle == True and self.phone == 0:
@@ -653,7 +675,7 @@ class Game:
 							self.fight()
 							self.turn += 1
 						elif self.equip[self.turn] == 6:
-							self.ch_sfx.play(database.SOUND['GUARD'])
+							self.ch_ton.play(database.SOUND['GUARD'])
 							self.pres[self.turn] += 3
 							self.dialog([self.fig[self.turn]['NAME'] + ' está em guarda'])
 							self.turn += 1
@@ -661,7 +683,7 @@ class Game:
 						elif self.equip[self.turn] == 7:
 							self.ch_sfx.play(database.SOUND['MENU_GO'])
 							self.fight()
-							if self.turn != -1:
+							if self.battle == True:
 								self.turn = len(database.PARTY[database.FORMATION])
 								self.fight()
 
@@ -691,16 +713,15 @@ class Game:
 					if self.pressed[database.ACT]:
 						if self.lopt == 0:
 							for i in self.basket:
-								bb = False
-								for j in database.INVENTORY[0]:
-									for x in j:
-										if x[0] == '_':
-											bb = True
-								if bb == True and database.MONEY > 0:
-									self.ch_sfx.play(database.SOUND['BUY'])
-									database.MONEY -= database.ITEMS[i][2]
-									self.basket.remove(i)
-									self.inv.add(i)
+								if database.MONEY >= database.ITEMS[i][2]:
+									if self.inv.add(0,i) < 3:
+										self.dialog(database.DIALOGS['MERCATOR'][2])
+									elif self.confirmation() == 1:
+										self.ch_sfx.play(database.SOUND['BUY'])
+										database.MONEY -= database.ITEMS[i][2] - int(database.ITEMS[i][2]/self.promo)
+								else:
+									self.ch_sfx.play(database.SOUND['ERROR'])
+									self.dialog(database.DIALOGS['MERCATOR'][1])
 						else:
 							self.ch_sfx.play(database.SOUND['MENU_BACK'])
 							self.shp = False
@@ -712,22 +733,32 @@ class Game:
 
 				if self.mnu == 2:
 					if self.pressed[database.ACT]:
-						if self.lopt == len(self.products):
-							self.ch_sfx.play(database.SOUND['MENU_BACK'])
-							self.shp = False
-							self.lopt = 0
-						else:
-							bb = False
-							for j in database.INVENTORY[0]:
-								for x in j:
-									if x[0] == '_':
-										bb = True
-							if bb == True:
+						if self.opt == 0:
+							if self.lopt == len(self.products):
+								self.ch_sfx.play(database.SOUND['MENU_BACK'])
+								self.shp = False
+								self.lopt = 0
+							else:
 								if database.MONEY >= database.ITEMS[self.products[self.lopt]][2]:
-									self.ch_sfx.play(database.SOUND['BUY'])
-									database.MONEY -= database.ITEMS[self.products[self.lopt]][2]
-									self.inv.add(self.products[self.lopt])
-								else: self.ch_sfx.play(database.SOUND['ERROR'])
+									if self.inv.add(0,self.products[self.lopt]) < 3:
+										self.dialog(database.DIALOGS['MERCATOR'][2])
+									elif self.confirmation() == 1:
+										self.ch_sfx.play(database.SOUND['BUY'])
+										database.MONEY -= database.ITEMS[self.products[self.lopt]][2] - int(database.ITEMS[self.products[self.lopt]][2]/self.promo)
+								else:
+									self.ch_sfx.play(database.SOUND['ERROR'])
+									self.dialog(database.DIALOGS['MERCATOR'][1])
+						else:
+							if self.lopt == len(self.basket):
+								self.ch_sfx.play(database.SOUND['MENU_BACK'])
+								self.shp = False
+								self.lopt = 0
+							elif self.confirmation() == 1:
+								database.MONEY += int(database.ITEMS[database.INVENTORY[self.basket[self.lopt][0]][self.basket[self.lopt][1]][self.basket[self.lopt][2]][0]][2]/2)
+								database.INVENTORY[self.basket[self.lopt][0]][self.basket[self.lopt][1]][self.basket[self.lopt][2]] = ['_','0000','_','_']
+								del self.basket[self.lopt]
+								self.ch_sfx.play(database.SOUND['SELL'])
+
 
 					if self.opt < 0: self.opt = len(database.PARTY[database.FORMATION])
 					if self.opt > len(database.PARTY[database.FORMATION]): self.opt = 0
@@ -735,8 +766,11 @@ class Game:
 						if self.lopt < 0: self.lopt = len(self.products)
 						if self.lopt > len(self.products): self.lopt = 0
 					else:
-						if self.lopt < 0: self.lopt = len(self.basket)
-						if self.lopt > len(self.basket): self.lopt = 0
+						ln = 1
+						for i in self.basket:
+							if i[0] == self.opt - 1: ln += 1
+						if self.lopt < 0: self.lopt = ln
+						if self.lopt > ln: self.lopt = 0
 
 				if self.mnu == 11 or self.mnu == 12:
 					if self.pressed[database.ACT]:
@@ -800,54 +834,101 @@ class Game:
 
 			#INVENTORY OPTIONS
 			if self.pressed[database.BAG] and self.phone == 0 and self.shp == False and self.inv.itmov == '':
-				self.inventory = not self.inventory
-				if self.inventory == False:
+				if self.inventory > 0:
+					self.inventory = 0
 					self.ch_sfx.play(database.SOUND['INVENTORY_CLOSE'])
 					if self.battle == True: self.mnu = 1
-				if self.inventory == True:
+				elif self.inventory == 0:
+					self.inventory = 1
 					self.ch_sfx.play(database.SOUND['INVENTORY_OPEN'])
 					self.invfade = 0
 					self.opt = 0
 					self.lopt = 1
 					self.mnu = 0
 
-			if self.inventory == True:
+			if self.inventory > 0:
 				if self.pressed[database.LEFT]: self.opt -= 1; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 				if self.pressed[database.RIGHT]: self.opt += 1; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 				if self.pressed[database.UP]: self.lopt -= 1; self.ch_sfx.play(database.SOUND['MENU_VER'])
 				if self.pressed[database.DOWN]: self.lopt += 1; self.ch_sfx.play(database.SOUND['MENU_VER'])
 
 				if self.pressed[database.ACT]:
-					if self.inv.itmov != '':
-						if database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] == '_':
-							self.ch_sfx.play(database.SOUND['EQUIP'])
-							database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
-							self.inv.itmov = ''
-						elif self.inv.itmov[0].startswith('ammo') and database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0].startswith('revolver'):
+					if self.inventory == 1:
+						if self.inv.itmov != '':
+							if database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] == '_':
+								self.ch_sfx.play(database.SOUND['EQUIP'])
+								database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
+								self.inv.itmov = ''
+							elif self.inv.itmov[0].startswith('ammo') and database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0].startswith('revolver'):
+								self.ch_sfx.play(database.SOUND['MENU_GO'])
+								database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][1] = self.inv.itmov[1]
+								self.inv.itmov = ''
+							else:
+								self.ch_sfx.play(database.SOUND['EQUIP'])
+								trd = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
+								database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
+								self.inv.itmov = trd
+						elif database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] != '_':
 							self.ch_sfx.play(database.SOUND['MENU_GO'])
-							database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][1] = self.inv.itmov[1]
-							self.inv.itmov = ''
-						else:
-							self.ch_sfx.play(database.SOUND['EQUIP'])
-							trd = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
-							database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
-							self.inv.itmov = trd
-					elif database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] != '_':
-						self.ch_sfx.play(database.SOUND['MENU_GO'])
-						self.inv.itmov = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
-						database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = ['_','0000','_','_']
+							self.inv.itmov = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
+							database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = ['_','0000','_','_']
+					if self.inventory == 2:
+						if self.exvar == 0:
+							if self.inv.itmov != '':
+								if database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] == '_':
+									self.ch_sfx.play(database.SOUND['EQUIP'])
+									database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
+									self.inv.itmov = ''
+								elif self.inv.itmov[0].startswith('ammo') and database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0].startswith('revolver'):
+									self.ch_sfx.play(database.SOUND['MENU_GO'])
+									database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][1] = self.inv.itmov[1]
+									self.inv.itmov = ''
+								else:
+									self.ch_sfx.play(database.SOUND['EQUIP'])
+									trd = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
+									database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = self.inv.itmov
+									self.inv.itmov = trd
+							elif database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] != '_':
+								self.ch_sfx.play(database.SOUND['MENU_GO'])
+								self.inv.itmov = database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt]
+								database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = ['_','0000','_','_']
+						if self.exvar == 1:
+							if self.inv.itmov != '':
+								if database.STORAGE[self.opt][0] == '_':
+									self.ch_sfx.play(database.SOUND['EQUIP'])
+									database.STORAGE[self.opt] = self.inv.itmov
+									self.inv.itmov = ''
+								else:
+									self.ch_sfx.play(database.SOUND['EQUIP'])
+									trd = database.STORAGE[self.opt]
+									database.STORAGE[self.opt] = self.inv.itmov
+									self.inv.itmov = trd
+							elif database.STORAGE[self.opt][0] != '_':
+								self.ch_sfx.play(database.SOUND['MENU_GO'])
+								self.inv.itmov = database.STORAGE[self.opt]
+								database.STORAGE[self.opt] = ['_','0000','_','_']
+					elif self.inventory == 3:
+						if database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt][0] != '_' and self.confirmation() == 1:
+							database.INVENTORY[database.PARTY[database.FORMATION][self.mnu]][self.lopt][self.opt] = ['_','0000','_','_']
 
-				if self.lopt < 0: self.lopt = 4
-				if self.lopt > 4: self.lopt = 0
-
-				if self.opt < 0: self.opt = 4; self.mnu -= 1
-				if self.opt > 4: self.opt = 0; self.mnu += 1
+				if self.inventory == 1:
+					if self.opt < 0: self.opt = 4; self.mnu -= 1
+					if self.opt > 4: self.opt = 0; self.mnu += 1
+					if self.lopt < 0: self.lopt = 4
+					if self.lopt > 4: self.lopt = 0
+				if self.inventory == 2:
+					if self.lopt < 0: self.lopt = 4; self.mnu -= 1
+					if self.lopt > 4: self.lopt = 0; self.mnu += 1
+					if self.opt < 0: self.opt = 4; self.exvar -= 1
+					if self.opt > 4: self.opt = 0; self.exvar += 1
+					if self.exvar < 0: self.exvar = 1
+					if self.exvar > 1: self.exvar = 0
 
 				if self.mnu < 0: self.mnu = len(database.PARTY[database.FORMATION]) - 1
 				if self.mnu > len(database.PARTY[database.FORMATION]) - 1: self.mnu = 0
 
 			#PHONE OPTIONS
-			if self.pressed[database.PHONE] and self.inv.find(0,'phone') == True and self.inventory == False and self.shp == False:
+			if self.pressed[database.PHONE] and self.inv.find(0,'phone') == True and self.inventory == 0 and self.shp == False:
 				if self.phone == 0 or self.phone > 1:
 					if self.phone == 0: self.opt = 0; self.lopt = 0; self.player['SPRITE'] = database.SPRITES['PHONE_0']
 					if self.phone == 2: self.opt = 0; self.lopt = 0
@@ -1234,7 +1315,9 @@ class Game:
 
 					if self.lopt == 14:
 						if self.pressed[database.ACT]:
+							self.phn = menu.Phone()
 							self.inv = menu.Inventory()
+							self.shpmnu = menu.Shop()
 							database.save_sett()
 							self.ch_sfx.play(database.SOUND['MENU_GO'])
 							self.opt = 1
@@ -1267,7 +1350,18 @@ class Game:
 						self.mnu = 1
 						self.notification(trg['NAME'] + ' registrada',(134, 0, 211))
 						database.best_regs(f)
-						
+			
+			if self.battle == False and self.inventory == 0 and self.phone == 0 and self.shp == False and self.sleepin == False:
+				if self.driving > 0:
+					if database.GAS > 0:
+						if self.pressed[database.LEFT]:
+							self.player['DIRECTION'] -= 1
+							if self.player['DIRECTION'] == 0: self.player['DIRECTION'] = 8
+
+						elif self.pressed[database.RIGHT]:
+							self.player['DIRECTION'] += 1
+							if self.player['DIRECTION'] == 9: self.player['DIRECTION'] = 1
+
 		if self.phone == 2:
 			if self.pressed[database.UP]: self.lopt -= 3
 			if self.pressed[database.DOWN]: self.lopt += 3
@@ -1341,31 +1435,25 @@ class Game:
 				if self.pressed[database.LEFT]: database.COLOR[0] -= 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 				if self.pressed[database.RIGHT]: database.COLOR[0] += 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 
-				if database.COLOR[0] < 30: database.COLOR[0] = 255
-				if database.COLOR[0] > 242: database.COLOR[0] = 1
+				if database.COLOR[0] < 30: database.COLOR[0] = 242
+				if database.COLOR[0] > 242: database.COLOR[0] = 30
 			if self.lopt == 12:
 				if self.pressed[database.LEFT]: database.COLOR[1] -= 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 				if self.pressed[database.RIGHT]: database.COLOR[1] += 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 
-				if database.COLOR[1] < 30: database.COLOR[1] = 255
-				if database.COLOR[1] > 242: database.COLOR[1] = 1
+				if database.COLOR[1] < 30: database.COLOR[1] = 242
+				if database.COLOR[1] > 242: database.COLOR[1] = 30
 			if self.lopt == 13:
 				if self.pressed[database.LEFT]: database.COLOR[2] -= 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 				if self.pressed[database.RIGHT]: database.COLOR[2] += 2; self.ch_sfx.play(database.SOUND['MENU_HOR'])
 
-				if database.COLOR[2] < 30: database.COLOR[2] = 255
-				if database.COLOR[2] > 242: database.COLOR[2] = 1
+				if database.COLOR[2] < 30: database.COLOR[2] = 242
+				if database.COLOR[2] > 242: database.COLOR[2] = 30
 
 		#PLAYER MOVEMENT
-		if self.battle == False and self.inventory == False and self.phone == 0 and self.shp == False and self.sleepin == False:
-			self.player['DIRECTION'] = 0
+		if self.battle == False and self.inventory == 0 and self.phone == 0 and self.shp == False and self.sleepin == False:
 			self.pressed = pygame.key.get_pressed()
-			if self.driving == 0: trg = True
-			elif self.driving > 0:
-				if database.GAS > 0: trg = True
-				else: trg = False
-
-			if trg == True:
+			if self.driving == 0:
 				if self.pressed[database.UP]:
 					if self.pressed[database.LEFT]: self.player['DIRECTION'] = 6
 					elif self.pressed[database.RIGHT]: self.player['DIRECTION'] = 8
@@ -1388,6 +1476,30 @@ class Game:
 
 				else: self.player['DIRECTION'] = 0
 
+				if self.pressed[database.ACT]:
+					self.player['SPD'] = 6
+				else: self.player['SPD'] = 3
+
+			elif self.driving > 0:
+				if database.GAS > 0:
+					if self.pressed[database.UP]:
+						self.driving = 0
+						self.displayzw = 600
+						self.displayzh = 400
+						self.display = pygame.Surface((600, 400))
+						self.cam = pygame.Rect(0,0,self.displayzw,self.displayzh)
+
+					if self.pressed[database.DOWN]:
+						if self.player['SPD'] > 0.0: self.player['SPD'] -= self.vehicles[self.driving - 1]['ACCELERATION']
+
+					elif self.pressed[database.ACT]:
+						if self.player['DIRECTION'] > 0:
+							if self.player['SPD'] < self.vehicles[self.driving - 1]['SPEED'] and database.GAS > 0.0:
+								self.player['SPD'] += self.vehicles[self.driving - 1]['ACCELERATION']
+							database.GAS -= self.vehicles[self.driving - 1]['GAS']
+						else: self.player['SPD'] -= self.vehicles[self.driving - 1]['ACCELERATION']
+					else: self.player['SPD'] -= self.vehicles[self.driving - 1]['ACCELERATION']
+
 			if self.player['DIRECTION'] == 1: self.player['SPRITE'] = database.SPRITES['RIGHT_0']; self.player['RECT'].x += self.player['SPD']
 			elif self.player['DIRECTION'] == 2: self.player['SPRITE'] = database.SPRITES['RIGHTDOWN_0']; self.player['RECT'].x += self.player['SPD']; self.player['RECT'].y += self.player['SPD']
 			elif self.player['DIRECTION'] == 3: self.player['SPRITE'] = database.SPRITES['DOWN_0']; self.player['RECT'].y += self.player['SPD']
@@ -1397,20 +1509,6 @@ class Game:
 			elif self.player['DIRECTION'] == 7: self.player['SPRITE'] = database.SPRITES['UP_0']; self.player['RECT'].y -= self.player['SPD']
 			elif self.player['DIRECTION'] == 8: self.player['SPRITE'] = database.SPRITES['RIGHTUP_0']; self.player['RECT'].x += self.player['SPD']; self.player['RECT'].y -= self.player['SPD']
 			else: self.player['SPRITE'] = database.SPRITES['STANDD_0']
-
-			if self.driving == 0:
-				if self.pressed[database.ACT]:
-					self.player['SPD'] = 6
-				else: self.player['SPD'] = 3
-
-			elif self.driving > 0:
-				if self.pressed[database.ACT]:
-					if self.player['DIRECTION'] > 0:
-						if self.player['SPD'] < self.vehicles[self.driving - 1]['SPEED'] and database.GAS > 0.0:
-							self.player['SPD'] += self.vehicles[self.driving - 1]['ACCELERATION']
-						database.GAS -= self.vehicles[self.driving - 1]['GAS']
-					else: self.player['SPD'] -= self.vehicles[self.driving - 1]['ACCELERATION']
-				else: self.player['SPD'] -= self.vehicles[self.driving - 1]['ACCELERATION']
 
 			if database.GAS < 1.0: self.player['DIRECTION'] = 0
 			if self.player['SPD'] < 0: self.player['SPD'] = 0
@@ -1427,7 +1525,7 @@ class Game:
 			self.dlg.append('')
 			if isinstance(txt[tid], str):
 				while self.dlgfa > 0:
-					if self.winbar > 50 and self.battle == False: self.winbar -= 5
+					if self.winbar < 50 and self.battle == False: self.winbar += 5
 					self.dlgfa -= 50
 					self.run()
 				else:
@@ -1599,7 +1697,7 @@ class Game:
 
 		while self.dlgfa < 500:
 			self.dlgfa += 50
-			if self.winbar < 0 and self.battle == False: self.winbar += 5
+			if self.winbar > 0 and self.battle == False: self.winbar -= 5
 			self.run()
 
 	def diopt(self, ln):
@@ -1635,7 +1733,49 @@ class Game:
 					pygame.quit()
 					sys.exit()
 				if event.type == pygame.KEYDOWN:
+					self.ch_sfx.play(database.SOUND['TEXT_ENTER'])
 					waiting = False
+
+	def confirmation(self):
+		yesno = 0
+		opt = 1
+		brd = pygame.Surface((200,100))
+		brd.fill((database.COLOR[0],database.COLOR[1],database.COLOR[2]))
+		for x in range(20):
+			for y in range(10):
+				brd.blit(pygame.image.load('Sprites/border.png'), (x * 10, y * 10))
+		wdw = pygame.Surface((190,90))
+
+		while yesno == 0:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
+					pygame.quit()
+					sys.exit()
+
+				self.pressed = pygame.key.get_pressed()
+				if self.pressed[database.LEFT]: self.ch_sfx.play(database.SOUND['MENU_HOR']); opt = 1
+				if self.pressed[database.RIGHT]: self.ch_sfx.play(database.SOUND['MENU_VER']); opt = 2
+				if self.pressed[database.ACT]:
+					yesno = opt
+					if yesno == 1: self.ch_sfx.play(database.SOUND['MENU_GO'])
+					if yesno == 2: self.ch_sfx.play(database.SOUND['MENU_BACK'])
+					opt = 0
+
+			wdw.fill((0,0,0))
+			wdw.blit(self.monotype.render(database.MENU[85], True, (255, 255, 255)), (45, 10))
+			if opt == 1: wdw.blit(self.monotype.render(database.MENU[83], True, (database.COLOR[0],database.COLOR[1],database.COLOR[2])), (40, 50))
+			else: wdw.blit(self.monotype.render(database.MENU[83], True, (255, 255, 255)), (40, 50))
+			if opt == 2: wdw.blit(self.monotype.render(database.MENU[84], True, (database.COLOR[0],database.COLOR[1],database.COLOR[2])), (110, 50))
+			else: wdw.blit(self.monotype.render(database.MENU[84], True, (255, 255, 255)), (110, 50))
+
+			self.display.blit(brd,(195,145))
+			self.display.blit(wdw,(200,150))
+			self.screen.blit(pygame.transform.scale(self.display, (self.windoww, self.windowh)), (self.displayx, self.displayy))
+			pygame.display.update()
+			pygame.display.flip()
+			pygame.time.Clock().tick(self.FPS)
+
+		return yesno
 
 	def transiction(self, fade, limit):
 		if fade == False:
@@ -1650,6 +1790,9 @@ class Game:
 	def fight(self):
 		#BATTLE START
 		if self.turn < 0:
+			self.inventory = 0
+			self.phone = 0
+			self.shp = False
 			if self.turn == -1: self.ch_ton.play(database.SOUND['BATTLE_FOE'])
 			if self.turn == -2: self.ch_ton.play(database.SOUND['BATTLE_ENEMY'])
 			if self.turn == -3: self.ch_ton.play(database.SOUND['BATTLE_AMBUSH'])
@@ -1720,6 +1863,7 @@ class Game:
 
 		#PLAYERS TURN
 		elif self.turn < len(database.PARTY[database.FORMATION]):
+			again = False
 			self.mnu = 3
 			if self.equip[self.turn] < 4:
 				pp = int(database.INVENTORY[database.PARTY[database.FORMATION][self.turn]][4][self.equip[self.turn] + 1][1])
@@ -1748,6 +1892,7 @@ class Game:
 
 						#CHECK WIN - LEVEL UP
 						if i['HP'] <= 0:
+							if dmg >= i['HP']: again = True
 							self.ch_ton.play(database.SOUND['SCREAM_' + i['FILE'].upper()])
 							fade = 255
 							i['SPRITE'].convert_alpha()
@@ -1770,6 +1915,7 @@ class Game:
 						if dth == len(self.foe):
 							self.ch_msc.fadeout(500)
 							if len(self.foe) >= 10 or self.foe[0]['TYPE'] == 'boss': self.ch_ton.play(database.SOUND['BATTLE_BOSS_WON'])
+							elif self.hpl == 0: self.ch_ton.play(database.SOUND['BATTLE_PERFECT'])
 							else: self.ch_ton.play(database.SOUND['BATTLE_WON'])
 							self.tbt += round(self.btime/10)
 							self.xp = int(((self.hits*self.tdmg)-self.hpl+self.tbt)/len(self.fig))
@@ -1856,8 +2002,13 @@ class Game:
 				else:
 					self.dialog([database.BATTLE[16]])
 
+			if again == True and self.battle == True:
+				self.ch_ton.play(database.SOUND['ONE_MORE'])
+				self.hitisplay(0, self.aim, database.BATTLE[5], (10, 50, 255))
+				self.turn -= 1
 			if self.turn < len(self.fig):
 				self.aim.x = 100 + self.fig[self.turn]['ATTACK'][self.fig[self.turn]['LEVEL']]
+
 
 		#ENEMIES TURN
 		else:
@@ -1877,8 +2028,7 @@ class Game:
 						self.hitisplay(5, i, str(5), (200, 0, 0))
 
 					opt = int(random.randint(0,len(i['HABILITIES']) - 1))
-					opt = 1
-					if opt > 3:opt = 3
+					if opt > 3: opt = 3
 					act = i['HABILITIES'][opt].copy()
 					dd = i['NAME'] + database.BATTLE[18] + act[0]
 					i['SPRITE'] = pygame.image.load('Sprites/' + i['FILE'] + '_attack.png')
@@ -2007,7 +2157,9 @@ class Game:
 							self.dialog([nw['NAME'] + database.BATTLE[37],1])
 						else:
 							self.dialog([database.BATTLE[38]])
-							
+
+					elif act[3] == 9:
+						self.dialog([i['NAME'] + ' arregou!'])
 
 					#CHECK DEATH
 					if self.fig[pl]['HP'] <= 0:
@@ -2173,9 +2325,9 @@ class Game:
 		ind = 0
 		for i in range(len(self.map.layers[7])):
 			obj = self.map.get_object_by_name('vehicle_' + str(i))
-			vh = database.VEHICLES[obj.properties['INDEX']].copy()
+			vh = database.VEHICLES['moto_' + str(obj.type)].copy()
 			vh['RECT'] = pygame.Rect(float(obj.x), float(obj.y), 60, 10)
-			vh['INDEX'] = obj.properties['INDEX']
+			vh['INDEX'] = int(obj.type)
 			vh['N'] = ind
 			self.vehicles.append(vh)
 			self.objects.append([4,ind,int(obj.y)])
@@ -2406,13 +2558,14 @@ class Game:
 			#WIN/LOST SCREEN
 			if self.winbar > 200:
 				if self.turn == -4:
-					self.display.blit(self.mininfo.render(database.BATTLE[6], True, (255,255,255)), (180 + self.mnu, 70))
-					self.display.blit(self.monotype.render(database.BATTLE[8] + str(self.hits), True, (255,255,255)), (180 + self.mnu, 120))
-					self.display.blit(self.monotype.render(database.BATTLE[9] + str(self.tdmg), True, (255,255,255)), (180 + self.mnu, 140))
-					self.display.blit(self.monotype.render(database.BATTLE[10] + str(self.hpl), True, (255,255,255)), (180 + self.mnu, 160))
-					self.display.blit(self.monotype.render(database.BATTLE[11]+str(self.tbt), True, (255,255,255)), (180 + self.mnu, 180))
-					self.display.blit(self.monotype.render(database.BATTLE[12] + str(len(self.fig)), True, (255,255,255)), (180 + self.mnu, 200))
-					self.display.blit(self.monotype.render('= ' + str(self.xp) + database.BATTLE[13], True, (255,255,255)), (180 + self.mnu, 240))
+					if self.hpl > 0: self.display.blit(self.mininfo.render(database.BATTLE[6], True, (255,255,255)), (180 + self.mnu, 70))
+					else: self.display.blit(self.mininfo.render(database.BATTLE[7], True, (255,255,255)), (180 + self.mnu, 70))
+					self.display.blit(self.monotype.render(database.BATTLE[9] + str(self.hits), True, (255,255,255)), (180 + self.mnu, 120))
+					self.display.blit(self.monotype.render(database.BATTLE[10] + str(self.tdmg), True, (255,255,255)), (180 + self.mnu, 140))
+					self.display.blit(self.monotype.render(database.BATTLE[11] + str(self.hpl), True, (255,255,255)), (180 + self.mnu, 160))
+					self.display.blit(self.monotype.render(database.BATTLE[12]+str(self.tbt), True, (255,255,255)), (180 + self.mnu, 180))
+					#self.display.blit(self.monotype.render(database.BATTLE[12] + str(len(self.fig)), True, (255,255,255)), (180 + self.mnu, 200))
+					self.display.blit(self.monotype.render('= ' + str(self.xp) + database.BATTLE[13], True, (255,255,255)), (180 + self.mnu, 200))
 
 					if self.greenblood > 0:
 						pygame.draw.rect(self.display, (0, 255, 100), pygame.Rect(60 + self.mnu,300 - int(200/(1000/self.greenblood)),30,int(200/(1000/self.greenblood))))
@@ -2433,7 +2586,7 @@ class Game:
 					self.display.blit(self.mininfo.render(database.BATTLE[43] + ' +' + str(database.CHARACTERS[0]['VITALITY'][database.CHARACTERS[0]['LEVEL']] - database.CHARACTERS[0]['VITALITY'][database.CHARACTERS[0]['LEVEL'] - 1]), True, (255,255,255)), (900 + self.mnu * 2, 320))
 
 				elif self.turn == -5:
-					self.display.blit(self.mininfo.render(database.BATTLE[7], True, (255,255,255)), (200 + self.mnu, 70))
+					self.display.blit(self.mininfo.render(database.BATTLE[8], True, (255,255,255)), (200 + self.mnu, 70))
 					self.display.blit(self.monotype.render('-$' + str(database.MONEY), True, (255,255,255)), (200 + self.mnu, 120))
 
 		
@@ -2519,8 +2672,10 @@ class Game:
 				self.portal(i['RECT'].x,i['RECT'].y,i['RECT'].width,i['RECT'].height,i['PX'],i['PY'],i['MAP'],i['OPENING'],i['CLOSURE'])
 
 		#INVENTORY
-		if self.invfade < 1050: self.display.blit(self.inv.show(self.opt, self.lopt, self.mnu), (610 - self.invfade,60))
-		if self.inventory == True:
+		if self.invfade < 1050:
+			if self.inventory != 2: self.display.blit(self.inv.show(self.opt, self.lopt, self.mnu), (610 - self.invfade,60))
+			else: self.display.blit(self.inv.deposit(self.opt, self.lopt, self.mnu, self.exvar), (610 - self.invfade,60))
+		if self.inventory > 0:
 			if self.invfade < 500: self.invfade += 50
 		else:
 			if self.invfade < 1050: self.invfade += 50
@@ -2535,7 +2690,7 @@ class Game:
 				lst = []
 				if self.opt == 0: lst = self.products
 				else: lst = self.basket
-				self.display.blit(self.shpmnu.mercator(self.opt, self.lopt, lst), (100,60))
+				self.display.blit(self.shpmnu.mercator(self.opt, self.lopt, lst, self.promo), (100,60))
 			if self.mnu == 3 or self.mnu == 11 or self.mnu == 12:
 				self.display.blit(self.shpmnu.bank(self.opt, self.lopt, self.mnu, self.extract), (100,60))
 
@@ -2609,17 +2764,20 @@ class Game:
 				bl = 0
 				print(self.dlg[::-1])
 				for i in self.dlg[::-1]:
-					pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(20,200 - y - bl,500 - self.dlgfa,21))
+					if i != 1 and len(i) != 0:
+						pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(20,200 - y - bl,5 + len(i) * 7,25))
+						pygame.draw.rect(self.display, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(20,225 - y - bl,5 + len(i) * 7,5))
+						pygame.draw.polygon(self.display, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), ((20,225 - y - bl),(40,225 - y - bl),(20,235 - y - bl)))
+						pygame.draw.polygon(self.display, (0,0,0), ((20,221 - y - bl),(40,221 - y - bl),(20,231 - y - bl)))
 					if i == 1:
 						y = 0
 						bl += 40
-						pygame.draw.rect(self.display, (0, 0, 0), pygame.Rect(20,200 - y - bl,500 - self.dlgfa,21))
 					elif i == 0:
 						bl = 0
 						y = 0
 					else:
-						self.display.blit(self.monotype.render(i, True, (255, 255, 255)), (20, 200 - y - bl))
-						y += 20
+						self.display.blit(self.monotype.render(i, True, (255, 255, 255)), (22, 202 - y - bl))
+						y += 40
 
 		#NOTIFICATIONS
 		if self.notx > 0:
@@ -2638,8 +2796,13 @@ class Game:
 				pygame.draw.line(self.display, (255,255,255), (-90 + self.notx,42),(-90 + self.notx,68),2)
 
 		#CAMERA
-		self.cam.x += int((self.player['RECT'].x  - self.cam.x - self.displayzw/2)/15)
-		self.cam.y += int((self.player['RECT'].y  - self.cam.y - self.displayzh/2)/15)
+		if self.speakin == 0:
+			self.cam.x += int((self.player['RECT'].x  - self.cam.x - self.displayzw/2)/15)
+			self.cam.y += int((self.player['RECT'].y  - self.cam.y - self.displayzh/2)/15)
+		else:
+			self.cam.x += int((self.speakin.x  - self.cam.x - self.displayzw/2)/15) - 300
+			self.cam.y += int((self.speakin.y  - self.cam.y - self.displayzh/2)/15)
+
 		if self.cam.x < 0: self.cam.x = 0
 		if self.cam.y < 0: self.cam.y = 0
 		if self.cam.x > (self.map.width * self.map.tilewidth) - self.displayzw: self.cam.x = (self.map.width * self.map.tilewidth) - self.displayzw
@@ -2667,6 +2830,7 @@ class Game:
 
 		if database.TIME[0] >= 24:
 			database.DATE[0] += 1
+			database.DATE[3] += 1
 			database.TIME[0] = 0
 
 		if database.DATE[0] >= 30:
@@ -2676,6 +2840,9 @@ class Game:
 		if database.DATE[1] >= 12:
 			database.DATE[2] += 1
 			database.DATE[1] = 1
+
+		if database.DATE[3] > 7:
+			database.DATE[3] = 1
 
 		#FOOD WASTE
 		for b in database.INVENTORY:
@@ -2704,8 +2871,6 @@ database.load_data()
 
 r = Recap()
 while r.classrun: r.run()
-
-database.CHAPTER = 1
 
 g = Game()
 g.rendermap('urban_')

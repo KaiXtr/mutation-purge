@@ -4,7 +4,7 @@ import sqlite3
 import os
 
 def new_data():
-    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, PHONE, BAG, SPEED, COLOR, INVENTORY,\
+    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, PHONE, BAG, SPEED, COLOR, INVENTORY, WEATHER,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, CHARACTERS, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, ACHIEVEMENTS
 
     tbl = sqlite3.connect('userdata.db')
@@ -21,14 +21,15 @@ def new_data():
     PHONE = pygame.K_BACKSPACE
     BAG = pygame.K_RETURN
     SPEED = 2
-    COLOR = [255,10,10]
+    COLOR = [242,30,30]
      
     MAP = 1
     PX = 0
     PY = 0
     TIME = [8,30,0]
-    DATE = [10,3,0]
-    CHAPTER = 0
+    DATE = [10,3,0,1]
+    WEATHER = 0
+    CHAPTER = 1
     MORALITY = 0
     GAMETIME = 0
     FORMATION = 0
@@ -56,12 +57,12 @@ def new_data():
         i[3] = ''
     INVENTORY = [
     [[['_','0000','_','_'],['phone','0000','_','_'],['credit_card','0000','_','_'],['id_card','0000','_','_'],['_','0000','_','_']],
-    [['amulet1','0000','_','_'],['_','0000','_','_'],['coxinha','1103','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['amulet1','0000','_','_'],['_','0000','_','_'],['food_coxinha','1103','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['vest1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['pill_vitality','0000','_','_']],
     [['bag1','0000','_','_'],['revolver.38','0016','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
 
-    [[['_','0000','_','_'],['peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [[['_','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
@@ -96,7 +97,7 @@ def new_data():
      
     try:
         com.execute("CREATE TABLE settings (id integer,lang text,sfx integer,msc integer,up text,down text,left text,right text,act text,phone text,inventory text,speed integer,color1 integer,color2 integer,color3 integer)")
-        com.execute("CREATE TABLE data (id integer,gt integer,fr integer,map integer,x integer,y integer,time text,date text,chapter integer,morality integer,atm integer,money integer,credit integer,battery integer,gas integer)")
+        com.execute("CREATE TABLE data (id integer,gt integer,fr integer,map integer,x integer,y integer,time text,date text,weather integer,chapter integer,morality integer,atm integer,money integer,credit integer,battery integer,gas integer)")
         print('table created')
     except: pass
      
@@ -110,7 +111,7 @@ def new_data():
     
     print(ID)
     com.execute("INSERT INTO settings VALUES (" + str(ID) + ",'PT',0.8,0.6,'W','S','A','D','SPACE','BACKSPACE','RETURN',2,255,255,255)")
-    com.execute("INSERT INTO data VALUES (" + str(ID) + ",0,0,1,0,0,'0000','000000',0,0,0,0,255,10,10)")
+    com.execute("INSERT INTO data VALUES (" + str(ID) + ",0,0,1,0,0,'0830','1003001',0,0,0,0,0,255,10,10)")
      
     com.execute("DROP TABLE IF EXISTS characters" + str(ID))
     com.execute("CREATE TABLE characters" + str(ID) + " (n integer,name text,lastname text,gender text,level integer,xp integer)")
@@ -184,7 +185,7 @@ def new_data():
     tbl.close()
  
 def load_data():
-    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, PHONE, BAG, SPEED, COLOR, \
+    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, PHONE, BAG, SPEED, COLOR, WEATHER,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, INVENTORY
      
     tbl = sqlite3.connect('userdata.db')
@@ -242,7 +243,9 @@ def load_data():
     TIME = [int(res[0:2]),int(res[2:4]),0]
     com.execute("SELECT date FROM data")
     res = com.fetchall()[ID][0]
-    DATE = [int(res[0:2]),int(res[2:4]),int(res[4:6])]
+    DATE = [int(res[0:2]),int(res[2:4]),int(res[4:6]),int(res[6])]
+    com.execute("SELECT weather FROM data")
+    WEATHER = com.fetchall()[ID][0]
     com.execute("SELECT chapter FROM data")
     CHAPTER = com.fetchall()[ID][0]
     com.execute("SELECT morality FROM data")
@@ -336,7 +339,7 @@ def load_data():
     tbl.close()
 
 def save_data():
-    global ID, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, FORMATION, CHARACTERS, INVENTORY
+    global ID, MAP, PX, PY, TIME, DATE, WEATHER, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, FORMATION, CHARACTERS, INVENTORY
 
     tbl = sqlite3.connect('userdata.db')
     com = tbl.cursor()
@@ -353,10 +356,10 @@ def save_data():
     else: mm = str(DATE[1])
     if DATE[2] < 10: yy = '0' + str(DATE[2])
     else: yy = str(DATE[2])
-    dt = dd + mm + yy
+    dt = dd + mm + yy + str(DATE[3])
 
-    com.execute("""UPDATE data SET gt = :gt,fr = :fr,map = :map,x = :x,y = :y,time = :tm,date = :dt,chapter = :chapter,morality = :morality,atm = :atm,money =:money,credit = :credit,battery = :battery,gas = :gas WHERE id = :id""",
-    {'id': ID,'gt': GAMETIME,'fr': FORMATION,'map': MAP,'x': PX,'y': PY,'tm': ts,'dt': dt,'chapter': CHAPTER,'morality': MORALITY,'atm': ATM,'money': MONEY,'credit': CREDIT,'battery': BATTERY,'gas': GAS})
+    com.execute("""UPDATE data SET gt = :gt,fr = :fr,map = :map,x = :x,y = :y,time = :tm,date = :dt,weather = :weather,chapter = :chapter,morality = :morality,atm = :atm,money =:money,credit = :credit,battery = :battery,gas = :gas WHERE id = :id""",
+    {'id': ID,'gt': GAMETIME,'fr': FORMATION,'map': MAP,'x': PX,'y': PY,'tm': ts,'dt': dt,'weather': WEATHER,'chapter': CHAPTER,'morality': MORALITY,'atm': ATM,'money': MONEY,'credit': CREDIT,'battery': BATTERY,'gas': GAS})
     tbl.commit()
 
     for i in range(len(CHARACTERS)):
@@ -551,7 +554,8 @@ MAP = 0
 PX = 0
 PY = 0
 TIME = [0,0,0]
-DATE = [0,0,0]
+DATE = [0,0,0,1]
+WEATHER = 0
 CHAPTER = 0
 MORALITY = 0
 
@@ -575,20 +579,23 @@ SOUND = {
 'TEXT_INPUT': pygame.mixer.Sound('SFX/text_input.wav'),'TEXT_ENTER': pygame.mixer.Sound('SFX/text_enter.wav'),
 'INVENTORY_OPEN': pygame.mixer.Sound('SFX/inventory_open.wav'),'INVENTORY_CLOSE': pygame.mixer.Sound('SFX/inventory_close.wav'),'PHONE_UNLOCK': pygame.mixer.Sound('SFX/phone_unlock.wav'),'PHONE_LOCK': pygame.mixer.Sound('SFX/phone_lock.wav'),
 'MENU_HOR': pygame.mixer.Sound('SFX/menu_hor.wav'),'MENU_VER': pygame.mixer.Sound('SFX/menu_ver.wav'),'MENU_GO': pygame.mixer.Sound('SFX/menu_go.wav'),'MENU_BACK': pygame.mixer.Sound('SFX/menu_back.wav'),
-'BUY': pygame.mixer.Sound('SFX/buy.wav'),'CASH_GET': pygame.mixer.Sound('SFX/cash_get.wav'),'ITEM_GET': pygame.mixer.Sound('SFX/item_get.wav'),'EQUIP': pygame.mixer.Sound('SFX/equip.wav'),'ERROR': pygame.mixer.Sound('SFX/error.wav'),
+'BUY': pygame.mixer.Sound('SFX/buy.wav'),'SELL': pygame.mixer.Sound('SFX/sell.wav'),'CASH_GET': pygame.mixer.Sound('SFX/cash_get.wav'),'ITEM_GET': pygame.mixer.Sound('SFX/item_get.wav'),'EQUIP': pygame.mixer.Sound('SFX/equip.wav'),
+'ERROR': pygame.mixer.Sound('SFX/error.wav'),
 'CALLING': pygame.mixer.Sound('SFX/calling.wav'),'CAMERA': pygame.mixer.Sound('SFX/camera.wav'),'NOTIFICATION': pygame.mixer.Sound('SFX/notification.wav'),
 'RINGTONE_1': pygame.mixer.Sound('SFX/ringtone_1.ogg'),
 'PARTY_CHANGE': pygame.mixer.Sound('SFX/party_change.wav'),'NOTICED': pygame.mixer.Sound('SFX/noticed.wav'),
-'BATTLE_FOE': pygame.mixer.Sound('SFX/battle_foe.wav'),'BATTLE_ENEMY': pygame.mixer.Sound('SFX/battle_enemy.wav'),'BATTLE_AMBUSH': pygame.mixer.Sound('SFX/battle_ambush.wav'),
-'BATTLE_BOSS': pygame.mixer.Sound('SFX/battle_boss.wav'),'BATTLE_WON': pygame.mixer.Sound('SFX/battle_won.wav'),'BATTLE_BOSS_WON': pygame.mixer.Sound('SFX/battle_boss_won.wav'),'BATTLE_LOST': pygame.mixer.Sound('SFX/battle_lost.wav'),
+'BATTLE_FOE': pygame.mixer.Sound('SFX/battle_foe.wav'),'BATTLE_ENEMY': pygame.mixer.Sound('SFX/battle_enemy.wav'),'BATTLE_AMBUSH': pygame.mixer.Sound('SFX/battle_ambush.wav'),'BATTLE_BOSS': pygame.mixer.Sound('SFX/battle_boss.wav'),
+'BATTLE_WON': pygame.mixer.Sound('SFX/battle_won.wav'),'BATTLE_PERFECT': pygame.mixer.Sound('SFX/battle_perfect.wav'),'BATTLE_BOSS_WON': pygame.mixer.Sound('SFX/battle_boss_won.wav'),'BATTLE_LOST': pygame.mixer.Sound('SFX/battle_lost.wav'),
 'LEVEL_UP': pygame.mixer.Sound('SFX/levelup1.wav'),
 
 'SCREAM_MADLADCAT': pygame.mixer.Sound('SFX/scream_madladcat.wav'),'SCREAM_PEACOCKPIGEON': pygame.mixer.Sound('SFX/scream_peacockpigeon.wav'),
 'SCREAM_PEACOCKPIGEON': pygame.mixer.Sound('SFX/scream_peacockpigeon.wav'),'SCREAM_CIGARUTO': pygame.mixer.Sound('SFX/scream_cigaruto.wav'),
+'SCREAM_VINICIUS': pygame.mixer.Sound('SFX/scream_vinicius.wav'),
 
 'ATTRIBUTE_GAIN': pygame.mixer.Sound('SFX/attribute_gain.wav'),'ATTRIBUTE_LOSS': pygame.mixer.Sound('SFX/attribute_loss.wav'),'HEAL': pygame.mixer.Sound('SFX/heal.wav'),'CHARGE': pygame.mixer.Sound('SFX/charge.wav'),'MISS': pygame.mixer.Sound('SFX/miss.wav'),
 'GUN_OPEN': pygame.mixer.Sound('SFX/gun_open.wav'),'GUN_TRIGGER': pygame.mixer.Sound('SFX/gun_trigger.wav'),'GUN_RECHARGE': pygame.mixer.Sound('SFX/gun_recharge.wav'),'GUARD': pygame.mixer.Sound('SFX/guard.wav'),
-'HIT': pygame.mixer.Sound('SFX/hit.wav'),'CRITICAL': pygame.mixer.Sound('SFX/critical.wav'),'HP_LOSS': pygame.mixer.Sound('SFX/hp_loss.wav'),'HP_LOW': pygame.mixer.Sound('SFX/hp_low.wav'),'INCONSCIOUS': pygame.mixer.Sound('SFX/inconscious.wav'),
+'HIT': pygame.mixer.Sound('SFX/hit.wav'),'CRITICAL': pygame.mixer.Sound('SFX/critical.wav'),'ONE_MORE': pygame.mixer.Sound('SFX/one_more.wav'),'HP_LOSS': pygame.mixer.Sound('SFX/hp_loss.wav'),'HP_LOW': pygame.mixer.Sound('SFX/hp_low.wav'),
+'INCONSCIOUS': pygame.mixer.Sound('SFX/inconscious.wav'),
 'DAMAGE_1': pygame.mixer.Sound('SFX/damage_1.wav'),
 'STEP_GRASS': pygame.mixer.Sound('SFX/step_grass.wav'),#'STEP_STONE': pygame.mixer.Sound('SFX/step_stone.wav'),'STEP_BRICK': pygame.mixer.Sound('SFX/step_bricks.wav'), 
 'CRICKETS': pygame.mixer.Sound('SFX/crickets.wav'),'NOISE': pygame.mixer.Sound('SFX/noise.wav'),
@@ -734,7 +741,8 @@ electric
 6 - condição
 7 - chamar anomalia
 8 - roubar
-9 - faz nada
+9 - fugir
+10 - faz nada
 
 0 - normal
 1 - de costas
@@ -1001,18 +1009,18 @@ ITEMS = {
 'adrenaline': ['adrenalina',['Remédio utilizado para reviver uma pessoa inconsciente.'],60,1,1,0],
   
 #FOOD
-'food_peanut_candy': ['paçoca',['Doce de amendoim, fácil de encontrar em padarias.'],1,1,1,2],
-'food_coxinha': ['coxinha',['Salgado feito com massa frita e recheada com frango, fácil de','encontrar em lanchonetes.'],5,1,1,8],
-'food_pastry': ['pastel',['Salgado feito com massa frita e recheado com queijo.'],3,1,1,5],
-'food_puff_pastry': ['pastel folheado',['Salgado feito com várias camadas de massa e queijo.'],6,1,1,12],
-'food_brigadeiro': ['brigadeiro',['Doce de chocolate.'],2,1,1,3],
-'food_coffee': ['café',['Bebida quente que aumenta a energia.'],8,1,1,10],
-'food_cheese_bread': ['pão de queijo',['Salgado feito com massa de queijo.'],5,1,1,7],
-'food_pudding': ['pudim',['Doce feito com leite condensado.'],10,2,1,15],
-'food_corn_cake': ['bolo de fubá',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18],
-'food_carrot_cake': ['bolo de cenoura',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18],
-'food_chocolate_cake': ['bolo de chocolate',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18],
-'food_packed_lunch': ['marmita',['Tem muitas coisas diferentes dentro, além de ser bem nutritivo!'],15,2,2,30],
+'food_peanut_candy': ['paçoca',['Doce de amendoim, fácil de encontrar em padarias.'],1,1,1,2,'0100'],
+'food_coxinha': ['coxinha',['Salgado feito com massa frita e recheada com frango, fácil de','encontrar em lanchonetes.'],5,1,1,8,'0100'],
+'food_pastry': ['pastel',['Salgado feito com massa frita e recheado com queijo.'],3,1,1,5,'0100'],
+'food_puff_pastry': ['pastel folheado',['Salgado feito com várias camadas de massa e queijo.'],6,1,1,12,'0100'],
+'food_brigadeiro': ['brigadeiro',['Doce de chocolate.'],2,1,1,3,'0100'],
+'food_coffee': ['café',['Bebida quente que aumenta a energia.'],8,1,1,10,'0100'],
+'food_cheese_bread': ['pão de queijo',['Salgado feito com massa de queijo.'],5,1,1,7,'0100'],
+'food_pudding': ['pudim',['Doce feito com leite condensado.'],10,2,1,15,'0300'],
+'food_corn_cake': ['bolo de fubá',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
+'food_carrot_cake': ['bolo de cenoura',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
+'food_chocolate_cake': ['bolo de chocolate',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
+'food_packed_lunch': ['marmita',['Tem muitas coisas diferentes dentro, além de ser bem nutritivo!'],15,2,2,30,'0300'],
 
 #WASTED FOOD
 'food_coxinha_wasted': ['coxinha fria',['Não é mais tão gostosa quanto antes,','mas é comestível.'],2,1,1,4],
@@ -1096,7 +1104,7 @@ INVENTORY = [
 
 [[['_','0000','_','_'],['repellent1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['_','0000','_','_'],['_','0000','_','_'],['_','charger','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['revolver.38','0006','aim3','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
 
@@ -1111,6 +1119,12 @@ INVENTORY = [
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['revolver.38','0006','aim2','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
+]
+
+PRODUCTS = [
+[['vest1','repellent1','food_carrot_cake','pill_vitality','knife','amulet1'],1,10],
+[['grenade','pepper_spray','revolver.38'],1,2],
+[['fishmonger','portable_charger','headphone'],4,0]
 ]
 
 VEHICLES = {
@@ -1174,22 +1188,22 @@ DIALOGS = {
 'TEST': [['Vou te dar uma tarefa rapaz!',1,[6,'tarefa'],'Fale com outro cara pra cumprir essa tarefa!',1,'Mas também vou te dar meu número!',1,[7,0],0,'Acho que só falta esse email',1,[5,0],'Já tem tudo o que quer','Agora rapa fora!',1]],
 
 #OBJECTS
-'MIRROR': [['Que peste feia é essa','ah, sou eu'],['Estou bonita...?'],['Bigodin finin','Cabelin na régua'],['Sempre arrasando'],['Tô bem arrumada'],['Dá pra sair']],
+'MIRROR': [['Que peste feia é essa','ah, sou eu',1],['Estou bonita...?'],['Bigodin finin','Cabelin na régua'],['Sempre arrasando'],['Tô bem arrumada'],['Dá pra sair']],
 'SIDNEY WARDROBE': [['Qual roupa vou vestir agora?',[10,['Casaco xadrez','Ok'],['Blusa preta de banda','Sempre gostei do HUG'],['Blusa social','Essa tá boa']]]],
-'BROKEN CLOCK': [['Isso tá quebrado faz tempo.']],
-'SIETRA PORTRAIT': [['Essa foto me traz muitas lembranças...','...lembranças ruins.'],['...','Eles se davam bem...']],
-'JANAGO PORTRAIT': [['Legal.'],['Essa foto foi em Búzios,','Foi o dia em que nós começamos a morar juntos.']],
-'BED': [['Ah não...','a cama tá bagunçada de novo','...',0,'...abracadabra, cama arrumada!']],
-'PICTURE': [['É uma pintura bonita','não tô entendendo nada','só sei que é bonita']],
-'DIRTY SINK': [['A pia está cheia de louça suja...']],
-'DIRTY COOKER': [['Tem arroz frio e uma frigideira engordurada no fogão.']],
-'EMPTY FRIDGE': [['Água,sachês de ketchup e ovos...','Considero isso uma geladeira vazia.'],['Tá na de fazer as compras do mês.']],
-'FRIDGE': [['A visão do paraíso.'],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
-'OLD PC': [['Esse pc ainda usa Windows XP.']],
-'MODERN PC': [['No canto da tela diz "Não é genuíno".']],
-'PC GAMER': [['O teclado LED brilhando me deixa','ma-lu-co.']],
-'OLD TV': [['O Maicon precisa trocar logo essa TV.']],
-'PLUG': ['Você pode encaixar um carregador aqui.'],
+'BROKEN CLOCK': [['Isso tá quebrado faz tempo.',1]],
+'SIETRA PORTRAIT': [['Essa foto me traz muitas lembranças...','...lembranças ruins.',1],['...','Eles se davam bem...']],
+'JANAGO PORTRAIT': [['Legal.',1],['Essa foto foi em Búzios,','Foi o dia em que nós começamos a morar juntos.']],
+'BED': [['Ah não...','a cama tá bagunçada de novo',,1'...',,1,0,'...abracadabra, cama arrumada!',1]],
+'PICTURE': [['É uma pintura bonita',1,'não tô entendendo nada','só sei que é bonita',1]],
+'DIRTY SINK': [['A pia está cheia de louça suja...',1]],
+'DIRTY COOKER': [['Tem arroz frio e uma frigideira engordurada no fogão.',1]],
+'EMPTY FRIDGE': [['Água,sachês de ketchup e ovos...',1,'Considero isso uma geladeira vazia.',1],['Tá na de fazer as compras do mês.']],
+'FRIDGE': [['A visão do paraíso.',1],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
+'OLD PC': [['Esse pc ainda usa Windows XP.',1]],
+'MODERN PC': [['No canto da tela diz "Não é genuíno".',1]],
+'PC GAMER': [['O teclado LED brilhando me deixa','ma-lu-co.',1]],
+'OLD TV': [['O Maicon precisa trocar logo essa TV.',1]],
+'PLUG': ['Você pode encaixar um carregador aqui.',1],
 
 #PAPERS & SIGNS
 'TAROT POSTER': ['BÚZIOS E CARTAS','Trago seu amor aos seus pés!','978543322'],
@@ -1200,8 +1214,8 @@ DIALOGS = {
 
 #PLACES
 'REWARD':[['Ei! Você não tem sangue nenhum!','Volte quando tiver pego alguma coisa!',1],['Só isso?','Vou dar sua recompensa, mas poderia ter se esforçado mais',1],['Você conseguiu bastante sangue','Aqui está sua recompensa',1],['Uau! isso é muito sangue!','Aqui está sua recompensa pelo seu trabalho duro!',1]],
-'MERCATOR': ['Olá cliente!','Interessado em alguns produtos?',1],
-'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1]],
+'MERCATOR': [['Olá cliente!','Interessado em alguns produtos?',1],['Foi mal cara, mas sem grana, sem acordo.',1],['Espera um pouco cara!','Você tá sem espaço!',1,'Não quer dar para outra pessoa?',1]],
+'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1],['Você não tem dinheiro?',1,'Sério?',1],['Você tá cheio de coisas...','Não sei se posso deixar levar tudo isso.',1]],
 'CASHIER SANDRA': [['Vai pedir alguma coisa?',1]],
 'CASHIER YASMIN': [['Eu tenho que dormir...','compra logo o que tu quer...',1]],
 
@@ -1246,7 +1260,7 @@ DIALOGS = {
  
 '909236521': [[dt + ', correios']],
  
-'923778988': [[CHARACTERS[0]['NAME'] + ', melhor repensar a vida que tá levando','não quero ser duro, mas eu tô preocupado contigo mano','* sidney desligou *']],
+'923778988': [['Alô?',1],[CHARACTERS[0]['NAME'] + '! a quanto tempo cara!'],['Precisando de ajuda em','carregar algumas coisas?',1,'Não tem problema, o pai tá aí','pra resolver já já!']],
  
 '969696969': [['Olá ' + prps + ' cliente, em que posso ajudar?']],
  
@@ -1400,17 +1414,10 @@ ATAQUE: distância dos extremos da barra','\
 AGILIDADE: velocidade do cursor da barra','\
 RESISTÊNCIA: velocidade de consumo da barra de HP','']],\
 ['LOCAIS',['']]]
-  
-PRODUCTS = [
-['vest1','repellent1','food_carrot_cake','pill_vitality','knife','amulet1'],
-['grenade','pepper_spray','revolver.38'],
-['fishmonger','portable_charger','headphone']
-]
    
-BATTLE = [
-' aparece no caminho!',' encurrala você!',' é emboscado!',
-'incrível!','errou...','sem dano',
-'vitória','derrota...','acertos: ','dano total: ','vitalidade perdida: ','bônus de tempo: ','jogadores: ',' de experiência',
+BATTLE = [' aparece no caminho!',' encurrala você!',' é emboscado!',
+'incrível!','errou...','outra vez!',
+'vitória!','perfeito!','derrota...','acertos: ','dano total: ','vitalidade perdida: ','bônus de tempo: ',' de experiência',
 ' foi promovido para o nível ',
 ' tentou fugir','...mas falhou','...e consegue!',
 ' vai ',' usa ',' perdeu ',' ganhou ',' de ATAQUE',' de AGIIDADE',' de FORÇA','de RESISTÊNCIA',
@@ -1419,8 +1426,7 @@ BATTLE = [
 ' foi quebrado...',
 ' entrou na batalha!', 'Mas não funcionou...',
 'força','ataque','agilidade','resistência','vitalidade',
-'Um exército aparece para te atacar!','maravilhoso!'
-]
+'Um exército aparece para te atacar!','maravilhoso!']
  
 MENU = ['mapa','chamadas','correios','notícias','rádio','câmera','bestiário','tarefas','status','táticas','conquistas','placar','manual','ajustes','sobre',
 'sem conexão','não há contatos','sem créditos...','sem dinheiro...','não há mensagens','sem sinal','nenhuma anomalia registrada','não há tarefas',
@@ -1429,7 +1435,7 @@ MENU = ['mapa','chamadas','correios','notícias','rádio','câmera','bestiário'
 'RESFRIADO','FEBRE','SEDE','NÁUSEA','PARALISIA','INCONSCIÊNCIA','PARASITA','QUEIMADURA','VENENO','HEMORRAGIA','REFORÇOS','ROUBAR',
 'equipamento 1','equipamento 2','equipamento 3','equipamento 4','dialogar','defender','fugir','nova história',
 'idioma','sfx','música','mover cima','mover baixo','mover esquerda','mover direita','ato','celular','inventário','velocidade','cor R','cor G','cor B','salvar',
-'escolha um botão','volume','peso','Nome','Sobrenome','Tudo certo?','Sim','Não']
+'escolha um botão','volume','peso','Nome','Sobrenome','Tudo certo?','Sim','Não','Tem certeza?']
  
 ABOUT = ['MUTATION PURGE','Criado por Matt Kai','Source code por Matt Kai','Feito em Python','Twitter','GitHub','GNU General Public License']
  
