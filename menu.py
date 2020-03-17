@@ -65,58 +65,60 @@ class Naming:
 		self.bt = ''
 		self.name = ['','','','','','']
 		self.lame = ['','','','','','']
+		self.ninput = True
 		self.ind = 0
 		self.lopt = 0
+		self.did = 0
+		self.tim = 3
 
 	def events(self):
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				pygame.quit()
 				sys.exit()
-
-			if self.ind < 6:
-				if event.type == pygame.KEYDOWN:
-					if event.key == pygame.K_RETURN:
-						if self.lopt == 0: self.lopt = 1; self.ch_ton.play(pygame.mixer.Sound('SFX/menu_go.wav'))
-						else: self.lopt = 0; self.ind += 1; self.ch_ton.play(pygame.mixer.Sound('SFX/text_enter.wav'))
-					elif event.key == pygame.K_BACKSPACE:
-						self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
+			if self.ninput == True:
+				if self.ind < 6:
+					if event.type == pygame.KEYDOWN:
+						if event.key == pygame.K_RETURN:
+							if self.lopt == 0: self.lopt = 1; self.ch_ton.play(pygame.mixer.Sound('SFX/menu_go.wav'))
+							else: self.lopt = 0; self.ind += 1; self.ch_ton.play(pygame.mixer.Sound('SFX/text_enter.wav'))
+						elif event.key == pygame.K_BACKSPACE:
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
+							if self.lopt == 0:
+								if len(self.name[self.ind]) > 0: self.name[self.ind] = self.name[self.ind][:-1]
+								elif self.ind > 0: self.ind -= 1; self.lopt = 0
+							if self.lopt == 1:
+								if len(self.lame[self.ind]) > 0: self.lame[self.ind] = self.lame[self.ind][:-1]
+								else: self.lopt = 0
+						else:
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/text_input.wav'))
+							if self.lopt == 0 and len(self.name[self.ind]) < 10: self.name[self.ind] += event.unicode
+							if self.lopt == 1 and len(self.lame[self.ind]) < 10: self.lame[self.ind] += event.unicode
+				else:
+					self.pressed = pygame.key.get_pressed()
+					if self.pressed[database.LEFT]: self.lopt = 0; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
+					if self.pressed[database.RIGHT]: self.lopt = 1; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
+					if self.pressed[database.ACT]:
 						if self.lopt == 0:
-							if len(self.name[self.ind]) > 0: self.name[self.ind] = self.name[self.ind][:-1]
-							elif self.ind > 0: self.ind -= 1; self.lopt = 0
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/file_new.wav'))
+							database.new_data()
+							for i in range(len(self.name)):
+								database.CHARACTERS[i]['NAME'] = self.name[i]
+								database.CHARACTERS[i]['LASTNAME'] = self.lame[i]
+							database.save_data()
+							database.save_sett()
+							FILES[0].append(0)
+							FILES[1].append(0)
+							FILES[2].append(0)
+							FILES[3].append('PT')
+							database.char_entry()
+							database.party_make(0)
+							recent_data(2)
+							self.show = False
 						if self.lopt == 1:
-							if len(self.lame[self.ind]) > 0: self.lame[self.ind] = self.lame[self.ind][:-1]
-							else: self.lopt = 0
-					else:
-						self.ch_sfx.play(pygame.mixer.Sound('SFX/text_input.wav'))
-						if self.lopt == 0 and len(self.name[self.ind]) < 10: self.name[self.ind] += event.unicode
-						if self.lopt == 1 and len(self.lame[self.ind]) < 10: self.lame[self.ind] += event.unicode
-			else:
-				self.pressed = pygame.key.get_pressed()
-				if self.pressed[database.LEFT]: self.lopt = 0; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
-				if self.pressed[database.RIGHT]: self.lopt = 1; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
-				if self.pressed[database.ACT]:
-					if self.lopt == 0:
-						self.ch_sfx.play(pygame.mixer.Sound('SFX/file_new.wav'))
-						database.new_data()
-						for i in range(len(self.name)):
-							database.CHARACTERS[i]['NAME'] = self.name[i]
-							database.CHARACTERS[i]['LASTNAME'] = self.lame[i]
-						database.save_data()
-						database.save_sett()
-						FILES[0].append(0)
-						FILES[1].append(0)
-						FILES[2].append(0)
-						FILES[3].append('PT')
-						database.char_entry()
-						database.party_make(0)
-						recent_data(2)
-						self.ind = 7
-						self.show = False
-					if self.lopt == 1:
-						self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
-						self.ind = 0
-						self.lopt = 0
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
+							self.ind = 0
+							self.lopt = 0
 
 	def run(self):
 		self.scr.fill((0,0,0))
@@ -125,12 +127,77 @@ class Naming:
 		if math.floor(self.blink) == 0: self.bt = ''
 		elif math.floor(self.blink) == 1: self.bt = '.'
 		else: self.blink = 0.0
+
+		if self.ninput == False:
+			database.CHARACTERS[0]['NAME'] = 'Sidney'
+			database.CHARACTERS[0]['LASTNAME'] = 'Barreto'
+			database.CHARACTERS[1]['NAME'] = 'Jane'
+			database.CHARACTERS[1]['LASTNAME'] = 'Oliveira'
+			database.CHARACTERS[2]['NAME'] = 'Renan'
+			database.CHARACTERS[2]['LASTNAME'] = 'Pinheiro'
+			database.CHARACTERS[3]['NAME'] = 'Diego'
+			database.CHARACTERS[3]['LASTNAME'] = 'Donovan'
+			database.CHARACTERS[4]['NAME'] = 'Bianca'
+			database.CHARACTERS[4]['LASTNAME'] = 'Pacheco'
+			database.CHARACTERS[5]['NAME'] = 'Lúcia'
+			database.CHARACTERS[5]['LASTNAME'] = 'Figueiredo'
+			if self.ind < 6:
+				if self.lopt == 0:
+					if self.tim != 0: self.tim -= 1
+					else:
+						if len(self.name[self.ind]) != len(database.CHARACTERS[self.ind]['NAME']):
+							self.name[self.ind] += database.CHARACTERS[self.ind]['NAME'][self.did]
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/text_input.wav'))
+							self.tim = 3
+							self.did += 1
+						else: self.ch_ton.play(pygame.mixer.Sound('SFX/menu_go.wav')); self.lopt = 1; self.tim = 3; self.did = 0
+				if self.lopt == 1:
+					if self.tim != 0: self.tim -= 1
+					else:
+						if len(self.lame[self.ind]) != len(database.CHARACTERS[self.ind]['LASTNAME']):
+							self.lame[self.ind] += database.CHARACTERS[self.ind]['LASTNAME'][self.did]
+							self.ch_sfx.play(pygame.mixer.Sound('SFX/text_input.wav'))
+							self.tim = 3
+							self.did += 1
+						else: self.ch_ton.play(pygame.mixer.Sound('SFX/text_enter.wav')); self.ind += 1; self.lopt = 0; self.tim = 3; self.did = 0
+			else:
+				self.ch_sfx.play(pygame.mixer.Sound('SFX/file_new.wav'))
+				database.new_data()
+				for i in range(len(self.name)):
+					database.CHARACTERS[i]['NAME'] = self.name[i]
+					database.CHARACTERS[i]['LASTNAME'] = self.lame[i]
+				database.save_data()
+				database.save_sett()
+				FILES[0].append(0)
+				FILES[1].append(0)
+				FILES[2].append(0)
+				FILES[3].append('PT')
+				database.char_entry()
+				database.party_make(0)
+				recent_data(2)
+				self.show = False
 		
 		if self.ind < 6:
-			if self.lopt == 0: self.scr.blit(self.fnt.render(database.MENU[80] + ': ' + self.name[self.ind] + self.bt, True, (255, 255, 0)), (10, 30))
-			else: self.scr.blit(self.fnt.render(database.MENU[80] + ': ' + self.name[self.ind], True, (255, 255, 255)), (10, 30))
-			if self.lopt == 1: self.scr.blit(self.fnt.render(database.MENU[81] + ': '+ self.lame[self.ind] + self.bt, True, (255, 255, 0)), (10, 50))
-			else: self.scr.blit(self.fnt.render(database.MENU[81] + ': '+ self.lame[self.ind], True, (255, 255, 255)), (10, 50))
+			l1 = 0
+			l2 = 0
+			for l in database.MENU[80]:
+				if l in ['m','w','M','Q','T','U','V','W','Y','?']: l1 += 8
+				elif l in ['f','r']: l1 += 6
+				elif l in ['J']: l1 += 5
+				elif l in ['l']: l1 += 4
+				elif l in ['i','I','!','.',',']: l1 += 2
+				else: l1 += 7
+			for l in database.MENU[81]:
+				if l in ['m','w','M','Q','T','U','V','W','Y','?']: l2 += 8
+				elif l in ['f','r']: l2 += 6
+				elif l in ['J']: l2 += 5
+				elif l in ['l']: l2 += 4
+				elif l in ['i','I','!','.',',']: l2 += 2
+				else: l2 += 7
+			if self.lopt == 0: self.scr.blit(self.fnt.render(database.MENU[80] + ': ' + self.name[self.ind] + self.bt, True, (255, 255, 0)), (80 - l1, 30))
+			else: self.scr.blit(self.fnt.render(database.MENU[80] + ': ' + self.name[self.ind], True, (255, 255, 255)), (80 - l1, 30))
+			if self.lopt == 1: self.scr.blit(self.fnt.render(database.MENU[81] + ': '+ self.lame[self.ind] + self.bt, True, (255, 255, 0)), (80 - l2, 50))
+			else: self.scr.blit(self.fnt.render(database.MENU[81] + ': '+ self.lame[self.ind], True, (255, 255, 255)), (80 - l2, 50))
 		else:
 			self.scr.blit(self.fnt.render(database.MENU[82], True, (255, 255, 255)), (50, 10))
 			y = 0
@@ -193,8 +260,8 @@ class Inventory:
 					if optx > 0 and opty < 4:
 						if database.INVENTORY[mnc][4][0][0] != '_':
 							if opt == optx and lopt == opty and mn == mnc:
-								pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) + 2 - self.scroll,y,28,28))
-							else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) + 2 - self.scroll,y,28,28))
+								pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
+							else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 							if i[0] != '_':
 								self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
 								if optx > 0 and opty < 4:
@@ -202,18 +269,18 @@ class Inventory:
 									wei += database.ITEMS[i[0]][4]
 					else:
 						if opt == optx and lopt == opty and mn == mnc:
-							pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) + 2 - self.scroll,y,28,28))
-						else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) + 2 - self.scroll,y,28,28))
+							pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
+						else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 						if i[0] != '_':
 							self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
 							if optx > 0 and opty < 4:
 								vlm += database.ITEMS[i[0]][3]
 								wei += database.ITEMS[i[0]][4]
 
-					x += 30
+					x += 32
 					optx += 1
 				x = 10
-				y += 30
+				y += 32
 				optx = 0
 				opty += 1
 
@@ -234,8 +301,8 @@ class Inventory:
 			#pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect((200 * mnc) - self.scroll,10,3,200))
 
 		if self.itmov != '':
-			ox = (opt * 30) 
-			lox = (lopt * 30)
+			ox = (opt * 32) 
+			lox = (lopt * 32)
 			if opt > 0: ox += 5
 			if lopt == 4: lox += 5
 			if self.itmov[0] != 0:
@@ -246,17 +313,17 @@ class Inventory:
 				srf.set_alpha(100)
 				srf.fill((0, 0, 0))
 				self.scr.blit(srf, (25 + (mn * 200) + ox - self.scroll,40 + lox))
-				self.scr.blit(self.itbor, (20 + (mn * 200) + ox - self.scroll,35 + lox))
+				self.scr.blit(self.itbor, (20 + (mn * 200) + ox - self.scroll + self.shake,35 + lox))
 
-				if ex == 1: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(25 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				else: pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(25 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				if ex == 2: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(55 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				else: pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(55 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				if ex == 3: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(85 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				else: pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(85 + (mn * 200) + ox - self.scroll,40 + lox,30,30))
-				if self.itmov[1] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[1] + '.png'), (25 + (mn * 200) + ox - self.scroll,40 + lox))
-				if self.itmov[2] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[2] + '.png'), (55 + (mn * 200) + ox - self.scroll,40 + lox))
-				self.scr.blit(pygame.image.load('Sprites/e_run.png'), (85 + (mn * 200) + ox - self.scroll,40 + lox))
+				if ex == 1: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(25 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				else: pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(25 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				if ex == 2: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				else: pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				if ex == 3: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				else: pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				if self.itmov[1] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[1] + '.png'), (25 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
+				if self.itmov[2] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[2] + '.png'), (55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
+				self.scr.blit(pygame.image.load('Sprites/e_run.png'), (85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
 
 		self.wdw.blit(self.scr, (10,10))
 		pygame.draw.rect(self.wdw, (0, 0, 0), pygame.Rect(10,240,380,50))

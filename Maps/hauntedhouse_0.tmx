@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.3.0" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="16" height="20" tilewidth="30" tileheight="30" infinite="0" nextlayerid="12" nextobjectid="37">
+ <properties>
+  <property name="ENEMIES" value="madladcat-peacockpigeon-"/>
+  <property name="SIGNAL" type="int" value="3"/>
+ </properties>
+ <tileset firstgid="1" source="../Tiles/Files/nature.tsx"/>
+ <tileset firstgid="26" source="../Tiles/Files/streets.tsx"/>
+ <tileset firstgid="91" name="buildings" tilewidth="30" tileheight="30" tilecount="25" columns="5">
+  <image source="../Tiles/buildings.png" width="150" height="150"/>
+  <tile id="0">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="1">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="2">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="3">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="5">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="6">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="7">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="8">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="9">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="15">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="16">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="20">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+  <tile id="21">
+   <properties>
+    <property name="TYPE" value="wall"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="116" source="../Tiles/Files/shop.tsx"/>
+ <tileset firstgid="172" source="../Tiles/Files/interior.tsx"/>
+ <tileset firstgid="244" source="../Tiles/Files/carpets.tsx"/>
+ <tileset firstgid="334" source="../Tiles/Files/furniture.tsx"/>
+ <layer id="1" name="Camada de Tiles 1" width="16" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,172,172,172,172,172,172,172,172,172,172,172,172,0,0,
+0,0,181,181,181,181,186,186,186,186,186,186,186,186,0,0,
+0,0,181,181,181,181,202,202,202,202,202,202,202,202,0,0,
+0,0,212,212,212,212,216,216,216,216,216,216,216,216,0,0,
+0,0,212,212,212,212,216,216,216,216,216,216,216,216,0,0,
+0,0,212,212,212,212,216,216,216,216,216,216,216,216,0,0,
+0,0,212,212,212,212,216,216,216,216,216,216,216,216,0,0,
+0,0,212,212,212,212,216,216,216,216,216,216,216,216,0,0,
+0,0,186,186,186,186,216,216,202,202,202,202,202,202,0,0,
+0,0,202,202,202,202,216,216,216,216,216,216,216,216,0,0,
+0,0,216,216,216,216,216,216,216,216,216,216,216,216,0,0,
+0,0,216,216,216,216,216,216,216,216,216,216,216,216,0,0,
+0,0,216,216,216,216,216,216,216,216,216,216,216,216,0,0,
+0,0,216,216,216,216,216,0,0,0,0,224,0,0,0,0,
+0,0,216,216,216,216,216,0,0,0,0,0,0,0,0,0,
+0,0,216,216,216,216,216,0,0,0,0,0,0,0,0,0,
+0,0,216,216,216,216,216,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="3" name="Camada de Tiles 2" width="16" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,177,0,0,0,358,0,0,198,0,0,0,
+0,0,0,0,0,177,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,177,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,178,0,0,173,0,0,0,0,0,0,0,
+0,0,0,0,0,178,0,0,173,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,177,0,0,0,0,0,0,0,0,0,0,
+0,0,208,208,362,0,0,0,0,0,370,371,0,0,0,0,
+0,0,208,208,0,0,0,0,0,0,378,379,0,0,0,0,
+0,0,208,208,0,0,0,0,0,0,346,347,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,366,366,366,0,0,0,0,0,0,0,0,0,0,0,
+0,0,374,374,374,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,337,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,345,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="5" name="Camada de Tiles 3" width="16" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,174,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,174,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,174,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,172,172,172,172,172,172,0,0,
+0,0,0,0,0,0,0,0,186,186,186,186,186,186,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="11" name="SIGNS"/>
+ <objectgroup id="10" name="PORTAL">
+  <object id="34" name="portal_0" type="0" x="197.727" y="79.7273" width="24" height="40">
+   <properties>
+    <property name="MAP" value="hauntedhouse_2"/>
+    <property name="PX" type="int" value="200"/>
+    <property name="PY" type="int" value="530"/>
+    <property name="TIME" value="none"/>
+   </properties>
+  </object>
+  <object id="35" name="portal_1" type="0" x="328" y="427.333" width="34" height="14">
+   <properties>
+    <property name="MAP" value="hauntedhouse_1"/>
+    <property name="PX" type="int" value="330"/>
+    <property name="PY" type="int" value="140"/>
+    <property name="TIME" value="none"/>
+   </properties>
+  </object>
+  <object id="36" name="portal_2" type="0" x="59" y="265.5" width="60" height="9">
+   <properties>
+    <property name="MAP" value="hauntedhouse_3"/>
+    <property name="PX" type="int" value="190"/>
+    <property name="PY" type="int" value="270"/>
+    <property name="TIME" value="none"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="9" name="VEHICLES"/>
+ <objectgroup id="7" name="NPC">
+  <object id="29" name="npc_0" type="0" x="315.667" y="189" width="32" height="15">
+   <properties>
+    <property name="INDEX" value="0"/>
+    <property name="WHO" value="SIDNEY NIGHTSTAND"/>
+   </properties>
+  </object>
+  <object id="30" name="npc_1" type="0" x="133" y="478">
+   <properties>
+    <property name="INDEX" value="0"/>
+    <property name="WHO" value="HHBIANCA"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="31" name="npc_2" type="0" x="283" y="399">
+   <properties>
+    <property name="INDEX" value="0"/>
+    <property name="WHO" value="DDA AGENT 1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="32" name="npc_3" type="0" x="155" y="343">
+   <properties>
+    <property name="INDEX" value="0"/>
+    <property name="WHO" value="DDA AGENT 2"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="33" name="npc_4" type="0" x="248" y="338">
+   <properties>
+    <property name="INDEX" value="0"/>
+    <property name="WHO" value="DALIBOR"/>
+   </properties>
+   <point/>
+  </object>
+ </objectgroup>
+</map>

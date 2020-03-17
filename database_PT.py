@@ -26,12 +26,12 @@ def new_data():
     BORDER = 0
       
     MAP = 1
-    PX = 0
-    PY = 0
-    TIME = [8,30,0]
-    DATE = [10,3,0,1]
+    PX = 184
+    PY = 476
+    TIME = [0,32,0]
+    DATE = [25,12,0,1]
     WEATHER = 0
-    CHAPTER = 1
+    CHAPTER = 0
     MORALITY = 0
     GAMETIME = 0
     FORMATION = 0
@@ -47,7 +47,7 @@ def new_data():
         CHARACTERS[i]['LASTNAME'] = ''
         CHARACTERS[i]['LEVEL'] = 0
  
-    PARTY = [[0,3,5]]
+    PARTY = [[1]]
     CONTACTS = [['Maicon','923778988'],['Mercador','969696969'],['Pizza Delivery','953478809']]
     CALLHIST = []
     INBOX = []
@@ -57,15 +57,16 @@ def new_data():
     for i in ACHIEVEMENTS:
         i[2] = 0
         i[3] = ''
+
     INVENTORY = [
-    [[['_','0000','_','_'],['phone','0000','_','_'],['credit_card','0000','_','_'],['id_card','0000','_','_'],['_','0000','_','_']],
-    [['amulet1','0000','_','_'],['_','0000','_','_'],['food_coxinha','1103','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['vest1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['pill_vitality','0000','_','_']],
-    [['bag1','0000','_','_'],['gun_revolver.38','0016','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
- 
-    [[['_','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [[['_','0000','_','_'],['phone','360100','_','_'],['wallet','00005000000300','credit_card','id_card0'],['locksmith1','02020000','key_bedroom','key_vehicle'],['_','0000','_','_']],
+    [['amulet1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['clth_jacket1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
+    [['clth_shirt1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['bag1','0000','_','_'],['gun_revolver.38','0006','aim1','acc_cartridge'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
+     
+    [[['head_glasses','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['clth_jacket5','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
@@ -76,11 +77,11 @@ def new_data():
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
      
-    [[['_','0000','_','_'],['repellent1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [[['amulet4','0000','_','_'],['repellent1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['amulet5','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['food_coxinha','1103','_','_']],
+    [['_','0000','_','_'],['_','0000','_','_'],['charger','000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['bag1','0000','_','_'],['gun_revolver.38','0016','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
+    [['bag1','0000','_','_'],['gun_revolver.38','0006','aim3','acc_gunbutt'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
      
     [[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
@@ -88,11 +89,11 @@ def new_data():
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
      
-    [[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['bag1','0000','_','_'],['gun_revolver.38','0016','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
+    [[['amulet7','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['amulet6','0000','_','_'],['condiment_ketchup','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['amulet2','0000','_','_'],['_','0000','_','_'],['pill_vitality','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['amulet3','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['bag1','0000','_','_'],['gun_revolver.38','0006','aim2','acc_bandolier'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
     ]
  
     STORAGE = [['bandolier','0000','_','_']]
@@ -419,6 +420,9 @@ def party_make(p):
     com.execute("SELECT n FROM party" + str(ID))
     for i in com.fetchall():
         if i[0] == trg: trg = True
+
+    if len(PARTY[p]) < 2: PARTY[p].append(0)
+    if len(PARTY[p]) < 3: PARTY[p].append(0)
     if trg == False:
         com.execute("DELETE FROM party" + str(ID) + " WHERE n = " + str(p))
     com.execute("INSERT INTO party" + str(ID) + " VALUES(:n,:p1,:p2,:p3)",{'n': p,'p1': PARTY[p][0],'p2': PARTY[p][1],'p3': PARTY[p][2]})
@@ -565,62 +569,108 @@ CHAPTER = 0
 SCENE = 0
 MORALITY = 0
  
-SPRITES = {'PHONE_0': [pygame.image.load('Sprites/char_0_phone.png')],'CALL_0': [pygame.image.load('Sprites/char_0_call.png')],
-'PHONE_0_BLINK': [pygame.image.load('Sprites/blink_char_0_phone.png')],'CALL_0_BLINK': [pygame.image.load('Sprites/blink_char_0_call.png')],
-'STANDU_0': [],'STANDLU_0': [],'STANDL_0': [],'STANDLD_0': [],'STANDD_0': [],'STANDRD_0': [],'STANDR_0': [],'STANDRU_0': [],
-'UP_0': [],'LEFTUP_0': [],'LEFT_0': [],'LEFTDOWN_0': [],'DOWN_0': [],'RIGHTDOWN_0': [],'RIGHT_0': [],'RIGHTUP_0': [],
-'RUP_0': [],'RLEFTUP_0': [],'RLEFT_0': [],'RLEFTDOWN_0': [],'RDOWN_0': [],'RRIGHTDOWN_0': [],'RRIGHT_0': [],'RRIGHTUP_0': [],
-'JUMPU_0': [],'JUMPD_0': [],
-'STANDL_0_BLINK': [],'STANDLD_0_BLINK': [],'STANDD_0_BLINK': [],'STANDRD_0_BLINK': [],'STANDR_0_BLINK': [],
-'LEFT_0_BLINK': [],'LEFTDOWN_0_BLINK': [],'DOWN_0_BLINK': [],'RIGHTDOWN_0_BLINK': [],'RIGHT_0_BLINK': [],
-'RLEFT_0_BLINK': [],'RLEFTDOWN_0_BLINK': [],'RDOWN_0_BLINK': [],'RRIGHTDOWN_0_BLINK': [],'RRIGHT_0_BLINK': [],
+SPRITES = {
+'BLANKU_000': [],'BLANKDD_000': [],'BLANKD_000': [],'BLANKLD_000': [],'BLANKL_000': [],'BLANKLU_000': [],'BLANKRD_000': [],'BLANKR_000': [],'BLANKRU_000': [],
+'BLANKU_001': [],'BLANKDD_001': [],'BLANKD_001': [],'BLANKLD_001': [],'BLANKL_001': [],'BLANKLU_001': [],'BLANKRD_001': [],'BLANKR_001': [],'BLANKRU_001': [],
+'BLANKU_010': [],'BLANKDD_010': [],'BLANKD_010': [],'BLANKLD_010': [],'BLANKL_010': [],'BLANKLU_010': [],'BLANKRD_010': [],'BLANKR_010': [],'BLANKRU_010': [],
+'BLANKU_011': [],'BLANKDD_011': [],'BLANKD_011': [],'BLANKLD_011': [],'BLANKL_011': [],'BLANKLU_011': [],'BLANKRD_011': [],'BLANKR_011': [],'BLANKRU_011': [],
+'BLANKU_020': [],'BLANKDD_020': [],'BLANKD_020': [],'BLANKLD_020': [],'BLANKL_020': [],'BLANKLU_020': [],'BLANKRD_020': [],'BLANKR_020': [],'BLANKRU_020': [],
+'BLANKU_021': [],'BLANKDD_021': [],'BLANKD_021': [],'BLANKLD_021': [],'BLANKL_021': [],'BLANKLU_021': [],'BLANKRD_021': [],'BLANKR_021': [],'BLANKRU_021': [],
+'BLANKU_030': [],'BLANKDD_030': [],'BLANKD_030': [],'BLANKLD_030': [],'BLANKL_030': [],'BLANKLU_030': [],'BLANKRD_030': [],'BLANKR_030': [],'BLANKRU_030': [],
+'BLANKU_031': [],'BLANKDD_031': [],'BLANKD_031': [],'BLANKLD_031': [],'BLANKL_031': [],'BLANKLU_031': [],'BLANKRD_031': [],'BLANKR_031': [],'BLANKRU_031': [],
+'BLANKU_040': [],'BLANKDD_040': [],'BLANKD_040': [],'BLANKLD_040': [],'BLANKL_040': [],'BLANKLU_040': [],'BLANKRD_040': [],'BLANKR_040': [],'BLANKRU_040': [],
+'BLANKU_041': [],'BLANKDD_041': [],'BLANKD_041': [],'BLANKLD_041': [],'BLANKL_041': [],'BLANKLU_041': [],'BLANKRD_041': [],'BLANKR_041': [],'BLANKRU_041': [],
+'BLANKU_050': [],'BLANKDD_050': [],'BLANKD_050': [],'BLANKLD_050': [],'BLANKL_050': [],'BLANKLU_050': [],'BLANKRD_050': [],'BLANKR_050': [],'BLANKRU_050': [],
+'BLANKU_051': [],'BLANKDD_051': [],'BLANKD_051': [],'BLANKLD_051': [],'BLANKL_051': [],'BLANKLU_051': [],'BLANKRD_051': [],'BLANKR_051': [],'BLANKRU_051': [],
+
+'PHONE_000': [pygame.image.load('Sprites/body_000_phone.png')],'CALL_000': [pygame.image.load('Sprites/body_000_call.png')],
+'STANDU_000': [],'STANDLU_000': [],'STANDL_000': [],'STANDLD_000': [],'STANDD_000': [],'STANDRD_000': [],'STANDR_000': [],'STANDRU_000': [],'JUMPU_000': [],'JUMPD_000': [],
+'WALKU_000': [],'WALKLU_000': [],'WALKL_000': [],'WALKLD_000': [],'WALKD_000': [],'WALKRD_000': [],'WALKR_000': [],'WALKRU_000': [],
+'RUNU_000': [],'RUNLU_000': [],'RUNL_000': [],'RUNLD_000': [],'RUND_000': [],'RUNRD_000': [],'RUNR_000': [],'RUNRU_000': [],
+
+'PHONE_001': [pygame.image.load('Sprites/body_000_phone.png')],'CALL_001': [pygame.image.load('Sprites/body_000_call.png')],
+'STANDU_001': [],'STANDLU_001': [],'STANDL_001': [],'STANDLD_001': [],'STANDD_001': [],'STANDRD_001': [],'STANDR_001': [],'STANDRU_001': [],'JUMPU_001': [],'JUMPD_001': [],
+'WALKU_001': [],'WALKLU_001': [],'WALKL_001': [],'WALKLD_001': [],'WALKD_001': [],'WALKRD_001': [],'WALKR_001': [],'WALKRU_001': [],
+'RUNU_001': [],'RUNLU_001': [],'RUNL_001': [],'RUNLD_001': [],'RUND_001': [],'RUNRD_001': [],'RUNR_001': [],'RUNRU_001': [],
 
 'ATTACKIMATION_1': [], 'ATTACKIMATION_10': [],
 'EFFECT_6': [], 'EFFECT_7': []}
- 
-for p in range(1):
-    for i in range(4): SPRITES['STANDU_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standU_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDLU_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standLU_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDL_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standL_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDLD_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standLD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDD_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDRD_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standRD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDR_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standR_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDRU_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_standRU_' + str(i) + '.png'))
-    for i in range(8): SPRITES['UP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkU_' + str(i) + '.png'))
-    for i in range(8): SPRITES['LEFTUP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkLU_' + str(i) + '.png'))
-    for i in range(8): SPRITES['LEFT_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkL_' + str(i) + '.png'))
-    for i in range(8): SPRITES['LEFTDOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkLD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['DOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RIGHTDOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkRD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RIGHT_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkR_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RIGHTUP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkRU_' + str(i) + '.png'))
-    for i in range(2): SPRITES['JUMPU_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_jumpU_' + str(i) + '.png'))
-    for i in range(2): SPRITES['JUMPD_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_jumpD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RUP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkU_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RLEFTUP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkLU_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RLEFT_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkL_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RLEFTDOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkLD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RDOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RRIGHTDOWN_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkRD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RRIGHT_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkR_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RRIGHTUP_' + str(p)].append(pygame.image.load('Sprites/char_' + str(p) + '_walkRU_' + str(i) + '.png'))
 
-    for i in range(4): SPRITES['STANDL_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_standL_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDLD_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_standLD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDD_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_standD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDRD_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_standRD_' + str(i) + '.png'))
-    for i in range(4): SPRITES['STANDR_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_standR_' + str(i) + '.png'))
-    for i in range(8): SPRITES['LEFT_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkL_' + str(i) + '.png'))
-    for i in range(8): SPRITES['LEFTDOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkLD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['DOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RIGHTDOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkRD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RIGHT_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkR_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RLEFT_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkL_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RLEFTDOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkLD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RDOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RRIGHTDOWN_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkRD_' + str(i) + '.png'))
-    for i in range(8): SPRITES['RRIGHT_' + str(p) + '_BLINK'].append(pygame.image.load('Sprites/blink_char_' + str(p) + '_walkR_' + str(i) + '.png'))
+#HEADS
+for p in range(6):
+    if p < 10: pt = '0' + str(p)
+    else: pt = str(p)
+
+    for g in range(2):
+        if p not in [2,3,5]:
+            SPRITES['BLANKU_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_U.png'))
+            for i in range(2): SPRITES['BLANKDD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankDD_' + str(i) + '.png'))
+            for i in range(2): SPRITES['BLANKD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankD_' + str(i) + '.png'))
+            for i in range(2): SPRITES['BLANKLD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankLD_' + str(i) + '.png'))
+            for i in range(2): SPRITES['BLANKL_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankH_' + str(i) + '.png'))
+            SPRITES['BLANKLU_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_HU.png'),True,False))
+            for i in range(2): SPRITES['BLANKRD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankRD_' + str(i) + '.png'))
+            for i in range(2): SPRITES['BLANKR_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankH_' + str(i) + '.png'),True,False))
+            SPRITES['BLANKRU_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_HU.png'),True,False))
+#BODIES
+for w in range(1):
+    for t in range(1):
+        if t < 10: pt = '0' + str(t)
+        else: pt = str(t)
+        for i in range(4): SPRITES['STANDU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standU_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standD_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'),True,False))
+        for i in range(4): SPRITES['STANDR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'),True,False))
+        for i in range(4): SPRITES['STANDRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'),True,False))
+        for i in range(2): SPRITES['JUMPU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpU_' + str(i) + '.png'))
+        for i in range(2): SPRITES['JUMPD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['WALKR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['WALKRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUND_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
+
+        #TEMPORAAARIOOO
+        for i in range(4): SPRITES['STANDU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standU_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standD_' + str(i) + '.png'))
+        for i in range(4): SPRITES['STANDRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'),True,False))
+        for i in range(4): SPRITES['STANDR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'),True,False))
+        for i in range(4): SPRITES['STANDRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'),True,False))
+        for i in range(2): SPRITES['JUMPU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpU_' + str(i) + '.png'))
+        for i in range(2): SPRITES['JUMPD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['WALKRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['WALKR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['WALKRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUND_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
+        for i in range(8): SPRITES['RUNRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
+        for i in range(8): SPRITES['RUNRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
 
 for i in range(3): SPRITES['ATTACKIMATION_1'].append(pygame.image.load('Sprites/attackimation_1_' + str(i) + '.png'))
 for i in range(3): SPRITES['ATTACKIMATION_10'].append(pygame.image.load('Sprites/attackimation_10_' + str(i) + '.png'))
@@ -629,40 +679,8 @@ for i in range(22): SPRITES['EFFECT_6'].append(pygame.image.load('Sprites/eff_6_
 for i in range(11): SPRITES['EFFECT_7'].append(pygame.image.load('Sprites/eff_7_' + str(i) + '.png'))
  
 pygame.mixer.init()
-SOUND = {
-'FILE_NEW': pygame.mixer.Sound('SFX/file_new.wav'),'FILE_SAVE': pygame.mixer.Sound('SFX/file_save.wav'),
-'BAUM': pygame.mixer.Sound('SFX/baum.ogg'),
-'VOICE_MID': pygame.mixer.Sound('SFX/voice_mid.wav'),
-'TEXT_INPUT': pygame.mixer.Sound('SFX/text_input.wav'),'TEXT_ENTER': pygame.mixer.Sound('SFX/text_enter.wav'),
-'INVENTORY_OPEN': pygame.mixer.Sound('SFX/inventory_open.wav'),'INVENTORY_CLOSE': pygame.mixer.Sound('SFX/inventory_close.wav'),'PHONE_UNLOCK': pygame.mixer.Sound('SFX/phone_unlock.wav'),'PHONE_LOCK': pygame.mixer.Sound('SFX/phone_lock.wav'),
-'MENU_HOR': pygame.mixer.Sound('SFX/menu_hor.wav'),'MENU_VER': pygame.mixer.Sound('SFX/menu_ver.wav'),'MENU_GO': pygame.mixer.Sound('SFX/menu_go.wav'),'MENU_BACK': pygame.mixer.Sound('SFX/menu_back.wav'),
-'BUY': pygame.mixer.Sound('SFX/buy.wav'),'SELL': pygame.mixer.Sound('SFX/sell.wav'),'CASH_GET': pygame.mixer.Sound('SFX/cash_get.wav'),'ITEM_GET': pygame.mixer.Sound('SFX/item_get.wav'),'EQUIP': pygame.mixer.Sound('SFX/equip.wav'),
-'CRAFT': pygame.mixer.Sound('SFX/craft.wav'),'ERROR': pygame.mixer.Sound('SFX/error.wav'),
-'CALLING': pygame.mixer.Sound('SFX/calling.wav'),'CAMERA': pygame.mixer.Sound('SFX/camera.wav'),'NOTIFICATION': pygame.mixer.Sound('SFX/notification.wav'),
-'RINGTONE_0': pygame.mixer.Sound('SFX/ringtone_1.wav'),'RINGTONE_1': pygame.mixer.Sound('SFX/ringtone_1.wav'),'RINGTONE_2': pygame.mixer.Sound('SFX/ringtone_2.wav'),
-
-'PARTY_CHANGE': pygame.mixer.Sound('SFX/party_change.wav'),'NOTICED': pygame.mixer.Sound('SFX/noticed.wav'),
-'BATTLE_FOE': pygame.mixer.Sound('SFX/battle_foe.wav'),'BATTLE_ENEMY': pygame.mixer.Sound('SFX/battle_enemy.wav'),'BATTLE_AMBUSH': pygame.mixer.Sound('SFX/battle_ambush.wav'),'BATTLE_BOSS': pygame.mixer.Sound('SFX/battle_boss.wav'),
-'BATTLE_WON': pygame.mixer.Sound('SFX/battle_won.wav'),'BATTLE_PERFECT': pygame.mixer.Sound('SFX/battle_perfect.wav'),'BATTLE_BOSS_WON': pygame.mixer.Sound('SFX/battle_boss_won.wav'),'BATTLE_LOST': pygame.mixer.Sound('SFX/battle_lost.wav'),
-'LEVEL_UP': pygame.mixer.Sound('SFX/levelup1.wav'),
- 
-'SCREAM_MADLADCAT': pygame.mixer.Sound('SFX/scream_madladcat.wav'),'SCREAM_PEACOCKPIGEON': pygame.mixer.Sound('SFX/scream_peacockpigeon.wav'),
-'SCREAM_PEACOCKPIGEON': pygame.mixer.Sound('SFX/scream_peacockpigeon.wav'),'SCREAM_CIGARUTO': pygame.mixer.Sound('SFX/scream_cigaruto.wav'),
-'SCREAM_VINICIUS': pygame.mixer.Sound('SFX/scream_vinicius.wav'),
- 
-'ATTRIBUTE_GAIN': pygame.mixer.Sound('SFX/attribute_gain.wav'),'ATTRIBUTE_LOSS': pygame.mixer.Sound('SFX/attribute_loss.wav'),'HEAL': pygame.mixer.Sound('SFX/heal.wav'),'CHARGE': pygame.mixer.Sound('SFX/charge.wav'),'MISS': pygame.mixer.Sound('SFX/miss.wav'),
-'GUN_OPEN': pygame.mixer.Sound('SFX/gun_open.wav'),'GUN_TRIGGER': pygame.mixer.Sound('SFX/gun_trigger.wav'),'GUN_RECHARGE': pygame.mixer.Sound('SFX/gun_recharge.wav'),'GUARD': pygame.mixer.Sound('SFX/guard.wav'),
-'HIT': pygame.mixer.Sound('SFX/hit.wav'),'CRITICAL': pygame.mixer.Sound('SFX/critical.wav'),'ONE_MORE': pygame.mixer.Sound('SFX/one_more.wav'),'HP_LOSS': pygame.mixer.Sound('SFX/hp_loss.wav'),'HP_LOW': pygame.mixer.Sound('SFX/hp_low.wav'),
-'INCONSCIOUS': pygame.mixer.Sound('SFX/inconscious.wav'),
-'DAMAGE_1': pygame.mixer.Sound('SFX/damage_1.wav'),
-
-'FALL': pygame.mixer.Sound('SFX/fall.wav'),
-'STEP_GRASS': pygame.mixer.Sound('SFX/step_grass.wav'),'STEP_STONE': pygame.mixer.Sound('SFX/step_stone.wav'),'STEP_BRICK': pygame.mixer.Sound('SFX/step_brick.wav'),'STEP_WATER': pygame.mixer.Sound('SFX/step_water.wav'),
-'STEP_WOOD': pygame.mixer.Sound('SFX/step_wood.wav'),'STEP_WALL': pygame.mixer.Sound('SFX/step_wall.wav'),'STEP_CLOTH': pygame.mixer.Sound('SFX/step_cloth.wav'),'STEP_VEHICLE': pygame.mixer.Sound('SFX/step_vehicle.wav'),
-'RAIN': pygame.mixer.Sound('SFX/ambience_rain.wav'),'CRICKETS': pygame.mixer.Sound('SFX/ambience_crickets.wav'),'NOISE': pygame.mixer.Sound('SFX/noise.wav'),
-'DOOR_OPEN': pygame.mixer.Sound('SFX/door_open.wav'),'DOOR_CLOSE': pygame.mixer.Sound('SFX/door_close.wav'),
-'ACHIEVEMENT': pygame.mixer.Sound('SFX/achievement.wav')
-}
+SOUND = {}
+for j in os.listdir('SFX'): SOUND[j[:-4].upper()] = pygame.mixer.Sound('SFX/' + j)
  
 SONGS = {
 'FATE_OCCURRENCES': pygame.mixer.Sound('Music/fate_occurrences.ogg'),
@@ -678,58 +696,160 @@ PALETTES = [
 ]
      
 CHARACTERS = [
-{'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','ID': '0064','BLOOD': 'A+','CIVIL': 'solteiro','CLASS': 'gunslinger','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
-'FAVFOOD': ['food_coxinha','food_whisky'],
+{'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','ID': '0064','BLOOD': 'A+','CIVIL': 'solteiro','CLASS': 'gunslinger',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_coxinha','drink_whisky'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
 'AGILITY': [0,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0,1,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
 'VITALITY': [20,22,22,25,25,26,28,30,30,32,33,35],
-'NEXTLEVEL': [100,150,200,300,300,350,450,500,600]},
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
-{'NAME': 'Jane', 'LASTNAME': 'Oliveira','GENDER': 'female','ID': '0094','BLOOD': 'O-','CIVIL': 'casada','CLASS': 'rifler','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
+{'NAME': 'Jane', 'LASTNAME': 'Oliveira','GENDER': 'female','ID': '0094','BLOOD': 'O-','CIVIL': 'casada','CLASS': 'rifler',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_chesse_bread','food_coffee'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [20,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
 'AGILITY': [1,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0,1,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
 'VITALITY': [10,12,12,15,15,16,18,20,20,22,23,25],
-'NEXTLEVEL': [100,150,200,300,300,350,450,500,600]},
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
-{'NAME': 'Renan', 'LASTNAME': 'Pinheiro','GENDER': 'male','ID': '0100','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'thief','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
+{'NAME': 'Renan', 'LASTNAME': 'Pinheiro','GENDER': 'male','ID': '0100','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'thief',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_cola','food_cake_carrot'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [20,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
 'AGILITY': [2,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0,1,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
 'VITALITY': [10,12,12,15,15,16,18,20,20,22,23,25],
-'NEXTLEVEL': [100,150,200,300,300,350,450,500,600]},
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
  
-{'NAME': 'Diego', 'LASTNAME': 'Donovan','GENDER': 'male','ID': '0024','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'gunslinger','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
+{'NAME': 'Diego', 'LASTNAME': 'Donovan','GENDER': 'male','ID': '0024','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'gunslinger',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_burguer','food_cola'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
 'AGILITY': [2,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0,2,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
 'VITALITY': [40,12,12,15,15,16,18,20,20,22,23,25],
-'NEXTLEVEL': [100,150,200,300,300,350,450,500,600]},
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
-{'NAME': 'Bianca', 'LASTNAME': 'Pacheco','GENDER': 'female','ID': '0120','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'doctor','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
+{'NAME': 'Bianca', 'LASTNAME': 'Pacheco','GENDER': 'female','ID': '0120','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'doctor',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_sushi','food_juice_orange'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
 'AGILITY': [0,0.25,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0.25,2,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
-'VITALITY': [10,12,12,15,15,16,18,20,20,22,23,25]},
+'VITALITY': [10,12,12,15,15,16,18,20,20,22,23,25],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
  
-{'NAME': 'Lúcia', 'LASTNAME': 'Figueiredo','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'viúva','CLASS': 'sniper','LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0,
+{'NAME': 'Lúcia', 'LASTNAME': 'Figueiredo','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'viúva','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
 'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
 'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
 'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
-'NEXTLEVEL': [100,150,200,300,300,350,450,500,600]},
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Maicon', 'LASTNAME': 'Neves','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Iago', 'LASTNAME': 'Dantas','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'comprometido','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Vinicíus', 'LASTNAME': 'Tavares','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'João', 'LASTNAME': 'Pedro Lima','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Sofia', 'LASTNAME': 'Torres','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Paulo', 'LASTNAME': 'Sousa','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'casado','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
+
+{'NAME': 'Pietra', 'LASTNAME': 'Amaral','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'comprometida','CLASS': 'sniper',
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
+'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'FAVFOOD': ['food_juice_orange','food_fish'],
+'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
+'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
+'AGILITY': [0,0,0.25,0.5,0.5,0.5,0.5,0.75,0.75,0.75,0.75,1,1,1,1.25,1.25,1.5,1.5,1.5,1.5,1.75],
+'RESISTANCE': [0,0,2,2,2,2.25,2.25,2.25,2.25,2.25,2.5,2.5,2.5,2.5,2.5,2.75,2.75,2.75,2.75,2.75,3],
+'VITALITY': [20,12,12,15,15,16,18,20,20,22,23,25],
+'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
+'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0}
 ]
 
 CHAPTERS = [
@@ -741,7 +861,7 @@ CHAPTERS = [
 'a incapacidade da polícia de segurar o aumento dos', 'casos de homicídio não registrados, muitos duvidam', 'que esses casos sejam reais, ou que as anomalias', 'realmente existam.', '',
 'Tudo isso gira em torno de algo muito maior,', 'mas por agora, eu devo começar pelas histórias', 'que nos uniram nessa descoberta.', '', 'Eu vou contar a minha.'],
  
-['Um Dia normal como outro qualquer', 'capítulo I', 'O que tem a dizer sobre essa garota?','','Pietra?','Você já sabia desse lado negro dela?','','Não...eu não fazia idéia...','Começaram a me contar a verdade depois',
+['Duplo Andantes', 'capítulo I', 'O que tem a dizer sobre essa garota?','','Pietra?','Você já sabia desse lado negro dela?','','Não...eu não fazia idéia...','Começaram a me contar a verdade depois',
 'e aí começei a abrir os olhos','','Conhecia ' + CHARACTERS[4]['NAME'] + '?','','Não, a gente a encontrou por acaso...','e não sabia que ela estava','sendo procurada.',
 'Você e ' + CHARACTERS[1]['NAME'] + ' já se conheciam?','','Não, nunca nos vimos antes.','','E Vinicius? Já o conhecia?','','Não...quer dizer, mais ou menos','Ele era um criminoso muito procurado pela polícia',
 'então todos da cidade o conheciam.','',CHARACTERS[0]['NAME'] + ', sobre as anomalias, você sabia','o que eram?','','Não','','Sabia o real perigo que','elas representavam?','','...','','...','','...não',
@@ -754,21 +874,25 @@ CHAPTERS = [
 'Agora não, ' + CHARACTERS[4]['NAME'] + '.','','Quero que me conte os detalhes da pesquisa mais tarde','','Sim, Sr. Dalibor.','','Seu nome é...','',CHARACTERS[1]['NAME'] + '.','',
 'Isso, me conte sua versão dos fatos.'],
  
-['Duplo Andantes', 'capítulo III'],
+['Não se meta com a gangue', 'capítulo III'],
  
 ['Pelo Benefício do Mr. Kite!', 'capítulo IV', ''],
  
 ['O Passado te Condena', 'capítulo V', ''],
+
+['', 'capítulo VI', ''],
  
-['O Grimório de Donovan', 'capítulo VI', ''],
+['Temporada de caça', 'capítulo VII', ''],
  
-['O Crime Não Compensa', 'capítulo VII', ''],
+['O Crime Não Compensa', 'capítulo VIII', ''],
+
+['Milícia x Meliante', 'capítulo IX', ''],
  
-['Não Identificado', 'capítulo VIII', ''],
+['Não Identificado', 'capítulo X', ''],
  
-['Dr. Estanho', 'capítulo IX', ''],
+['Dr. Estanho', 'capítulo XI', ''],
  
-['A Verdade Liberta', 'capítulo X', ''],
+['A Verdade Liberta', 'capítulo XII', ''],
  
 ['Afasta de mim esse Cálice', 'epílogo', '']
 ]
@@ -796,6 +920,7 @@ araucarias
    
 TYPE
 mammal
+spirit
 reptile
 flying
 aquatic
@@ -826,20 +951,29 @@ electric
 3 - fedor (não consegue batalhar)
 4 - resfriado (não pode comer)
 5 - febre (perde HP no calor)
-6 - sede (perde HP por não beber)
-7 - náusea (erra facilmente)
-8 - preso (perde o turno)
-9 - inconsciente (não necessariamente sem HP)
-10 - parasita (suga o HP)
-11 - queimadura (perde HP, mas some)
-12 - veneno aracnídeo (perde HP)
-13 - veneno antiofídico (perde HP)
-14 - veneno escorpiônico (perde HP)
-15 - hemorragia (perde HP e não tem cura)
+6 - fome (perde HP por não comer)
+7 - sede (perde HP por não beber)
+8 - sono (erra fácil)
+9 - náusea (erra facilmente)
+10 - enjoo (não pode comer)
+11 - fraqueza (ataques mais fracos)
+12 - cegueira (perde o turno)
+13 - preso (perde o turno)
+14 - paralisia (perde o turno e não sai sozinho)
+15 - inconsciente (não necessariamente sem HP)
+16 - parasita (suga o HP)
+17 - queimadura (perde HP, mas some)
+18 - veneno aracnídeo (perde HP)
+19 - veneno antiofídico (perde HP)
+20 - veneno escorpiônico (perde HP)
+21 - hemorragia (perde HP e não tem cura)
 '''
       
 FREAKS = {
 #ANOMALIES
+'ancap': {'NAME': 'Anarcocapitalista','INFO': ['Vamos mesmo tirar sarro de uma ideologia','política utópica? Sim, vamos.'],'HEIGHT': '0,50','HABITAT': 'urban','TYPE': 'inorganic',
+'AGILITY': 3,'HP': 12,'RESISTANCE': 0,'PATH': 'stay','HABILITIES': [['Diálogo',['O elemento tenta lhe convencer.'],-5,1,40,1]],'BLOOD': 10,'ITEM': None,'SONG': 'UNBELIEVEBLE_PEOPLE'},
+
 'madladcat': {'NAME': 'Gato Atacado','INFO': ['É um felino sobrenatural que','flutua como um fantasma.','Pequeno e ágil, porém bem frágil.'],'HEIGHT': '0,80','HABITAT': 'jungle','TYPE': 'mammal',
 'AGILITY': 5,'HP': 8,'RESISTANCE': 1,'PATH': 'stealth','HABILITIES': [['Morder',['O felino morde o oponente.'],-5,1,40,1],['Arranhar',['O felino usa suas garras,','para atacar o oponente.'],-3,10,40,10],
 ['Ronronar',['O felino ronrona, mostrando','seu desprezo pela situação.'],0,9,10,1],['Miar',['O felino mia para o além,','chamando outros felinos.'],['madladcat'],7,10,1]],'BLOOD': 10,'ITEM': None,'SONG': 'HEY_SAM'},
@@ -978,7 +1112,13 @@ FREAKS = {
 ['Grito molecular','O feto grita em um nível estratosféricamente alto, agitando as moléculas de seus oponentes.',-15,1],['Líquido Uterino','O feto arremesa o líquido uterino da bolha nos oponentes, confundindo-os e dando NÁUSEA.',2,4]]},
  
 #MERCENARIES
+'thuga': {'NAME': 'Bandido A','HABITAT': 'urban','TYPE': 'mercenary','AGILITY': 2,'HP': 30,'RESISTANCE': 2,'PATH': 'stay','HABILITIES': [['Atirar','',-8,1,90],['Granada','',-20,1,10]]},
+
 'vinicius': {'NAME': 'Vinícius','HABITAT': 'urban','TYPE': 'mercenary','AGILITY': 2,'HP': 30,'RESISTANCE': 2,'PATH': 'stay','HABILITIES': [['Atirar','',-8,1,90],['Granada','',-20,1,10]]},
+
+'pietra': {'NAME': 'Pietra','HABITAT': 'urban','TYPE': 'mercenary','AGILITY': 2,'HP': 30,'RESISTANCE': 2,'PATH': 'stay','HABILITIES': [['Atirar','',-8,1,90],['Granada','',-20,1,10]]},
+
+'thirdchar': {'NAME': CHARACTERS[2]['NAME'],'HABITAT': 'urban','TYPE': 'mercenary','AGILITY': 2,'HP': 30,'RESISTANCE': 2,'PATH': 'stay','HABILITIES': [['Atirar','',-8,1,90],['Granada','',-20,1,10]]},
  
 #OTHER
 'target': {'NAME': 'Alvo','HABITAT': 'urban','TYPE': 'inorganic','AGILITY': 2,'HP': 30,'RESISTANCE': 2,'PATH': 'stay','HABILITIES': [['Fazer nada',0,6]]},
@@ -1003,15 +1143,32 @@ ITEMS = {
 'bottle250': ['garrafa de sulfúrio 250ml',['Feita especialmente para guardar sangue verde.','Capacidade de 25 inimigos'],200,1,1],
 'wallet': ['carteira',['Use para guardar seu dinheiro e coisas pequenos,','JAMAIS PERCA ISSO'],50,1,1],
    
-#CLOTHES
-'vest1': ['colete amarelo',[''],30,2,1,1,10],
-'vest2': ['colete salva-vidas',[''],60,2,1,3,15],
-'vest3': ['colete I',[''],120,2,5,20],
-'vest4': ['colete IIA',[''],240,2,1,8,25],
-'vest5': ['colete II',[''],360,2,1,10,30],
-'vest6': ['colete IIIA',[''],480,2,1,12,35],
-'vest7': ['colete III',[''],600,2,1,16,40],
-'vest8': ['colete IV',[''],720,2,1,20,45],
+#CUSTOM CLOTHES
+'head_hairclip': ['xuxinha',['Pra amarrar o cabelo.'],30,1,1,3],
+'head_glasses': ['óculos de grau',['Apenas pra quem precisa, senão você','ganha cegueira.'],30,2,1,1],
+'head_sunglasses': ['óculos escuros',['Pra proteger do sol.'],30,2,1,2],
+'head_cap': ['boné',['Pra proteger do sol e ficar estiloso.'],30,2,1,2],
+
+'clth_shirt1': ['camisa preta',['O traje predileto dos solitários.'],30,4,1,'01'],
+'clth_shirt2': ['camisa laranja',['Roupa casual.'],30,4,1,'02'],
+'clth_shirt3': ['camisa vermelha',['Roupa casual.'],30,4,1,'03'],
+
+'clth_jacket1': ['jaqueta preta',['Pra dar uma de Ramones.'],30,4,1,'1'],
+'clth_jacket2': ['jaqueta verde quadriculada',['A peça de roupa favorita do ' + CHARACTERS[0]['NAME'] + '.'],30,4,1,'2'],
+'clth_jacket3': ['jaqueta vermelha qudriculada',['Conhece o Iberê? então.'],30,4,1,'3'],
+'clth_jacket4': ['moletom cinza',['Pra aqueles que não tem paciêcia','pra escolher roupa.'],30,4,1,'4'],
+'clth_jacket5': ['moletom azul',['Pra aqueles que não tem paciêcia','pra escolher roupa.'],30,4,1,'5'],
+'clth_jacket6': ['avental',['Para pesquisadores.'],30,4,1,'6'],
+
+#VESTS
+'vest1': ['colete amarelo',['Cuidado pra não pensarem que','é um francês manifestante.'],30,3,1,1,10],
+'vest2': ['colete salva-vidas',['Mesmo sem água por perto, protege bastante.'],60,2,1,3,15],
+'vest3': ['colete I',['Reduz o dano do advesário','DEFESA: 5 DURAÇÃO: 25'],120,3,1,5,20],
+'vest4': ['colete IIA',['Reduz o dano do advesário','DEFESA: 8 DURAÇÃO: 25'],240,3,1,8,25],
+'vest5': ['colete II',['Reduz o dano do advesário','DEFESA: 10 DURAÇÃO: 30'],360,3,1,10,30],
+'vest6': ['colete IIIA',['Reduz o dano do advesário','DEFESA: 12 DURAÇÃO: 35'],480,3,1,12,35],
+'vest7': ['colete III',['Restrito apenas para','policiais de elite.'],600,3,1,16,40],
+'vest8': ['colete IV',['Restrito apenas para','policiais de elite.'],720,3,1,20,45],
  
 #CHARMS
 'amulet1': ['cruz',['Conçede proteção e espanta espíritos.'],20,1,1,5,50],
@@ -1023,52 +1180,53 @@ ITEMS = {
 'amulet7': ['muiraquitã',['Conçede aumento em todos os atributos.'],20,1,1,25,50],
  
 #AMMO
-'ammo_tranquiizer': ['tranquilizante',['Munição para pistola que faz','o inimigo adormecer.'],100,1,1,0],
-'ammo.12': ['munição.12',[''],200,1,1,12],
-'ammo.16': ['munição.16',[''],200,1,1,16],
-'ammo.22': ['munição.22',[''],200,1,1,22],
-'ammo.32': ['munição.32',[''],200,1,1,32],
-'ammo.38': ['munição.38',[''],300,1,1,38],
-'ammo.42': ['munição.42',[''],400,1,1,42],
-'ammo.44': ['munição.44',[''],200,1,1,44],
-'ammo.45': ['munição.45',[''],200,1,1,45],
-'ammo.38mm': ['munição 0.38mm',[''],200,1,1,380],
-'ammo.5.56mm': ['munição 5.56mm',[''],200,1,1,556],
+'ammo_tranquiizer': ['tranquilizante',['Munição para pistola que faz','o inimigo adormecer.'],100,2,1,0],
+'ammo.12': ['munição.12',[''],200,2,1,12],
+'ammo.16': ['munição.16',[''],200,2,1,16],
+'ammo.22': ['munição.22',[''],200,2,1,22],
+'ammo.32': ['munição.32',[''],200,2,1,32],
+'ammo.38': ['munição.38',[''],300,2,1,38],
+'ammo.42': ['munição.42',[''],400,2,1,42],
+'ammo.44': ['munição.44',[''],200,2,1,44],
+'ammo.45': ['munição.45',[''],200,2,1,45],
+'ammo.38mm': ['munição 0.38mm',[''],200,2,1,380],
+'ammo.5.56mm': ['munição 5.56mm',[''],200,2,1,556],
 'ammo_missile': ['míssel',[''],800,5,4,1000],
  
 #TOOLS
-'tool_crowbar': ['pé de cabra',['Use para abrir portas trancadas.'],50,3,3,{'DAMAGE': 5, 'UNLOCK': 'door'}],
-'tool_axe': ['machado',['Use para quebrar madeira.'],50,3,4,{'DAMAGE': 5, 'UNLOCK': 'wood'}],
-'tool_hammer': ['marreta',['Use para quebrar vidro.'],50,3,5,{'DAMAGE': 5, 'UNLOCK': 'stone'}],
-'tool_shovel': ['pá',['Use para cavar o solo para encontrar itens e abrir passagens.'],50,3,3,{'DAMAGE': 5, 'UNLOCK': 'grass'}],
-'tool_chainsaw': ['motoserra',['Use para cortar árvores grandes','e de quebra bancar o Jason.'],50,3,3,{'DAMAGE': 5, 'UNLOCK': 'wood'}],
-'magnifying_glass': ['lupa',['Use para pesquisar anomalias e registrá-las no Bestiário.'],5,1,1],
-'radar': ['radar',['Use para detectar anomalias no mapa.'],300,1,1],
-'handcuffs': ['algemas',['Use para capturar anomalias e levá-las para pesquisa.'],50,1,1],
-'glasses': ['óculos',['Use para que pessoas com problemas de visão consigam ler.'],800,1,1],
-'umbrella': ['guarda-chuva',['Não pegue resfriado meu filho!'],800,1,1],
+'tool_crowbar': ['pé de cabra',['Use para abrir portas trancadas.'],50,4,3,{'DAMAGE': 5, 'UNLOCK': 'door'}],
+'tool_axe': ['machado',['Use para quebrar madeira.'],50,4,4,{'DAMAGE': 5, 'UNLOCK': 'wood'}],
+'tool_hammer': ['marreta',['Use para quebrar vidro.'],50,4,5,{'DAMAGE': 5, 'UNLOCK': 'stone'}],
+'tool_shovel': ['pá',['Use para cavar o solo para encontrar itens e abrir passagens.'],50,5,3,{'DAMAGE': 5, 'UNLOCK': 'grass'}],
+'tool_chainsaw': ['motoserra',['Use para cortar árvores grandes','e de quebra bancar o Jason.'],50,6,3,{'DAMAGE': 5, 'UNLOCK': 'wood'}],
+'tool_lighter': ['isqueiro',['Use para acender bombas','e talvez cigarros, mas não se recomenda.'],6,1,1],
+'magnifying_glass': ['lupa',['Use para pesquisar anomalias e registrá-las no Bestiário.'],2,1,1],
+'radar': ['radar',['Use para detectar anomalias no mapa.'],300,2,1],
+'handcuffs': ['algemas',['Use para capturar anomalias e levá-las para pesquisa.'],50,2,1],
+'umbrella': ['guarda-chuva',['Não pegue resfriado meu filho!'],800,5,1],'umbrella_portable': ['guarda-chuva portátil',['Não pegue resfriado meu filho!','Cabe na mochila!'],800,3,1],
    
 #MELEE WEAPONS
-'melee_broom': ['vassoura',['Não foi feita para se armar, muito menos','para caçar ou voar, mas funciona.',20,3,2,{'DAMAGE': 3}]],
-'melee_frying_pan': ['frigideira',['Se não tiver o que usar, ela quebra um galho','e ainda frita um ovo legal.',20,3,2,{'DAMAGE': 3}]],
-'melee_knife': ['faca',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],800,1,1,{'DAMAGE': 5}],
-'melee_fishmonger': ['peixeira',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],1000,3,3,{'DAMAGE': 8}],
-'melee_cleaver': ['cutelo',['Foi feita para cortar ossos de carnes, mas','serve como uma boa arma também.'],1200,1,2,{'DAMAGE': 10}],
-'melee_katana': ['katana',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],1000,3,3,{'DAMAGE': 8}],
-'melee_whip': ['chicote',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],1000,3,3,{'DAMAGE': 8}],
-'melee_bottle': ['garrafa de vidro',['Depois de um drink moderado','é excelente para tacar na cabeça de um nazi.'],1000,3,3,{'DAMAGE': 8}],
-'melee_bisturi': ['bisturi',['Tome muito cuidado com esse amiguinho','qualquer descuido faz uma hemorragia braba.'],1000,3,3,{'DAMAGE': 8}],
- 
+'melee_broom': ['vassoura',['Não foi feita para se armar, muito menos','para caçar ou voar, mas funciona.',10,5,2,{'DAMAGE': 2}]],
+'melee_frying_pan': ['frigideira',['Se não tiver o que usar, ela quebra um galho','e ainda frita um ovo legal.',30,3,2,{'DAMAGE': 4}]],
+'melee_bottle': ['garrafa de vidro',['Depois de um drink moderado','é excelente para tacar na cabeça de um nazi.'],10,3,3,{'DAMAGE': 6}],
+'melee_bar': ['barra de ferro',['Dá na telha pra descer','o cacete em alguém.'],4,3,3,{'DAMAGE': 8}],
+'melee_knife': ['faca',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],300,2,1,{'DAMAGE': 10}],
+'melee_fishmonger': ['peixeira',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],500,4,3,{'DAMAGE': 13}],
+'melee_cleaver': ['cutelo',['Foi feita para cortar ossos de carnes, mas','serve como uma boa arma também.'],700,3,2,{'DAMAGE': 16}],
+'melee_katana': ['katana',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],1000,4,3,{'DAMAGE': 18}],
+'melee_whip': ['chicote',['Útil para ataques corpo-a-corpo, pode ser tão letal','quanto uma arma de fogo.'],500,3,3,{'DAMAGE': 14}],
+'melee_taser': ['taser',['Porque um verdadeiro meliante','não mata, causa dor.'],1500,1,3,{'DAMAGE': 8}],
+
 #WEAPONS
-'gun_revolver.22': ['revólver.22',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,1,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
-'gun_revolver.32': ['revólver.32',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,1,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
-'gun_revolver.38': ['revólver.38',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,1,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
-'gun_revolver.44': ['revólver.44',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,1,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
+'gun_revolver.22': ['revólver.22',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
+'gun_revolver.32': ['revólver.32',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
+'gun_revolver.38': ['revólver.38',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
+'gun_revolver.44': ['revólver.44',['Arma de fogo para ataques de curta distância, ela usa munição de','calibre 16.'],2000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 5, 'CAPACITY': 6, 'GAUGE': 38}],
   
-'gun_pistol': ['pistola',['Arma de fogo para ataques de média distância, ela usa munição de calibre 38.'],2500,1,2,{'DAMAGE': 4, 'RECHARGE': 3, 'CADENCY': 3, 'CAPACITY': 16}],
+'gun_pistol': ['pistola',['Arma de fogo para ataques de média distância, ela usa munição de calibre 38.'],2500,3,2,{'DAMAGE': 4, 'RECHARGE': 3, 'CADENCY': 3, 'CAPACITY': 16}],
   
-'gun_UZI.22': ['Uzi .22',['Arma de fogo para ataques de média distância.'],4000,2,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 1, 'CAPACITY': 10, 'GAUGE': 22}],
-'gun_UZI.45': ['Uzi .45',['Arma de fogo para ataques de média distância.'],4000,2,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 1, 'CAPACITY': 16, 'GAUGE': 45}],
+'gun_UZI.22': ['Uzi .22',['Arma de fogo para ataques de média distância.'],4000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 1, 'CAPACITY': 10, 'GAUGE': 22}],
+'gun_UZI.45': ['Uzi .45',['Arma de fogo para ataques de média distância.'],4000,3,2,{'DAMAGE': 5, 'RECHARGE': 8, 'CADENCY': 1, 'CAPACITY': 16, 'GAUGE': 45}],
   
 'gun_shotgun.12': ['espingarda .12',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],5000,4,3,{'DAMAGE': 5, 'RECHARGE': 4, 'CADENCY': 4, 'CAPACITY': 6, 'GAUGE': 12}],
 'gun_carbine': ['carabina',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],5000,4,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],
@@ -1076,40 +1234,40 @@ ITEMS = {
 'gun_sniper': ['sniper',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],6000,5,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],
 'gun_shotgun': ['escopeta',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],4000,4,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],
   
-'gun_assault_riffle': ['fuzil de assalto',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],4000,4,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],
-'gun_rifle': ['fuzil',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],5000,4,3,{'DAMAGE': 4, 'RECHARGE': 3, 'CADENCY': 2, 'CAPACITY': 16}],
+'gun_assault_riffle': ['fuzil de assalto',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],4000,5,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CAPACITY': 3}],
+'gun_rifle': ['fuzil',['Arma de fogo para ataques de curta distância, ela usa munição de calibre 16.'],5000,5,3,{'DAMAGE': 4, 'RECHARGE': 3, 'CADENCY': 2, 'CAPACITY': 16}],
 'gun_AK-47': ['AK-47',['Fuzil para ataques de curta distância, ela usa munição de calibre 16.'],5000,4,3,{'DAMAGE': 7, 'RECHARGE': 3, 'CADENCY': 2, 'CAPACITY': 20, 'GAUGE': 39.0}],
 'gun_M16': ['M16',['Fuzil para ataques de curta distância, ela usa munição de calibre 16.'],5000,4,3,{'DAMAGE': 6, 'RECHARGE': 3, 'CADENCY': 1, 'CAPACITY': 30, 'GAUGE': 5.56}],
   
 'gun_RPG-7': ['RPG-7',['Bazuca utilizada contra tanques.'],12000,7,5,{'DAMAGE': 50, 'RECHARGE': 10, 'CADENCY': 0, 'CAPACITY': 1, 'GAUGE': 0}],
    
 #BATTLE ITEMS
-'grenade': ['granada',['Use numa batalha para causar dano á todos os inimigos na tela.'],100,1,3,10,1],
+'grenade': ['granada',['Use numa batalha para causar dano á todos os inimigos na tela.'],100,2,3,10,1],
 'grenade_smoke': ['granada de fumaça',['Use numa batalha para que todos os inimigos percam AGILIDADE.'],200,2,3,3,4],
-'grenade_flash': ['granada de luz',['Use numa batalha para que todos os inimigos percam sua vez.'],500,2,3,1,6],
-'pepper_spray': ['spray de pimenta',['Use numa batalha para atordoar um inimigo.'],40,2,1,2,6],
-'molotov_cocktail': ['coquetel molotov',['Use numa batalha para causar dano á todos os inimigos','e possivelmente queimá-los.'],40,2,1,2,6],
-'horn': ['buzina',['Use numa batalha para atordoar um inimigo.'],40,2,1,2,6],
-'extinguisher': ['extintor',['Use num caso de emergência.','...mas não é pra jogar num bulldogue.'],40,2,1,2,6],
-'rope': ['corda',['Use em batalhas para prender seus oponentes','ou dentro de cavernas para descer e subir'],70,1,1],
+'grenade_flash': ['granada de luz',['Use numa batalha para que todos os inimigos percam sua vez.'],500,3,3,1,6],
+'pepper_spray': ['spray de pimenta',['Use numa batalha para atordoar um inimigo.'],40,3,1,2,6],
+'molotov_cocktail': ['coquetel molotov',['Use numa batalha para causar dano á todos os inimigos','e possivelmente queimá-los.'],40,3,1,2,6],
+'horn': ['buzina',['Use numa batalha para atordoar um inimigo.'],40,3,1,2,6],
+'extinguisher': ['extintor',['Use num caso de emergência.','...mas não é pra jogar num bulldogue.'],40,4,1,2,6],
+'rope': ['corda',['Use em batalhas para prender seus oponentes','ou dentro de cavernas para descer e subir'],70,4,1],
    
 #DRUGS
-'drug_antibiotic': ['antibiótico',['Use para infeccionar feridas letais e impedir hemorragias, parando de consumir a barra de HP.'],25,1,1,0],
-'drug_syrup': ['xarope',['Remédio utilizado para combater resfriados e alergias.'],10,1,1,0],
+'drug_antibiotic': ['antibiótico',['Use para infeccionar feridas letais e impedir hemorragias, parando de consumir a barra de HP.'],25,2,1,0],
+'drug_syrup': ['xarope',['Remédio utilizado para combater resfriados e alergias.'],10,2,1,0],
 'drug_tablets': ['comprimidos',['Remédios utilizados para combater náusea.'],30,1,1,0],
 'drug_pills': ['pílulas',['Remédios utilizados para combater dor muscular.'],40,1,1,0],
-'drug_paracetamol': ['paracetamol',['Medicamento para combater a febre.'],40,1,1,0],
-'drug_desloratadin': ['desloratadina',['Medicamento para combater a tontura.'],40,1,1,0],
-'drug_pseudoefedrin': ['pseudoefedrina',['Medicamento para combater o resfriado.'],40,1,1,0],
-'drug_ibuprofen': ['ibuprofeno',['Medicamento para combater o resfriado e a febre.'],40,1,1,0],
-'drug_ciprofloxacin': ['ciprofloxacino',['Antibiótico útil contra conjutivite,','resfriado e febre.'],40,1,1,0],
+'drug_paracetamol': ['paracetamol',['Medicamento para combater a febre.'],40,2,1,0],
+'drug_desloratadin': ['desloratadina',['Medicamento para combater a tontura.'],40,2,1,0],
+'drug_pseudoefedrin': ['pseudoefedrina',['Medicamento para combater o resfriado.'],40,2,1,0],
+'drug_ibuprofen': ['ibuprofeno',['Medicamento para combater o resfriado e a febre.'],40,2,1,0],
+'drug_ciprofloxacin': ['ciprofloxacino',['Antibiótico útil contra conjutivite,','resfriado e febre.'],40,2,1,0],
    
-'serum_antiscorpionic': ['soro antiescorpiônico',['Antídoto para combater veneno de escorpiões.'],40,1,1,0],
-'serum_antivenom': ['soro antiofídico',['Antídoto para combater veneno de cobras.'],40,1,1,0],
-'serum_antiarachnid': ['soro antiaracnídico',['Antídoto para combater veneno de aranhas.'],40,1,1,0],
+'serum_antiscorpionic': ['soro antiescorpiônico',['Antídoto para combater veneno de escorpiões.'],40,2,1,0],
+'serum_antivenom': ['soro antiofídico',['Antídoto para combater veneno de cobras.'],40,2,1,0],
+'serum_antiarachnid': ['soro antiaracnídico',['Antídoto para combater veneno de aranhas.'],40,2,1,0],
    
-'drug_adrenaline': ['adrenalina',['Remédio utilizado para reviver uma pessoa inconsciente.'],60,1,1,0],
- 
+'drug_adrenaline': ['adrenalina',['Remédio utilizado para reviver uma pessoa inconsciente.'],60,2,1,0],
+
 #CONDIMENTS
 'condiment_ketchup': ['ketchup',['Condimento muito usado em salgados.'],5,1,1,6,'0100'],
 'condiment_sugar': ['açúcar',['Condimento muito usado em doces.'],5,1,1,6,'0100'],
@@ -1117,31 +1275,46 @@ ITEMS = {
 'condiment_pepper': ['pimenta',['Condimento muito usado em refeições.'],5,1,1,6,'0100'],
 'condiment_oregano': ['orégano',['Condimento muito usado em salgados.'],5,1,1,6,'0100'],
 'condiment_shoyu': ['shoyu',['Condimento muito usado em refeições.'],5,1,1,6,'0100'],
-   
+
 #DRINK
-'drink_water': ['água',['O básico pra te manter de pé','no calor e no cansaço, BEBA ÁGUA.'],8,1,1,10,'0100'],
-'drink_juice_orange': ['suco de laranja',['Saudável e nutritivo, o Jailson aprova.'],8,1,1,10,'0100'],
-'drink_juice_passion_fruit': ['suco de maracujá',['Saudável e nutritivo, acalma a alma e o espírito.'],8,1,1,10,'0100'],
-'drink_coffee': ['café',['Bebida quente que aumenta a energia.'],8,1,1,10,'0100'],
-'drink_cola': ['refri',['A bomba calórica que a gente gosta.'],8,1,1,10,'0100'],
-'drink_whisky': ['whisky',['Bebida alcóolica para aumentar a energia','Pelo amor de deus COM MODERAÇÃO.'],8,1,1,10,'0100'],
+'drink_water': ['água',['O básico pra te manter de pé','no calor e no cansaço, BEBA ÁGUA.'],8,2,1,10,'0100'],
+'drink_juice_orange': ['suco de laranja',['Saudável e nutritivo, o Jailson aprova.'],8,3,1,10,'0100'],
+'drink_juice_passion_fruit': ['suco de maracujá',['Saudável e nutritivo, acalma a alma e o espírito.'],8,3,1,10,'0100'],
+'drink_coffee': ['café',['Bebida que aumenta a sua energia.'],8,3,1,10,'0100'],
+'drink_chocolate': ['chocolate quente',['Vai bem com biscoitos'],8,3,1,10,'0100'],
+'drink_milk': ['leite',['Vai bem no café.'],8,3,1,10,'0100'],
+'drink_coffeenmilk': ['café com leite',['Bebida preferida do criador','do jogo, foi muito útil.'],8,3,1,10,'0100'],
+'drink_energy': ['energético',['Bebida que acelera o metabolismo','e aumenta a energia.'],8,3,1,10,'0100'],
+'drink_cola': ['refri',['A bomba calórica que a gente gosta.'],8,3,1,10,'0100'],
+'drink_guarana': ['guaraná',['Um suquinho barato e muito açúcarado','mas é bom, não confundir com cachos de olhos.'],8,3,1,10,'0100'],
+'drink_beer': ['álcool',['Bebida alcóolica para aumentar a energia','Pelo amor de deus COM MODERAÇÃO.'],8,2,1,10,'0100'],
+'drink_whisky': ['whisky',['Bebida alcóolica para aumentar a energia','Pelo amor de deus COM MODERAÇÃO.'],8,2,1,10,'0100'],
+'drink_yogurt': ['iogurte',['Delicioso e saudável.'],8,3,1,10,'0100'],
  
 #FOOD
-'food_orange': ['laranja',['Fruta fácil de se achar','num pomar.'],1,1,1,2,'0100'],
-'food_fish': ['pirarucu',['Peixe de água doce.'],1,1,1,2,'0100'],
+'food_orange': ['laranja',['Fruta fácil de se achar','num pomar.'],3,1,1,2,'0100'],
+'food_fish': ['pirarucu',['Peixe de água doce.'],3,1,1,2,'0100'],
+'food_bread': ['pão',['O alimento matinal de cada dia.'],15,2,2,30,'0300'],
 'food_peanut_candy': ['paçoca',['Doce de amendoim, fácil de encontrar em padarias.'],1,1,1,2,'0100'],
 'food_peanut_candy': ['paçoca',['Doce de amendoim, fácil de encontrar em padarias.'],1,1,1,2,'0100'],
-'food_coxinha': ['coxinha',['Salgado feito com massa frita e recheada com frango, fácil de','encontrar em lanchonetes.'],5,1,1,8,'0100'],
-'food_pastry': ['pastel',['Salgado feito com massa frita e recheado com queijo.'],3,1,1,5,'0100'],
-'food_puff_pastry': ['pastel folheado',['Salgado feito com várias camadas de massa e queijo.'],6,1,1,12,'0100'],
+'food_coxinha': ['coxinha',['Salgado feito com massa frita e recheada com frango, fácil de','encontrar em lanchonetes.'],5,2,1,8,'0100'],
+'food_pastry': ['pastel',['Salgado feito com massa frita e recheado com queijo.'],3,2,1,5,'0100'],
+'food_puff_pastry': ['pastel folheado',['Salgado feito com várias camadas de massa e queijo.'],6,2,1,12,'0100'],
 'food_brigadeiro': ['brigadeiro',['Doce de chocolate.'],2,1,1,3,'0100'],
 'food_cheese_bread': ['pão de queijo',['Salgado feito com massa de queijo.'],5,1,1,7,'0100'],
-'food_pudding': ['pudim',['Doce feito com leite condensado.'],10,2,1,15,'0300'],
-'food_cake_corn': ['bolo de fubá',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
-'food_cake_carrot': ['bolo de cenoura',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
-'food_cake_chocolate': ['bolo de chocolate',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,2,2,18,'0500'],
-'food_packed_lunch': ['marmita',['Tem muitas coisas diferentes dentro, além de ser bem nutritivo!'],15,2,2,30,'0300'],
+'food_pudding': ['pudim',['Doce feito com leite condensado.'],10,3,1,15,'0300'],
+'food_cake_corn': ['bolo de fubá',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,3,2,18,'0500'],
+'food_cake_carrot': ['bolo de cenoura',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,3,2,18,'0500'],
+'food_cake_chocolate': ['bolo de chocolate',['Doce feito com ovos, leite, fubá, manteiga, trigo e fermento.'],12,3,2,18,'0500'],
+'food_packed_lunch': ['marmita',['Tem muitas coisas diferentes dentro, além de ser bem nutritivo!'],15,3,2,30,'0300'],
 'food_egg': ['ovo',['Ele te deixa forte pra enfrentar qualquer perigo.'],15,2,2,30,'0300'],
+'food_lamen': ['miojo',['O macarrão instantâneo','do cara que mora sozinho.'],15,2,2,30,'0300'],
+'food_cookies': ['bolachas',['Biscoito com recheio sempre','foi chamado assim.'],15,2,2,30,'0300'],
+'food_snack': ['salgadinhos',['50% do saco é de puro vento.'],15,2,2,30,'0300'],
+'food_pizza_mussarella': ['pizza de mussarela',['Quem não gosta de pizza?.'],15,2,2,30,'0300'],
+'food_pizza_shaggy': ['pizza de calabresa',['Quem não gosta de pizza?.'],15,2,2,30,'0300'],
+'food_pizza_chicken': ['pizza de frango',['Quem não gosta de pizza?.'],15,2,2,30,'0300'],
+'food_pizza_4cheese': ['pizza de 4 queijos',['Quem não gosta de pizza?.'],15,2,2,30,'0300'],
  
 #WASTED FOOD
 'food_coxinha_wasted': ['coxinha fria',['Não é mais tão gostosa quanto antes,','mas é comestível.'],2,1,1,4],
@@ -1212,29 +1385,30 @@ ITEMS = {
 'craft_spring_small': ['mola pequena','',0,1,1],
 'craft_fuel': ['combustível','',0,1,1],
 'craft_cloth': ['pano','',0,1,1],
+'craft_powder': ['pólvora','',0,1,1],
    
 #TREASURES
 'treasure_vase': ['vaso marajoara',['Um antigo vaso indígena feita da cerâmica do marajó.'],2000,3,3,0],
  
-'jewel_emerald': ['esmeralda',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_diamond': ['diamante',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_ruby': ['rubi',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_amethyst': ['ametista',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_sapphire': ['safira',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_opal': ['opala',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_gold': ['ouro',['Essa jóia deve custar uma fortuna!'],2000,3,3,0],
-'jewel_quartz': ['quartzo',['Essa jóia deve custar uma fortuna!'],2000,3,3,0]
+'jewel_emerald': ['esmeralda',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_diamond': ['diamante',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_ruby': ['rubi',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_amethyst': ['ametista',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_sapphire': ['safira',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_opal': ['opala',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_gold': ['ouro',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'jewel_quartz': ['quartzo',['Essa jóia deve custar uma fortuna!'],2000,1,3,0]
 }
  
 INVENTORY = [
 [[['_','0000','_','_'],['phone','360100','_','_'],['wallet','00005000000300','credit_card','id_card0'],['locksmith1','02020000','key_bedroom','key_vehicle'],['_','0000','_','_']],
 [['amulet1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['vest1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['clth_jacket1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
+[['clth_shirt1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['gun_revolver.38','0006','aim1','acc_cartridge'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
  
-[[['_','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[[['head_glasses','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['clth_jacket3','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
@@ -1245,8 +1419,8 @@ INVENTORY = [
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
  
-[[['_','0000','_','_'],['repellent1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['food_coxinha','1103','_','_']],
+[[['amulet4','0000','_','_'],['repellent1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['amulet5','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['food_coxinha','1103','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['charger','000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['gun_revolver.38','0006','aim3','acc_gunbutt'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
@@ -1257,20 +1431,21 @@ INVENTORY = [
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
  
-[[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['condiment_ketchup','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['pill_vitality','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-[['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[[['amulet7','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['amulet6','0000','_','_'],['condiment_ketchup','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['amulet2','0000','_','_'],['_','0000','_','_'],['pill_vitality','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[['amulet3','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['gun_revolver.38','0006','aim2','acc_bandolier'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
 ]
  
-DEPOSIT = [['jewel_ruby','0000','_','_'],['drink_whisky','1503','_','_']]
- 
-CHESTS = [
-[[False]]#checa baús abertos em cada local em cada cidade
-]
- 
+STORAGE = [['jewel_ruby','0000','_','_'],['drink_whisky','1503','_','_']]
+
+CHESTS = {
+'1bedroom_202': [False]
+}
+
 PRODUCTS = [
+[['drink_beer','drink_whisky'],0,0],
 [['vest1','repellent1','food_coxinha','pill_vitality','melee_knife','amulet1','aim1'],1,10],
 [['grenade','pepper_spray','gun_revolver.38'],1,2],
 [['melee_fishmonger','portable_charger','headphone'],4,0]
@@ -1319,7 +1494,13 @@ fazer uma investigação profunda e mais elaborada á respeito?"','','Sabendo di
 ],
  
 [
-[['Parque Nacional do Itatiaia','é invadido'],'Jéssica Ramone',['Na tarde do dia anterior, um','caso que deixou autoridades','em estado de alerta, foram','filmadas imagens de vândalos','invadindo o parque nacional.','','"não é o que se espera','dessa juventude, não é?", diz','Marcelo Marinho, fiscal do','IBAMA e principal supervisor','do parque','','O Parque Nacional do Itatiaia','é uma área de preservação','da fauna brasileira protegida','por lei, pois é onde se','encontra o que resta da','mata atlântica, que vem','sofrendo drásticas degradações','com o tempo.','','Mas o maior desafio do','parque não são os vândalos,','mas sim os mercenários,','vários invadem locais restritos','atrás das presas e do','dinheiro, colocando em risco','a fauna e a flora da','natureza. A PRF já','possui conhecimento de tais','atos ediondos.','','"É lamentável, a gente pensa','que confia mas eles','só mostram que estamos','se enganando", diz Paulo Sousa','','O IBAMA, instituição','responsável pelo monitoramento','do parque, emitiu uma nota','avisando que irão reforçar','a segurança no local,','policiais militares armados','e cães de guarda são','apenas um pouco do','que os mercenários podem','temer de agora em','diante.']]
+[['Parque Nacional do Itatiaia','é invadido'],'Jéssica Ramone',['Na tarde do dia anterior, um','caso que deixou autoridades','em estado de alerta, foram','filmadas imagens de vândalos',
+'invadindo o parque nacional.','','"não é o que se espera','dessa juventude, não é?", diz','Marcelo Marinho, fiscal do','IBAMA e principal supervisor','do parque','',
+'O Parque Nacional do Itatiaia','é uma área de preservação','da fauna brasileira protegida','por lei, pois é onde se','encontra o que resta da','mata atlântica, que vem','sofrendo drásticas degradações',
+'com o tempo.','','Mas o maior desafio do','parque não são os vândalos,','mas sim os mercenários,','vários invadem locais restritos','atrás das presas e do','dinheiro, colocando em risco',
+'a fauna e a flora da','natureza. A PRF já','possui conhecimento de tais','atos ediondos.','','"É lamentável, a gente pensa','que confia mas eles','só mostram que estamos',
+'se enganando", diz Paulo Sousa','','O IBAMA, instituição','responsável pelo monitoramento','do parque, emitiu uma nota','avisando que irão reforçar','a segurança no local,',
+'policiais militares armados','e cães de guarda são','apenas um pouco do','que os mercenários podem','temer de agora em','diante.']]
 ],
  
 [
@@ -1351,6 +1532,42 @@ if TIME[0] > 17: dt = 'Boa noite'
 elif TIME[0] > 11: dt = 'Boa tarde'
 elif TIME[0] > 5: dt = 'Bom dia'
 else: dt = 'Boa noite'
+
+'''
+0 - outro falante
+1 - pausar
+2 - começo do capítulo
+3 - fim do capítulo
+
+0 - ganhar dinheiro
+1 - ganhar item
+2 - moralidade
+3 - marcador do mapa
+4 - ligação
+5 - novo email
+6 - nova tarefa
+7 - contato adicionado
+8 - troféu
+9 - subir de rank
+10 - escolha de diálogo
+11 - avançar diálogos
+12 - voltar diálogos
+13 - batalha
+14 - exército
+15 - música
+16 - som
+17 - delivery
+18 - mudar party
+19 - abaixar status
+20 - aumentar status
+21 - dlgsav
+22 - nomear
+23 - outro diálogo
+24 - mover personagem
+25 - emoção do personagem
+26 - câmera
+27 - esperar
+'''
  
 DIALOGS = {
 'TEST': [['Vou te dar uma tarefa rapaz!',1,[6,'tarefa'],'Fale com outro cara pra cumprir essa tarefa!',1,'Mas também vou te dar meu número!',1,[7,0],0,'Acho que só falta esse email',1,[5,0],'Já tem tudo o que quer','Agora rapa fora!',1]],
@@ -1366,35 +1583,23 @@ DIALOGS = {
 'DIRTY SINK': [['A pia está cheia de louça suja...',1]],
 'DIRTY COOKER': [['Tem arroz frio e uma frigideira engordurada no fogão.',1]],
 'EMPTY FRIDGE': [['Água,sachês de ketchup e ovos...',1,'Considero isso uma geladeira vazia.',1],['Tá na de fazer as compras do mês.']],
-'FRIDGE': [['A visão do paraíso.',1],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
+'JANE FRIDGE': [['A visão do paraíso.',1],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
 'OLD PC': [['Esse pc ainda usa Windows XP.',1]],
 'MODERN PC': [['No canto da tela diz "Não é genuíno".',1]],
 'PC GAMER': [['O teclado LED brilhando me deixa','ma',1,'lu',1,'co.',1]],
 'OLD TV': [['O Maicon precisa trocar logo essa TV.',1]],
 'PLUG': ['Você pode encaixar um carregador aqui.',1],
+
+#CHESTS
+'EMPTY CHEST': ['Não tem nada aqui...',1],
+'SIDNEY NIGHTSTAND': [[[1,'food_peanut_candy',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
+'HH FRIDGE': [[[1,'drink_beer',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
+'TRASH CAN': [[[1,'melee_bottle',0,1]]],
  
 #PAPERS & SIGNS
 'TAROT POSTER': ['BÚZIOS E CARTAS','Trago seu amor aos seus pés!','978543322'],
 'MISSING POSTER': ['PROCURA-SE','Talita Manhães','Se você a viu, favor, ligue para: 992120342'],
- 
-#CHESTS
-'SIDNEY NIGHTSTAND': [[[0,'pacoca',0,0]]],
- 
-#PLACES
-'REWARD':[['Ei! Você não tem sangue nenhum!','Volte quando tiver pego alguma coisa!',1],['Só isso?','Vou dar sua recompensa, mas poderia ter se esforçado mais',1],['Você conseguiu bastante sangue','Aqui está sua recompensa',1],['Uau! isso é muito sangue!','Aqui está sua recompensa pelo seu trabalho duro!',1]],
-'MERCATOR': [['Olá cliente!','Interessado em alguns produtos?',1],['Foi mal cara, mas sem grana, sem acordo.',1],['Espera um pouco cara!','Você tá sem espaço!',1,'Não quer dar para outra pessoa?',1]],
-'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1],['Você não tem dinheiro?',1,'Sério?',1],['Você tá cheio de coisas...','Não sei se posso deixar levar tudo isso.',1]],
-'CASHIER SANDRA': [['Vai pedir alguma coisa?',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
-'CASHIER YASMIN': [['Eu tenho que dormir...','compra logo o que tu quer...',1],['Como é que você leva coisas','que não pode comprar??',1],['Fala sério',1,'Por favor leve só o que puder levar',1]],
- 
-'FARMACEUTIC': [['Não sabe que remédios comprar?',[10,['Não...','O que você quer tratar?',[10,['Resfriados e alergias','Se você estiver sentindo algum resfriado,','gripe, tontura ou fraqueza, um\
- simples','xarope já basta'],['Infecções e hemorragias','Esses são problemas fortes, mas não muito graves','Para infecções, use o antibiótico correspondente ao tipo de','contaminação.',0,'Se tiver\
-  hemorragias, primeiro cicatrize a ferida','e depois ponha um band-aid para','evitar mais saída de sangue'],['Contaminação e Mal-estar','Caso se sinta alguma coisa parecida, pode ser','sinal de envenenamento ou\
-   intoxicação, existem','várias pílulas para diversos tipos de tóxicos']],'Mais alguma pergunta?',[12,7]],['Tô de boa','Tudo bem','Se tiver alguma dúvida é só perguntar','Fique á vontade']]]],
- 
-'HOTEL ATTENDANT': [['Bom dia!','O que deseja?',[10,['Uma noite apenas','O custo é de 20 por pessoa',[10,['Ok','Aqui, seu quarto é o N° 902',[0,'chave',20]],['Deixa pra lá','Volte a hora que quiser']]],
-['Estou apenas olhando','Sinta-se á vontade']]]],
- 
+
 #ENEMIES
 'IRRATIONAL': ['A anomalia não entende nada do que você tá falando',1],
 'TARGET': ['Parece bobo, eu sei','Mas é bom já pegar o jeito da coisa.','Ás vezes você pode negociar com o oponente','E assim poupar sua vida.','Também pode obter informações','Importantes dele',
@@ -1406,44 +1611,51 @@ DIALOGS = {
  
 'HOTMAN': [[10,['Cê tá bem mano?','Claro que não né?? Estou queimando feito palha nessa desgraça!'],['Vaza ou meto chumbo','Eu não tenho medo de você'],['A gente não quer nada contigo',
 'Mas eu quero','Preciso de sangue!!']]],
-    
-#CONTACTS CALL
-'989074454': [['Sidney']],
-    
-'991124257': [['Oi! Sou eu, a Jane']],
-  
-'990435671': [[[CHARACTERS[1]['NAME']+'! Precisamos de você aqui AGORA!','Eu sei que você saiu e coisa e tal, mas a gente PRECISA DE VOCÊ!','Estamos na Av. Jobim, venha logo!',[4, 'Urgência na Av. Jobim']],
-['Caramba '+CHARACTERS[1]['NAME']+', será que você não entende a gravidade da situação??','Só você pode deter essa anomalia!']]],
-    
-'926148930': [['E aí mano? Beleza?','Então, aquela parada da transferência deu certo, adivinha?','Amanhã á noite eu tô indo pra Nova Friburgo!',0,'Tá tendo umas paradas estranhas lá, e me mandaram examinar','Vamos aproveitar pra gente se ver, beleza?']],
-  
-'976564008': [['Agora não, ' + CHARACTERS[0]['NAME'] + '! Eu tô trabalhando!','Me ligue depois, estou fazendo coisa importante aqui!']],
-  
-'940028922': [['Oh, olá! como vai, '+CHARACTERS[0]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],
-['oie']],
-    
-'990271802': [['Garoto, o chefe quer te ver o mais cedo possível na delegacia',1,'Espero que não tenha feito merda...',1,'Bláblabla','blablabla','blablabalbala','blablablaba',1,0,'entendeu?',1]],
-    
-'987690021': [['Paulo']],
-  
-'953478809': [[dt + ', em que posso ajudar?',[10,['uma pizza grande','já estamos á caminho',1,[17,'pizza',0,3]],['uma pizza média','já estamos á caminho',1,[17,'pizza',3]]]]],
-  
-'909236521': [[dt + ', correios']],
-  
-'923778988': [['Alô?',1,CHARACTERS[0]['NAME'] + '! a quanto tempo cara!',1,'Precisando de ajuda em','carregar algumas coisas?',1,'Não tem problema, o pai tá aí','pra resolver já já!',1,[17,'maicon',0,3]]],
-  
-'969696969': [['Olá ' + prps + ' cliente, em que posso ajudar?','você está a procura de meus serviços?','chegarei em instantes',1,[17,'mercador',0,3]]],
-  
-'977904623': [['Iago']],
-  
-'923578103': [['Sofia']],
-  
-'960428331': [['Vinícius']],
  
-'978543322': [['Oi, em que posso ajudar?','Ah...eu já parei de fazer isso há muitos anos','Tchau']],
+#PLACES
+'REWARD':[['Ei! Você não tem sangue nenhum!','Volte quando tiver pego alguma coisa!',1],['Só isso?','Vou dar sua recompensa, mas poderia ter se esforçado mais',1],['Você conseguiu bastante sangue','Aqui está sua recompensa',1],['Uau! isso é muito sangue!','Aqui está sua recompensa pelo seu trabalho duro!',1]],
+'MERCATOR': [['Olá cliente!','Interessado em alguns produtos?',1],['Foi mal cara, mas sem grana, sem acordo.',1],['Espera um pouco cara!','Você tá sem espaço!',1,'Não quer dar para outra pessoa?',1]],
+'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1],['Você não tem dinheiro?',1,'Sério?',1],['Você tá cheio de coisas...','Não sei se posso deixar levar tudo isso.',1]],
+'CASHIER SANDRA': [['Vai pedir alguma coisa?',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
+'CASHIER YASMIN': [['Eu tenho que dormir...','compra logo o que tu quer...',1],['Como é que você leva coisas','que não pode comprar??',1],['Fala sério',1,'Por favor leve só o que puder levar',1]],
+
+'DRITHR SANDRA': [['Licença, aqui é o Drive Thru',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
+ 
+'FARMACEUTIC': [['Não sabe que remédios comprar?',[10,['Não...','O que você quer tratar?',[10,['Resfriados e alergias','Se você estiver sentindo algum resfriado,','gripe, tontura ou fraqueza, um\
+ simples','xarope já basta'],['Infecções e hemorragias','Esses são problemas fortes, mas não muito graves','Para infecções, use o antibiótico correspondente ao tipo de','contaminação.',0,'Se tiver\
+  hemorragias, primeiro cicatrize a ferida','e depois ponha um band-aid para','evitar mais saída de sangue'],['Contaminação e Mal-estar','Caso se sinta alguma coisa parecida, pode ser','sinal de envenenamento ou\
+   intoxicação, existem','várias pílulas para diversos tipos de tóxicos']],'Mais alguma pergunta?',[12,7]],['Tô de boa','Tudo bem','Se tiver alguma dúvida é só perguntar','Fique á vontade']]]],
+ 
+'HOTEL ATTENDANT': [['Bom dia!','O que deseja?',[10,['Uma noite apenas','O custo é de 20 por pessoa',[10,['Ok','Aqui, seu quarto é o N° 902',[0,'chave',20]],['Deixa pra lá','Volte a hora que quiser']]],
+['Estou apenas olhando','Sinta-se á vontade']]]],
     
 #CITIZENS DIALOG
-'WORRIED MAN': [[[10,['O que está havendo?','Eu não faço idéia!'],['Estou com eles','Oh, desculpe...',[8,1,1]]]]],
+'DALIBOR': [['VEM AQUI TODO MUNDO!!',1,0,'Que foi isso?!!',1,0,[26,4],[24,None,(184,370),8],[24,1,(200,330),2],[27,70],'Estão todos os mercenários aqui?',1,0,'Não, tem um lá fora e outro','não chegou ainda',1,0,'Ah pronto',1,'não tenho idade pra essas coisas...',1,
+'seguinte...',1,'vamos fazer assim então',1,'você',1,0,'quem, eu?',1,0,'Sim! você!','Pode falar o nome e sobrenome','de vocês seis?',1,[10,['Não ( nomes padrões )','Não sabe?',1,'Era só o que me faltava...',1,
+'então a mulher do seu lado','vai me dizer',1,'Beleza?',1,[22,False]],['Sim ( nomear personagens )','Ok','Vai falando',1,[22,True]]],'Muito bom','Quando todos chegarem','Nós vamos dar início ao','interrogatório',1,
+[27,20],[26,1],[27,20],'Esquisito',1,'Eu imaginava que um interrogatório','fosse bem mais...',1,'...pesado','digamos assim',1,0,'Verdade...',1,0,[27,30],[21,4,1],[23,'HHBIANCA',1]],
+['Chame todo mundo pra','começar as gravações,','por favor',1],['Estão todos aqui',1,'vamos começar?',1,[10,['Espera um pouco','Venha quando','estiver pronta',1],['Podemos','Excelente',1,'Atenção!','Põe essa máquina','pra rodar!',1]]]],
+
+'DDA AGENT 1': [['Tá procurando alguém?',1,[10,['Não','Tudo bem',1,'Se estiver precisando','de ajuda, é só','falar',1],['Sim','Eu vi um homem subindo','as escadas',1,'Deve estar lá','em cima',1]]]],
+
+'DDA AGENT 2': [['Vocês entraram em encrenca',1,'Tem noção do que seus','preciosos olhos testemunharam?',1,[10,['Do que tá falando?','Não se faça de besta!',1,'Espero que tenha','muita coisa pra',
+'contar para o','Senhor Dalibor!',1],['Nem imagino','Você não tem noção',1,'Nunca antes se','viu um evento','dessa magnitude',1,'Por isso mesmo','nós precisamos que','vocês contem tudo','pra gente',1],
+['Eu tô com pressa','Que isso',1,'Se acalma',1,'Bebe um copo','de água',1,'Você vai ter','bastante tempo','quando falar com','o Senhor Dalibor',1]]]],
+
+'HHSIDNEY': [[0,'Oi, ' + CHARACTERS[0]['NAME'] + '.',1]],
+
+'HHBIANCA': [['O que foi?',1,0,'Era Iago','Perguntou se eu tava bem',0,1,'Ah tá',1,2,'Pelo menos ele se preocupa','com você',1,0,[25,None,'BLANKDD'],'Sim',0,1,[27,100],'Percebeu onde a gente','conseguiu chegar?',
+1,0,[25,None,'BLANKLD'],'Como assim?',0,1,'Ás vezes nós não','nos damos conta...',1,'...mas agora a pouco eu','era pesquisadora',1,'E agora além de tudo a gente','sai pra caçar monstros',1,'não é esquisito?',1,
+[10,['Não são monstros','Você entendeu o que eu','quis dizer',1],['Muito esquisito','Não é??',1]],'Isso parece até coisa de filme',1,'Mas isso não é errado?',1,[10,['Acho que não','Mas por que?',1,0,
+'A gente não está salvando','as pessoas?',1,'Eu acho que isso é o','que importa',0,1],['Eu não ligo','Sei não...',1,'Não gosto dessa coisa de matar','bichinhos',1,0,[24,None,(None,None),5],[25,None,'BLANKL'],'Mas não são bichos, garota!',0,1]],
+'Eu sei',1,'Mas mesmo assim...',1,0,'Ei',0,1,'O quê?',1,[10,['Não se culpe por isso',0,'No começo parece que','você está fazendo a coisa','mais cruel do mundo',1,'Se já deve ser difícil',
+'pra quem trabalha na polícia','imagine pra gente',1,'Nós apenas estamos fazendo','o que é melhor pra todos',0,1],['Eu já me acostumei',0,'Não ligue para o que os','outros dizem',1,
+'Eles não são a gente','pra dizer alguma coisa!',1,'Se estivessem no nosso lugar','fariam o mesmo',0,1]],'Sim, mas...',1,'...',1,'...precisa ser matando...?',1,[21,1,1],[23,'DALIBOR',0]],
+[0,'Viu o ' + CHARACTERS[0]['NAME'] + '?',1,0,'Não, não vi...',1,0,'Vê onde ele está, por favor?',1,0,'Tudo bem',1,[18,4]]],
+
+'HHDIEGO': [['Aí pessoal,','licença que vou','pegar algo pra','beber',1,'vai querer algo?',1,[10,['Não, obrigado','Ok então',1],['Qualquer coisa serve','Beleza',1]]]],
+
+'HHLUCY': [['Ei, você viu','se ele já voltou?',1,[10,['Eu ia perguntar isso','É, ele não aparece',1,[10,['Pode procurar ele?','Claro']],['Não vi ele','Ele tá demorando','muito...',1]],'Eu já volto',1]]],
  
 'BUS WAITER': [['Esse ônibus demora mesmo',1,'Pego ele todo dia pra','descer a serra até a capital',1,'São só 4h de viagem!',1,2]],
 'SQUARE OLD MAN': [['Eu adoro alimentar os pombinhos',1,'ainda mais aqueles que','tem um monte de penas','lindas no rabo',1,[10,['como assim?','elas chegam a hipnotizar...',
@@ -1486,7 +1698,6 @@ DIALOGS = {
 'KONAMI GUY': ['Hey, sabe o que acontece se você apertar cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A e START?','Merda nenhuma!'],
     
 #CHARACTERS DIALOG
- 
 'PROLOGUE': [['Hey?','...','Está me ouvindo?','hm?','Você entendeu o que eu disse?','Pra ser sincera, não','...','Estava pensando, com a cabeça em outro lugar...','...sobre o quê você estava pensando?','...eu...eu fiz\
  coisas...','...','...eu fiz coisas que...tantas coisas...que não...pensei direito','...','...eu me arrependo tanto, nada disso deveria ter acontecido, foi tudo por causa de uma briga, e eu trouxe essa desgraça\
  pra minha vida...eu achei que poderia ajudar nós dois, achei que eu seria aquela que iria nos tirar do buraco...','...','...mas no final eu só afundei ainda mais....','é natural pensar coisas assim, mas tente sempre\
@@ -1553,12 +1764,62 @@ A gente se vê por aí','Eu tô aqui todo dia','Beleza!','...','Ah! eu só posso
 'SIDNEY': [['1Não tenho um minuto de paz nessa desgraça!!','2Eu achei que eles iam ficar de boa','1Se tem uma coisa que você tem que saber sobre as pessoas é que elas odeiam pessoas com armas na mão atirando por aí','2Mas você salvou elas! Matou esse...essa...','1...Lata Alada','2Que','1O nome da anomalia','2Noooooosa!','1Vou botar essa no Bestiário','2Tá, mas elas deveriam ter um pouquinho de consideração né?','1Ninguém tem um pingo disso com ninguém da DDA','2Conplicado...','1É gente que nunca viu uma gota de sangue na vida e já ficam chocadas, esse aí é o mesmo pessoal que fica com esses papos de veganismo depois','2hmmm...nah']],
 'JANE': [["I don't wanna to","I not in a good mood, you know...",[10,["It's all right?","Oh, no! I just don't want to cause any trouble"],["Fine then","Yeah"],["But you need to do it","Look, since the last time I put my hand on a gun, it wasn't a wise choice!","I don't want people to suffer from my mistakes!","I just mess everything up...",[10,["You don't","I know you are saying this just to chill me down, but I don't want to fool myself","I have to accept this"],["Everyone makes mistakes","But not everyone kills a person, right?",[10,["What?","Oh, you don't know?","Awwww...I should shut my mouth"],["...","..."]]],["It's hard","At least you recognise"]]]],0,'Well, I have to go...','See you later']],
 'MATT KAI': [['EU AMO PINK FLOYD','EU AMO PINK FLOYD','EU AMO PINK FLOYD','2Esse é o criador do jogo?','1Ele mesmo','2Sem nexo','1Mó fita']],
+
+#CONTACTS CALL
+'989074454': [['Sidney']],
+    
+'991124257': [['Oi! Sou eu, a Jane']],
+  
+'990435671': [[[CHARACTERS[1]['NAME']+'! Precisamos de você aqui AGORA!','Eu sei que você saiu e coisa e tal, mas a gente PRECISA DE VOCÊ!','Estamos na Av. Jobim, venha logo!',[4, 'Urgência na Av. Jobim']],
+['Caramba '+CHARACTERS[1]['NAME']+', será que você não entende a gravidade da situação??','Só você pode deter essa anomalia!']]],
+    
+'926148930': [['E aí mano? Beleza?','Então, aquela parada da transferência deu certo, adivinha?','Amanhã á noite eu tô indo pra Nova Friburgo!',0,'Tá tendo umas paradas estranhas lá, e me mandaram examinar','Vamos aproveitar pra gente se ver, beleza?']],
+  
+'976564008': [['Agora não, ' + CHARACTERS[0]['NAME'] + '! Eu tô trabalhando!','Me ligue depois, estou fazendo coisa importante aqui!']],
+  
+'940028922': [['Oh, olá! como vai, '+CHARACTERS[0]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],
+['oie']],
+    
+'990271802': [['Garoto, o chefe quer te ver o mais cedo possível na delegacia',1,'Espero que não tenha feito merda...',1,'Bláblabla','blablabla','blablabalbala','blablablaba',1,0,'entendeu?',1]],
+    
+'987690021': [['Paulo']],
+  
+'953478809': [[dt + ', em que posso ajudar?',[10,['uma pizza grande','já estamos á caminho',1,[17,'pizza',0,3]],['uma pizza média','já estamos á caminho',1,[17,'pizza',3]]]]],
+  
+'909236521': [[dt + ', correios']],
+  
+'923778988': [['Alô?',1,CHARACTERS[0]['NAME'] + '! a quanto tempo cara!',1,'Precisando de ajuda em','carregar algumas coisas?',1,'Não tem problema, o pai tá aí','pra resolver já já!',1,[17,'maicon',0,3]]],
+  
+'969696969': [['Olá ' + prps + ' cliente, em que posso ajudar?','você está a procura de meus serviços?','chegarei em instantes',1,[17,'mercador',0,3]]],
+  
+'977904623': [['Hey!','Você está bem?','Onde você tá?','O que tá acontecendo?','Você se machucou?',[10,['Eu tô bem','Mesmo?',1,'Ufa...',1],['Fique calmo','Não consigo me acalmar',1]],'Eu estava preocupado','com você',1,
+'mas graças a','Deus você está bem',1,'Aquela mulher chamando','vocês aos prantos me','deixou assustado',1,'Você deve estar','cansada depois de','tudo o que passou',1,'Engraçado, não é?',1,'Você mal saiu','dessa coisa de mercenária',
+'e já tá na ativa','novamente',1,'Mas assim...',1,'...',[10,['Pode falar','não...','é que...',1,'Não quero que a gente','se afaste de novo',1,'Não agora que tá','tudo dando muito certo',1,'Não precisa ser','que nem seu amigo','mercenário',1,
+'ah é, esqueci','de te contar',1,'Eu fiquei sabendo','dele e tudo isso','sobre aquela garota',1,'bem problemático',1,'Não...',1,'Esquece eu só','falei besteira',1,'Só quero que','você não seja','ausente como eu','fui com você',1,'entende?',1,
+[10,['Sim','Ainda bem que','entendeu',1],['Não','Esquece isso',1]]],
+['Eu já ligo de volta','Tudo bem','Você deve estar','muito ocupada agora',1]]
+,'A gente se fala mais','em casa, então',1,'te amo, ok?',1]],
+  
+'923578103': [['Sofia']],
+  
+'960428331': [['Vinícius']],
  
+'978543322': [['Oi, em que posso ajudar?','Ah...eu já parei de fazer isso há muitos anos','Tchau']],
+
+#ADVICE
 'ADVICE': ['Desculpe interromper','Mas é uma história muito longa','para se contar.',1,'Não vai querer continuar amanhã?','Nós gravamos tudo o que você falou',1,'E então?',[10,['Tudo bem','Ótimo','rapazes, guardem suas coisas'],['Espere um pouco','Tá bom então...','vamos prosseguir']]]
 }
 
+DLGSAV = {
+'1hauntedhouse_0': [0,0,0,0,0],
+'1hauntedhouse_1': [0,0],
+'1hauntedhouse_2': [0,0],
+'1hauntedhouse_3': [0,0],
+}
+
 SIGNS = {
-'INN': 'pousada', 'PUB': 'bar', 'HOTEL': 'hotel', 'DRUGSTORE': 'drogaria', 'BAKERY': 'padaria', 'BAZAAR': 'bazar', 'MARKET': 'mercado'
+'INN': 'pousada', 'PUB': 'bar', 'HOTEL': 'hotel', 'DRUGSTORE': 'drogaria', 'BAKERY': 'padaria', 'BAZAAR': 'bazar', 'MARKET': 'mercado', 'BANK': 'banco','GAS': 'posto','HOSPITAL': 'hospital',
+'POLICE': 'delegacia', 'SHOP': 'loja'
 }
     
 RADIO = {'0': [],'1':[],'2':[],'3':[],'4':[],'5':[],'6':[],'7':[],'8':[],'9':[]}
