@@ -1,52 +1,13 @@
 # -*- coding: utf-8 -*-
 import random
 import pygame
-import sqlite3
 import math
 import sys
+import resources
 
-def recent_data(m, opt=0):
-	global FILES
-	tbl = sqlite3.connect('userdata.db')
-	com = tbl.cursor()
-
-	if m == 0:
-		com.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='recent'")
-		rs = com.fetchone()
-		if rs != None:
-			FILES = [[],[],[],[]]
-			com.execute("SELECT id from recent")
-			for i in com.fetchall()[0]:
-				FILES[0].append(i)
-			com.execute("SELECT chp from recent")
-			for i in com.fetchall()[0]: FILES[1].append(i)
-			com.execute("SELECT gt from recent")
-			for i in com.fetchall()[0]: FILES[2].append(i)
-			com.execute("SELECT lang from recent")
-			for i in com.fetchall()[0]: FILES[3].append(i)
-		else:
-			com.execute("CREATE TABLE recent (id integer,chp integer,gt integer,lang text)")
-			com.execute("INSERT INTO recent VALUES (0,0,0,'PT')")
-			tbl.commit()
-			FILES = [[0],[0],[0],['PT']]
-
-	elif m == 1:
-		com.execute("UPDATE recent SET chp = :chp, gt = :gt, lang = :lang WHERE id = :id",{'id': database.ID,'chp': database.CHAPTER,'gt': database.GAMETIME,'lang': database.LANG})
-		tbl.commit()
-	elif m == 2:
-		com.execute("INSERT INTO recent VALUES (:id,:chp,:gt,:lang)",{'id': database.ID,'chp': database.CHAPTER,'gt': database.GAMETIME,'lang': database.LANG})
-		tbl.commit()
-
-	tbl.close()
-
-recent_data(0)
-if FILES[3] != []:
-	if FILES[3][0] == 'PT': import database_PT as database
-	if FILES[3][0] == 'EN': import database_EN as database
-	database.ID = FILES[0][0]
-	database.CHAPTER = FILES[1][0]
-	database.GAMETIME = FILES[2][0]
-	database.LANG = FILES[3][0]
+if resources.FILES[3] != []:
+	if resources.FILES[3][0] == 'PT': import database_PT as database
+	if resources.FILES[3][0] == 'EN': import database_EN as database
 else: import database_PT as database
 
 class Naming:
@@ -55,10 +16,10 @@ class Naming:
 		self.ch_sfx = pygame.mixer.Channel(1)
 		self.ch_ton = pygame.mixer.Channel(2)
 		self.wdw = pygame.Surface((200, 200))
-		pygame.draw.rect(self.wdw, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(0,0,200,200))
+		pygame.draw.rect(self.wdw, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(0,0,200,200))
 		for x in range(20):
 			for y in range(20):
-				self.wdw.blit(pygame.image.load('Sprites/border_' + str(database.BORDER) + '.png'), (x * 10, y * 10))
+				self.wdw.blit(pygame.image.load('Sprites/border_' + str(resources.BORDER) + '.png'), (x * 10, y * 10))
 		self.show = False
 		self.scr = pygame.Surface((180,180))
 		self.blink = 0.0
@@ -80,10 +41,14 @@ class Naming:
 				if self.ind < 6:
 					if event.type == pygame.KEYDOWN:
 						if event.key == pygame.K_RETURN:
-							if self.lopt == 0: self.lopt = 1; self.ch_ton.play(pygame.mixer.Sound('SFX/menu_go.wav'))
-							else: self.lopt = 0; self.ind += 1; self.ch_ton.play(pygame.mixer.Sound('SFX/text_enter.wav'))
+							if self.lopt == 0:
+								if len(self.name[self.ind]) > 0: self.lopt = 1; self.ch_ton.play(resources.SOUND['MENU_GO'])
+								else: self.ch_sfx.play(resources.SOUND['ERROR'])
+							else:
+								if len(self.lame[self.ind]) > 0: self.lopt = 0; self.ind += 1; self.ch_ton.play(resources.SOUND['TEXT_ENTER'])
+								else: self.ch_sfx.play(resources.SOUND['ERROR'])
 						elif event.key == pygame.K_BACKSPACE:
-							self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
+							self.ch_sfx.play(resources.SOUND['MENU_BACK'])
 							if self.lopt == 0:
 								if len(self.name[self.ind]) > 0: self.name[self.ind] = self.name[self.ind][:-1]
 								elif self.ind > 0: self.ind -= 1; self.lopt = 0
@@ -91,32 +56,32 @@ class Naming:
 								if len(self.lame[self.ind]) > 0: self.lame[self.ind] = self.lame[self.ind][:-1]
 								else: self.lopt = 0
 						else:
-							self.ch_sfx.play(pygame.mixer.Sound('SFX/text_input.wav'))
+							self.ch_sfx.play(resources.SOUND['TEXT_INPUT'])
 							if self.lopt == 0 and len(self.name[self.ind]) < 10: self.name[self.ind] += event.unicode
 							if self.lopt == 1 and len(self.lame[self.ind]) < 10: self.lame[self.ind] += event.unicode
 				else:
 					self.pressed = pygame.key.get_pressed()
-					if self.pressed[database.LEFT]: self.lopt = 0; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
-					if self.pressed[database.RIGHT]: self.lopt = 1; self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_hor.wav'))
-					if self.pressed[database.ACT]:
+					if self.pressed[resources.LEFT]: self.lopt = 0; self.ch_sfx.play(resources.SOUND['MENU_HOR'])
+					if self.pressed[resources.RIGHT]: self.lopt = 1; self.ch_sfx.play(resources.SOUND['MENU_HOR'])
+					if self.pressed[resources.ACT]:
 						if self.lopt == 0:
-							self.ch_sfx.play(pygame.mixer.Sound('SFX/file_new.wav'))
-							database.new_data()
+							self.ch_sfx.play(resources.SOUND['FILE_NEW'])
+							resources.new_data()
 							for i in range(len(self.name)):
 								database.CHARACTERS[i]['NAME'] = self.name[i]
 								database.CHARACTERS[i]['LASTNAME'] = self.lame[i]
-							database.save_data()
-							database.save_sett()
+							resources.save_data()
+							resources.save_sett()
 							FILES[0].append(0)
 							FILES[1].append(0)
 							FILES[2].append(0)
 							FILES[3].append('PT')
-							database.char_entry()
-							database.party_make(0)
+							resources.char_entry()
+							resources.party_make(0)
 							recent_data(2)
 							self.show = False
 						if self.lopt == 1:
-							self.ch_sfx.play(pygame.mixer.Sound('SFX/menu_back.wav'))
+							self.ch_sfx.play(resources.SOUND['MENU_BACK'])
 							self.ind = 0
 							self.lopt = 0
 
@@ -129,18 +94,18 @@ class Naming:
 		else: self.blink = 0.0
 
 		if self.ninput == False:
-			database.CHARACTERS[0]['NAME'] = 'Sidney'
-			database.CHARACTERS[0]['LASTNAME'] = 'Barreto'
-			database.CHARACTERS[1]['NAME'] = 'Jane'
-			database.CHARACTERS[1]['LASTNAME'] = 'Oliveira'
-			database.CHARACTERS[2]['NAME'] = 'Renan'
-			database.CHARACTERS[2]['LASTNAME'] = 'Pinheiro'
-			database.CHARACTERS[3]['NAME'] = 'Diego'
-			database.CHARACTERS[3]['LASTNAME'] = 'Donovan'
-			database.CHARACTERS[4]['NAME'] = 'Bianca'
-			database.CHARACTERS[4]['LASTNAME'] = 'Pacheco'
-			database.CHARACTERS[5]['NAME'] = 'Lúcia'
-			database.CHARACTERS[5]['LASTNAME'] = 'Figueiredo'
+			database.CHARACTERS[0]['NAME'] = database.NAMES[0]
+			database.CHARACTERS[0]['LASTNAME'] = database.NAMES[1]
+			database.CHARACTERS[1]['NAME'] = database.NAMES[2]
+			database.CHARACTERS[1]['LASTNAME'] = database.NAMES[3]
+			database.CHARACTERS[2]['NAME'] = database.NAMES[4]
+			database.CHARACTERS[2]['LASTNAME'] = database.NAMES[5]
+			database.CHARACTERS[3]['NAME'] = database.NAMES[6]
+			database.CHARACTERS[3]['LASTNAME'] = database.NAMES[7]
+			database.CHARACTERS[4]['NAME'] = database.NAMES[8]
+			database.CHARACTERS[4]['LASTNAME'] = database.NAMES[9]
+			database.CHARACTERS[5]['NAME'] = database.NAMES[10]
+			database.CHARACTERS[5]['LASTNAME'] = database.NAMES[11]
 			if self.ind < 6:
 				if self.lopt == 0:
 					if self.tim != 0: self.tim -= 1
@@ -218,16 +183,16 @@ class Inventory:
 	def __init__(self):
 		self.fnt = pygame.font.Font('Fonts/monotype.ttf', 10)
 		self.wdw = pygame.Surface((400, 300))
-		self.wdw.fill((database.COLOR[0],database.COLOR[1],database.COLOR[2]))
+		self.wdw.fill((resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]))
 		for x in range(40):
 			for y in range(30):
-				self.wdw.blit(pygame.image.load('Sprites/border_' + str(database.BORDER) + '.png'), (x * 10, y * 10))
+				self.wdw.blit(pygame.image.load('Sprites/border_' + str(resources.BORDER) + '.png'), (x * 10, y * 10))
 
 		self.itbor = pygame.Surface((100, 40))
-		self.itbor.fill((database.COLOR[0],database.COLOR[1],database.COLOR[2]))
+		self.itbor.fill((resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]))
 		for x in range(10):
 			for y in range(4):
-				self.itbor.blit(pygame.image.load('Sprites/border_' + str(database.BORDER) + '.png'), (1 + (x * 10),1 + (y * 10)))
+				self.itbor.blit(pygame.image.load('Sprites/border_' + str(resources.BORDER) + '.png'), (1 + (x * 10),1 + (y * 10)))
 
 		self.scr = pygame.Surface((380,220))
 		self.itmov = ''
@@ -260,19 +225,19 @@ class Inventory:
 					if optx > 0 and opty < 4:
 						if database.INVENTORY[mnc][4][0][0] != '_':
 							if opt == optx and lopt == opty and mn == mnc:
-								pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
+								pygame.draw.rect(self.scr, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 							else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 							if i[0] != '_':
-								self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
+								self.scr.blit(pygame.image.load('Sprites/Items/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
 								if optx > 0 and opty < 4:
 									vlm += database.ITEMS[i[0]][3]
 									wei += database.ITEMS[i[0]][4]
 					else:
 						if opt == optx and lopt == opty and mn == mnc:
-							pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
+							pygame.draw.rect(self.scr, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 						else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + (200 * mnc) - self.scroll,y,30,30))
 						if i[0] != '_':
-							self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
+							self.scr.blit(pygame.image.load('Sprites/Items/it_' + i[0] + '.png'), (x + (200 * mnc) - self.scroll, y))
 							if optx > 0 and opty < 4:
 								vlm += database.ITEMS[i[0]][3]
 								wei += database.ITEMS[i[0]][4]
@@ -306,8 +271,8 @@ class Inventory:
 			if opt > 0: ox += 5
 			if lopt == 4: lox += 5
 			if self.itmov[0] != 0:
-				self.scr.blit(pygame.image.load('Sprites/it_shade.png'), (15 + (mn * 200) + ox - self.scroll,62 + lox))
-				self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[0] + '.png'), (10 + (mn * 200) + ox - self.scroll + self.shake,35 + lox))
+				self.scr.blit(pygame.image.load('Sprites/Items/it_shade.png'), (15 + (mn * 200) + ox - self.scroll,62 + lox))
+				self.scr.blit(pygame.image.load('Sprites/Items/it_' + self.itmov[0] + '.png'), (10 + (mn * 200) + ox - self.scroll + self.shake,35 + lox))
 			else:
 				srf = pygame.Surface((70,40))
 				srf.set_alpha(100)
@@ -320,9 +285,9 @@ class Inventory:
 				if ex == 2: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
 				else: pygame.draw.rect(self.scr, (0, 0, 0), pygame.Rect(55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
 				if ex == 3: pygame.draw.rect(self.scr, (255,255,255), pygame.Rect(85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
-				else: pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
-				if self.itmov[1] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[1] + '.png'), (25 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
-				if self.itmov[2] != '_': self.scr.blit(pygame.image.load('Sprites/it_' + self.itmov[2] + '.png'), (55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
+				else: pygame.draw.rect(self.scr, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox,30,30))
+				if self.itmov[1] != '_': self.scr.blit(pygame.image.load('Sprites/Items/it_' + self.itmov[1] + '.png'), (25 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
+				if self.itmov[2] != '_': self.scr.blit(pygame.image.load('Sprites/Items/it_' + self.itmov[2] + '.png'), (55 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
 				self.scr.blit(pygame.image.load('Sprites/e_run.png'), (85 + (mn * 200) + ox - self.scroll + self.shake,40 + lox))
 
 		self.wdw.blit(self.scr, (10,10))
@@ -354,7 +319,7 @@ class Inventory:
 		if self.scroll > (mn * 150):
 			self.scroll -= 10
 
-		for n in database.PARTY[database.FORMATION]:
+		for n in resources.PARTY[resources.FORMATION]:
 			self.scr.blit(self.fnt.render(database.CHARACTERS[n]['NAME'], True, (255, 255, 255)), (20, 10 + (200 * mnc) - self.scroll))
 			for j in range(len(database.INVENTORY[n])):
 				if opty == 4: y += 5
@@ -364,7 +329,7 @@ class Inventory:
 					if optx > 0 and opty < 4:
 						if database.INVENTORY[mnc][4][0][0] != '_':
 							if opt == optx and lopt == opty and mn == mnc:
-								pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+								pygame.draw.rect(self.scr, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
 							else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
 							if i[0] != '_':
 								self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x, y + (200 * mnc) - self.scroll))
@@ -373,7 +338,7 @@ class Inventory:
 									wei += database.ITEMS[i[0]][4]
 					else:
 						if opt == optx and lopt == opty and mn == mnc:
-							pygame.draw.rect(self.scr, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
+							pygame.draw.rect(self.scr, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
 						else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(x + 2,y + (200 * mnc) - self.scroll,28,28))
 						if i[0] != '_':
 							self.scr.blit(pygame.image.load('Sprites/it_' + i[0] + '.png'), (x, y + (200 * mnc) - self.scroll))
@@ -497,10 +462,10 @@ class Shop:
 		self.pxf = pygame.font.Font('Fonts/pixel-font.ttf', 20)
 		self.dtt = pygame.font.Font('Fonts/datetype.ttf', 10)
 		self.wdw = pygame.Surface((400, 250))
-		pygame.draw.rect(self.wdw, (database.COLOR[0],database.COLOR[1],database.COLOR[2]), pygame.Rect(0,0,400,250))
+		pygame.draw.rect(self.wdw, (resources.COLOR[0],resources.COLOR[1],resources.COLOR[2]), pygame.Rect(0,0,400,250))
 		for x in range(40):
 			for y in range(25):
-				self.wdw.blit(pygame.image.load('Sprites/border_' + str(database.BORDER) + '.png'), (x * 10, y * 10))
+				self.wdw.blit(pygame.image.load('Sprites/border_' + str(resources.BORDER) + '.png'), (x * 10, y * 10))
 		self.scr = pygame.Surface((380,230))
 		
 	def products(self, opt, lopt, lst):
@@ -578,11 +543,11 @@ class Shop:
 
 		self.scr.blit(self.fnt.render('$' + str(database.MONEY), True, (255, 255, 255)), (20, 10))
 
-		if opt == 0: self.scr.blit(self.fnt.render(database.SHOP[8], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20, 30))
+		if opt == 0: self.scr.blit(self.fnt.render(database.SHOP[8], True, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2])), (20, 30))
 		else: self.scr.blit(self.fnt.render(database.SHOP[8], True, (255,255,255)), (20, 30))
 		x = 1
 		for i in database.PARTY[database.FORMATION]:
-			if opt == x: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (database.COLOR[0], database.COLOR[1], database.COLOR[2])), (20 + (x * 60), 30))
+			if opt == x: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2])), (20 + (x * 60), 30))
 			else: self.scr.blit(self.fnt.render(database.CHARACTERS[i]['NAME'], True, (255,255,255)), (20 + (x * 60), 30))
 			x += 1
 
@@ -939,9 +904,9 @@ class Phone:
 
 	def radio(self, fm, msc):
 		pygame.draw.rect(self.scr, (10, 10, 10), pygame.Rect(0,40,180,210))
-		if database.RADIO[str(math.floor(fm/20))] != []:
+		if resources.RADIO[str(math.floor(fm/20))] != []:
 			pygame.draw.rect(self.scr, (255, 0, 135), pygame.Rect(0,66,180,50))
-			self.scr.blit(self.fnt.render(database.RADIO[str(math.floor(fm/20))][msc][:-4], True, (0, 0, 0)), (10, 76))
+			self.scr.blit(self.fnt.render(resources.RADIO[str(math.floor(fm/20))][msc][:-4], True, (0, 0, 0)), (10, 76))
 		else: self.scr.blit(self.fnt.render(database.MENU[20], True, (255, 255, 255)), (70, 140))
 
 		pygame.draw.rect(self.scr, (10, 10, 10), pygame.Rect(0,40,180,26))
@@ -965,12 +930,12 @@ class Phone:
 
 		if sg > 0:
 			y = 0
-			print(FILES)
-			for i in range(len(FILES[0])):
+			print(resources.FILES)
+			for i in range(len(resources.FILES[0])):
 				if opt != y: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 + (y * 51),180,50))
 				else: pygame.draw.rect(self.scr, (255, 255, 10), pygame.Rect(0,41 + (y * 51),180,50))
-				self.scr.blit(self.fnt.render(database.CHAPTERS[FILES[1][i]][0], True, (0, 0, 0)), (10, 51 + (y * 51)))
-				self.scr.blit(self.fnt.render(str(math.floor(FILES[2][i])), True, (0, 0, 0)), (130, 51 + (y * 51)))
+				self.scr.blit(self.fnt.render(database.CHAPTERS[resources.FILES[1][i]][0], True, (0, 0, 0)), (10, 51 + (y * 51)))
+				self.scr.blit(self.fnt.render(str(math.floor(resources.FILES[2][i])), True, (0, 0, 0)), (130, 51 + (y * 51)))
 				y += 1
 
 			if opt != y: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 + (y * 51),180,50))
@@ -1293,49 +1258,50 @@ class Phone:
 
 			if opt == 1: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,72 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,72 - self.scroll,180,30))
-			if database.SPEED == 5: txt = database.MENU[91]
-			if database.SPEED == 4: txt = database.MENU[92]
-			if database.SPEED == 3: txt = database.MENU[93]
-			if database.SPEED == 2: txt = database.MENU[94]
-			if database.SPEED == 1: txt = database.MENU[95]
+			if resources.SPEED == 5: txt = database.MENU[91]
+			if resources.SPEED == 4: txt = database.MENU[92]
+			if resources.SPEED == 3: txt = database.MENU[93]
+			if resources.SPEED == 2: txt = database.MENU[94]
+			if resources.SPEED == 1: txt = database.MENU[95]
 			self.scr.blit(self.fnt.render(database.MENU[72] + ': ' + txt, True, (0,0,0)), (10, 82 - self.scroll))
 			
-			if opt == 2: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,103 - self.scroll,180,30))
+			if opt == 2: pygame.draw.rect(self.scr, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2]), pygame.Rect(0,103 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,103 - self.scroll,180,30))
 			pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,113 - self.scroll,110,10))
-			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[0])),113 - self.scroll,10,10))
+			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/resources.COLOR[0])),113 - self.scroll,10,10))
 			self.scr.blit(self.fnt.render(database.MENU[73] + ':', True, (0,0,0)), (10, 111 - self.scroll))
 
-			if opt == 3: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,134 - self.scroll,180,30))
+			if opt == 3: pygame.draw.rect(self.scr, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2]), pygame.Rect(0,134 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,134 - self.scroll,180,30))
 			pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,144 - self.scroll,110,10))
-			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[1])),144 - self.scroll,10,10))
+			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/resources.COLOR[1])),144 - self.scroll,10,10))
 			self.scr.blit(self.fnt.render(database.MENU[74] + ':', True, (0,0,0)), (10, 142 - self.scroll))
 
-			if opt == 4: pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,165 - self.scroll,180,30))
+			if opt == 4: pygame.draw.rect(self.scr, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2]), pygame.Rect(0,165 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,165 - self.scroll,180,30))
 			pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,175 - self.scroll,110,10))
-			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/database.COLOR[2])),175 - self.scroll,10,10))
+			pygame.draw.rect(self.scr, (110,110,110), pygame.Rect(60 + int(100/(242/resources.COLOR[2])),175 - self.scroll,10,10))
 			self.scr.blit(self.fnt.render(database.MENU[75] + ':', True, (0,0,0)), (10, 171 - self.scroll))
 
 			if opt == 5: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,196 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,196 - self.scroll,180,30))
 			self.scr.blit(self.fnt.render(database.MENU[87] + ': ', True, (0,0,0)), (10, 204 - self.scroll))
-			pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(60,206 - self.scroll,110,10))
-			for i in range(11): self.scr.blit(pygame.image.load('Sprites/border_' + str(database.BORDER) + '.png'), (60 + i * 10, 206 - self.scroll))
+			pygame.draw.rect(self.scr, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2]), pygame.Rect(60,196 - self.scroll,120,30))
+			for i in range(12):
+				for y in range(3): self.scr.blit(pygame.image.load('Sprites/border_' + str(resources.BORDER) + '.png'), (60 + i * 10, 196 + (y * 10) - self.scroll))
 
 		if mnu == 2:
 			self.scroll = 0
 			if opt == 0: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,41 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 - self.scroll,180,30))
 			pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,51 - self.scroll,110,10))
-			pygame.draw.rect(self.scr, (110, 110, 110), pygame.Rect(60 + (database.SFX * 100),51 - self.scroll,10,10))
+			pygame.draw.rect(self.scr, (110, 110, 110), pygame.Rect(60 + (resources.SFX * 100),51 - self.scroll,10,10))
 			self.scr.blit(self.fnt.render(database.MENU[63], True, (0,0,0)), (10, 49 - self.scroll))
 
 			if opt == 1: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,72 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,72 - self.scroll,180,30))
 			pygame.draw.rect(self.scr, (210, 210, 210), pygame.Rect(60,82 - self.scroll,110,10))
-			pygame.draw.rect(self.scr, (110, 110, 110), pygame.Rect(60 + (database.MSC * 100),82 - self.scroll,10,10))
+			pygame.draw.rect(self.scr, (110, 110, 110), pygame.Rect(60 + (resources.MSC * 100),82 - self.scroll,10,10))
 			self.scr.blit(self.fnt.render(database.MENU[64], True, (0,0,0)), (10, 80 - self.scroll))
 
 		if mnu == 3:
@@ -1354,50 +1320,51 @@ class Phone:
 
 			if opt == 0: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,41 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,41 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[65] + ': ' + pygame.key.name(database.UP), True, (0,0,0)), (10, 51 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[65] + ': ' + pygame.key.name(resources.UP), True, (0,0,0)), (10, 51 - self.scroll))
 			elif opt == 0: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 51 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[65] + ': ' + pygame.key.name(resources.UP), True, (0,0,0)), (10, 51 - self.scroll))
 
 			if opt == 1: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,72 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,72 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[66] + ': ' + pygame.key.name(database.DOWN), True, (0,0,0)), (10, 82 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[66] + ': ' + pygame.key.name(resources.DOWN), True, (0,0,0)), (10, 82 - self.scroll))
 			elif opt == 1: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 82 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[66] + ': ' + pygame.key.name(database.DOWN), True, (0,0,0)), (10, 82 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[66] + ': ' + pygame.key.name(resources.DOWN), True, (0,0,0)), (10, 82 - self.scroll))
 
 			if opt == 2: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,103 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,103 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[67] + ': ' + pygame.key.name(database.LEFT), True, (0,0,0)), (10, 113 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[67] + ': ' + pygame.key.name(resources.LEFT), True, (0,0,0)), (10, 113 - self.scroll))
 			elif opt == 2: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 113 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[67] + ': ' + pygame.key.name(database.LEFT), True, (0,0,0)), (10, 113 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[67] + ': ' + pygame.key.name(resources.LEFT), True, (0,0,0)), (10, 113 - self.scroll))
 			
 			if opt == 3: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,134 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,134 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[68] + ': ' + pygame.key.name(database.RIGHT), True, (0,0,0)), (10, 144 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[68] + ': ' + pygame.key.name(resources.RIGHT), True, (0,0,0)), (10, 144 - self.scroll))
 			elif opt == 3: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 144 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[68] + ': ' + pygame.key.name(database.RIGHT), True, (0,0,0)), (10, 144 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[68] + ': ' + pygame.key.name(resources.RIGHT), True, (0,0,0)), (10, 144 - self.scroll))
 			
 			if opt == 4: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,165 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,165 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[69] + ': ' + pygame.key.name(database.ACT), True, (0,0,0)), (10, 175 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[69] + ': ' + pygame.key.name(resources.ACT), True, (0,0,0)), (10, 175 - self.scroll))
 			elif opt == 4: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 175 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[69] + ': ' + pygame.key.name(database.ACT), True, (0,0,0)), (10, 175 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[69] + ': ' + pygame.key.name(resources.ACT), True, (0,0,0)), (10, 175 - self.scroll))
 
 			if opt == 5: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,196 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,196 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[86] + ': ' + pygame.key.name(database.RUN), True, (0,0,0)), (10, 206 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[86] + ': ' + pygame.key.name(resources.RUN), True, (0,0,0)), (10, 206 - self.scroll))
 			elif opt == 5: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 206 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[86] + ': ' + pygame.key.name(database.RUN), True, (0,0,0)), (10, 206 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[86] + ': ' + pygame.key.name(resources.RUN), True, (0,0,0)), (10, 206 - self.scroll))
 			
 			if opt == 6: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,227 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,227 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[70] + ': ' + pygame.key.name(database.PHONE), True, (0,0,0)), (10, 237 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[70] + ': ' + pygame.key.name(resources.PHONE), True, (0,0,0)), (10, 237 - self.scroll))
 			elif opt == 6: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 237 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[70] + ': ' + pygame.key.name(database.PHONE), True, (0,0,0)), (10, 237 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[70] + ': ' + pygame.key.name(resources.PHONE), True, (0,0,0)), (10, 237 - self.scroll))
 			
 			if opt == 7: pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,258 - self.scroll,180,30))
 			else: pygame.draw.rect(self.scr, (255, 255, 255), pygame.Rect(0,258 - self.scroll,180,30))
-			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[71] + ': ' + pygame.key.name(database.BAG), True, (0,0,0)), (10, 268 - self.scroll))
+			if trg == 0: self.scr.blit(self.fnt.render(database.MENU[71] + ': ' + pygame.key.name(resources.BAG), True, (0,0,0)), (10, 268 - self.scroll))
 			elif opt == 7: self.scr.blit(self.fnt.render(database.MENU[77], True, (0,0,0)), (10, 268 - self.scroll))
-			else: self.scr.blit(self.fnt.render(database.MENU[71] + ': ' + pygame.key.name(database.BAG), True, (0,0,0)), (10, 268 - self.scroll))
+			else: self.scr.blit(self.fnt.render(database.MENU[71] + ': ' + pygame.key.name(resources.BAG), True, (0,0,0)), (10, 268 - self.scroll))
 
 		pygame.draw.rect(self.scr, (91, 91, 91), pygame.Rect(0,0,180,40))
 		self.scr.blit(self.ttl.render(database.MENU[13], True, (0, 0, 0)), (5, 5))
@@ -1431,7 +1398,7 @@ class Phone:
 			if i[1] == nb: break
 			num += 1
 		self.scr.blit(pygame.image.load('Backgrounds/call_' + nb + '.png'), (0, 90))
-		pygame.draw.rect(self.scr, (database.COLOR[0], database.COLOR[1], database.COLOR[2]), pygame.Rect(0,0,180,90))
+		pygame.draw.rect(self.scr, (resources.COLOR[0], resources.COLOR[1], resources.COLOR[2]), pygame.Rect(0,0,180,90))
 		self.scr.blit(self.fnt.render(database.NUMBERS[num][0], True, (255, 255, 255)), (50, 10))
 		self.scr.blit(self.fnt.render(nb, True, (255, 255, 255)), (50, 20))
 		self.scr.blit(self.fnt.render(database.MENU[32] + str(database.CREDIT), True, (255, 255, 255)), (50, 40))

@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 import pygame
 import sqlite3
+import resources
 import os
- 
+
 def new_data():
     global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, INVENTORY, WEATHER, BORDER,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, CHARACTERS, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, ACHIEVEMENTS
@@ -29,7 +30,7 @@ def new_data():
     PX = 184
     PY = 476
     TIME = [0,32,0]
-    DATE = [25,12,0,1]
+    DATE = [25,12,2007,1]
     WEATHER = 0
     CHAPTER = 0
     MORALITY = 0
@@ -65,7 +66,7 @@ def new_data():
     [['clth_shirt1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['bag1','0000','_','_'],['gun_revolver.38','0006','aim1','acc_cartridge'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
      
-    [[['head_glasses','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [[['head_glasses1','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['clth_jacket5','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
@@ -186,7 +187,8 @@ def new_data():
      
     com.close()
     tbl.close()
-  
+    load_dialogs()
+
 def load_data():
     global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, WEATHER, BORDER,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, INVENTORY
@@ -348,7 +350,8 @@ def load_data():
     CONTACTS = [['Sidney','989074454'],['Jane','991124257'],['Renan','990435671'],['Diego','926148930'],['Bianca','976564008'],['Lúcia','990271802'],['Maicon','923778988'],['Mercador','969696969'],['Pizza Delivery','953478809']]
     TASKS = [['test',False],['yeey',False],['test',False],['wow',False],['yikes',False],['yeeey',False],['lol',False],['test',False],['hau',False]]
     CREDIT = 3
- 
+    load_dialogs()
+
 def save_data():
     global ID, MAP, PX, PY, TIME, DATE, WEATHER, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, FORMATION, CHARACTERS, INVENTORY
  
@@ -382,7 +385,7 @@ def save_data():
  
     com.close()
     tbl.close()
-      
+
 def save_sett():
     global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, BORDER
       
@@ -397,7 +400,7 @@ def save_sett():
       
     com.close()
     tbl.close()
- 
+
 def char_entry():
     global ID, CHARACTERS
     tbl = sqlite3.connect('userdata.db')
@@ -410,7 +413,7 @@ def char_entry():
       
     com.close()
     tbl.close()
-      
+
 def party_make(p):
     global ID, PARTY
     tbl = sqlite3.connect('userdata.db')
@@ -430,7 +433,7 @@ def party_make(p):
       
     com.close()
     tbl.close()
- 
+
 def call_save(c):
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -441,7 +444,7 @@ def call_save(c):
  
     com.close()
     tbl.close()
- 
+
 def hist_save(n,w):
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -452,7 +455,7 @@ def hist_save(n,w):
  
     com.close()
     tbl.close()
- 
+
 def inbx_save(e,r):
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -463,7 +466,7 @@ def inbx_save(e,r):
  
     com.close()
     tbl.close()
- 
+
 def task_save(t,d):
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -474,7 +477,7 @@ def task_save(t,d):
  
     com.close()
     tbl.close()
- 
+
 def tact_save(t):
     global ID, TACTICAL
     tbl = sqlite3.connect('userdata.db')
@@ -491,7 +494,7 @@ def tact_save(t):
       
     com.close()
     tbl.close()
-  
+
 def best_regs(f):
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -509,7 +512,7 @@ def best_regs(f):
       
     com.close()
     tbl.close()
-  
+
 def trophy(i):
     global ID, ACHIEVEMENTS
     tbl = sqlite3.connect('userdata.db')
@@ -520,7 +523,7 @@ def trophy(i):
       
     com.close()
     tbl.close()
-      
+
 def delete_data():
     global ID
     tbl = sqlite3.connect('userdata.db')
@@ -542,21 +545,7 @@ def delete_data():
       
     com.close()
     tbl.close()
-      
-LANG = 'PT'
-SFX = 0.8
-MSC = 0.6
-UP = pygame.K_w
-DOWN = pygame.K_s
-LEFT = pygame.K_a
-RIGHT = pygame.K_d
-ACT = pygame.K_g
-RUN = pygame.K_h
-PHONE = pygame.K_BACKSPACE
-BAG = pygame.K_RETURN
-SPEED = 2
-COLOR = [255,10,10]
-BORDER = 0
+
   
 ID = 0
 MAP = 0
@@ -568,137 +557,11 @@ WEATHER = 0
 CHAPTER = 0
 SCENE = 0
 MORALITY = 0
- 
-SPRITES = {
-'BLANKU_000': [],'BLANKDD_000': [],'BLANKD_000': [],'BLANKLD_000': [],'BLANKL_000': [],'BLANKLU_000': [],'BLANKRD_000': [],'BLANKR_000': [],'BLANKRU_000': [],
-'BLANKU_001': [],'BLANKDD_001': [],'BLANKD_001': [],'BLANKLD_001': [],'BLANKL_001': [],'BLANKLU_001': [],'BLANKRD_001': [],'BLANKR_001': [],'BLANKRU_001': [],
-'BLANKU_010': [],'BLANKDD_010': [],'BLANKD_010': [],'BLANKLD_010': [],'BLANKL_010': [],'BLANKLU_010': [],'BLANKRD_010': [],'BLANKR_010': [],'BLANKRU_010': [],
-'BLANKU_011': [],'BLANKDD_011': [],'BLANKD_011': [],'BLANKLD_011': [],'BLANKL_011': [],'BLANKLU_011': [],'BLANKRD_011': [],'BLANKR_011': [],'BLANKRU_011': [],
-'BLANKU_020': [],'BLANKDD_020': [],'BLANKD_020': [],'BLANKLD_020': [],'BLANKL_020': [],'BLANKLU_020': [],'BLANKRD_020': [],'BLANKR_020': [],'BLANKRU_020': [],
-'BLANKU_021': [],'BLANKDD_021': [],'BLANKD_021': [],'BLANKLD_021': [],'BLANKL_021': [],'BLANKLU_021': [],'BLANKRD_021': [],'BLANKR_021': [],'BLANKRU_021': [],
-'BLANKU_030': [],'BLANKDD_030': [],'BLANKD_030': [],'BLANKLD_030': [],'BLANKL_030': [],'BLANKLU_030': [],'BLANKRD_030': [],'BLANKR_030': [],'BLANKRU_030': [],
-'BLANKU_031': [],'BLANKDD_031': [],'BLANKD_031': [],'BLANKLD_031': [],'BLANKL_031': [],'BLANKLU_031': [],'BLANKRD_031': [],'BLANKR_031': [],'BLANKRU_031': [],
-'BLANKU_040': [],'BLANKDD_040': [],'BLANKD_040': [],'BLANKLD_040': [],'BLANKL_040': [],'BLANKLU_040': [],'BLANKRD_040': [],'BLANKR_040': [],'BLANKRU_040': [],
-'BLANKU_041': [],'BLANKDD_041': [],'BLANKD_041': [],'BLANKLD_041': [],'BLANKL_041': [],'BLANKLU_041': [],'BLANKRD_041': [],'BLANKR_041': [],'BLANKRU_041': [],
-'BLANKU_050': [],'BLANKDD_050': [],'BLANKD_050': [],'BLANKLD_050': [],'BLANKL_050': [],'BLANKLU_050': [],'BLANKRD_050': [],'BLANKR_050': [],'BLANKRU_050': [],
-'BLANKU_051': [],'BLANKDD_051': [],'BLANKD_051': [],'BLANKLD_051': [],'BLANKL_051': [],'BLANKLU_051': [],'BLANKRD_051': [],'BLANKR_051': [],'BLANKRU_051': [],
 
-'PHONE_000': [pygame.image.load('Sprites/body_000_phone.png')],'CALL_000': [pygame.image.load('Sprites/body_000_call.png')],
-'STANDU_000': [],'STANDLU_000': [],'STANDL_000': [],'STANDLD_000': [],'STANDD_000': [],'STANDRD_000': [],'STANDR_000': [],'STANDRU_000': [],'JUMPU_000': [],'JUMPD_000': [],
-'WALKU_000': [],'WALKLU_000': [],'WALKL_000': [],'WALKLD_000': [],'WALKD_000': [],'WALKRD_000': [],'WALKR_000': [],'WALKRU_000': [],
-'RUNU_000': [],'RUNLU_000': [],'RUNL_000': [],'RUNLD_000': [],'RUND_000': [],'RUNRD_000': [],'RUNR_000': [],'RUNRU_000': [],
-
-'PHONE_001': [pygame.image.load('Sprites/body_000_phone.png')],'CALL_001': [pygame.image.load('Sprites/body_000_call.png')],
-'STANDU_001': [],'STANDLU_001': [],'STANDL_001': [],'STANDLD_001': [],'STANDD_001': [],'STANDRD_001': [],'STANDR_001': [],'STANDRU_001': [],'JUMPU_001': [],'JUMPD_001': [],
-'WALKU_001': [],'WALKLU_001': [],'WALKL_001': [],'WALKLD_001': [],'WALKD_001': [],'WALKRD_001': [],'WALKR_001': [],'WALKRU_001': [],
-'RUNU_001': [],'RUNLU_001': [],'RUNL_001': [],'RUNLD_001': [],'RUND_001': [],'RUNRD_001': [],'RUNR_001': [],'RUNRU_001': [],
-
-'ATTACKIMATION_1': [], 'ATTACKIMATION_10': [],
-'EFFECT_6': [], 'EFFECT_7': []}
-
-#HEADS
-for p in range(6):
-    if p < 10: pt = '0' + str(p)
-    else: pt = str(p)
-
-    for g in range(2):
-        if p not in [2,3,5]:
-            SPRITES['BLANKU_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_U.png'))
-            for i in range(2): SPRITES['BLANKDD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankDD_' + str(i) + '.png'))
-            for i in range(2): SPRITES['BLANKD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankD_' + str(i) + '.png'))
-            for i in range(2): SPRITES['BLANKLD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankLD_' + str(i) + '.png'))
-            for i in range(2): SPRITES['BLANKL_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankH_' + str(i) + '.png'))
-            SPRITES['BLANKLU_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_HU.png'),True,False))
-            for i in range(2): SPRITES['BLANKRD_' + str(pt) + str(g)].append(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankRD_' + str(i) + '.png'))
-            for i in range(2): SPRITES['BLANKR_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_blankH_' + str(i) + '.png'),True,False))
-            SPRITES['BLANKRU_' + str(pt) + str(g)].append(pygame.transform.flip(pygame.image.load('Sprites/head_' + str(pt) + str(g) + '_HU.png'),True,False))
-#BODIES
-for w in range(1):
-    for t in range(1):
-        if t < 10: pt = '0' + str(t)
-        else: pt = str(t)
-        for i in range(4): SPRITES['STANDU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standU_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standD_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'),True,False))
-        for i in range(4): SPRITES['STANDR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'),True,False))
-        for i in range(4): SPRITES['STANDRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'),True,False))
-        for i in range(2): SPRITES['JUMPU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpU_' + str(i) + '.png'))
-        for i in range(2): SPRITES['JUMPD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['WALKR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['WALKRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNLU_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNL_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNLD_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUND_' + str(pt) + str(w)].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNRU_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNR_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNRD_' + str(pt) + str(w)].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
-
-        #TEMPORAAARIOOO
-        for i in range(4): SPRITES['STANDU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standU_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standD_' + str(i) + '.png'))
-        for i in range(4): SPRITES['STANDRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHU_' + str(i) + '.png'),True,False))
-        for i in range(4): SPRITES['STANDR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standH_' + str(i) + '.png'),True,False))
-        for i in range(4): SPRITES['STANDRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_standHD_' + str(i) + '.png'),True,False))
-        for i in range(2): SPRITES['JUMPU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpU_' + str(i) + '.png'))
-        for i in range(2): SPRITES['JUMPD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_jumpD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['WALKRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['WALKR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['WALKRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNLU_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNL_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNLD_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUND_' + str(pt) + '1'].append(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkD_' + str(i) + '.png'))
-        for i in range(8): SPRITES['RUNRU_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHU_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNR_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkH_' + str(i) + '.png'),True,False))
-        for i in range(8): SPRITES['RUNRD_' + str(pt) + '1'].append(pygame.transform.flip(pygame.image.load('Sprites/body_' + str(pt) + str(w) + '_walkHD_' + str(i) + '.png'),True,False))
-
-for i in range(3): SPRITES['ATTACKIMATION_1'].append(pygame.image.load('Sprites/attackimation_1_' + str(i) + '.png'))
-for i in range(3): SPRITES['ATTACKIMATION_10'].append(pygame.image.load('Sprites/attackimation_10_' + str(i) + '.png'))
-
-for i in range(22): SPRITES['EFFECT_6'].append(pygame.image.load('Sprites/eff_6_' + str(i) + '.png'))
-for i in range(11): SPRITES['EFFECT_7'].append(pygame.image.load('Sprites/eff_7_' + str(i) + '.png'))
- 
-pygame.mixer.init()
-SOUND = {}
-for j in os.listdir('SFX'): SOUND[j[:-4].upper()] = pygame.mixer.Sound('SFX/' + j)
- 
-SONGS = {
-'FATE_OCCURRENCES': pygame.mixer.Sound('Music/fate_occurrences.ogg'),
-#'BEYOND_THE_CLOUDS': pygame.mixer.Sound('Music/beyond_the_clouds.wav'), #'SIERRA_STREETS': pygame.mixer.Sound('Music/sierra_streets.wav'),
-'HEY_SAM': pygame.mixer.Sound('Music/hey_sam.wav'), 'URBAN_PLAGUE': pygame.mixer.Sound('Music/urban_plague.wav'),
-'CIGARUTO': pygame.mixer.Sound('Music/cigaruto.wav'),
-'EMOS_HERMANOS': pygame.mixer.Sound('Music/emos_hermanos.wav'),
-'ONCE_YOU_BECOME_FOREVER_YOU_ARE': pygame.mixer.Sound('Music/once_you_become_forever_you_are.wav'),
-}
-
-PALETTES = [
-[(198,57,21),(250,250,250),(91,7,0),(153,33,33)]
-]
-     
 CHARACTERS = [
 {'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','ID': '0064','BLOOD': 'A+','CIVIL': 'solteiro','CLASS': 'gunslinger',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '011', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '7', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_coxinha','drink_whisky'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
@@ -709,8 +572,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
 {'NAME': 'Jane', 'LASTNAME': 'Oliveira','GENDER': 'female','ID': '0094','BLOOD': 'O-','CIVIL': 'casada','CLASS': 'rifler',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '011', 'ACCESORIES': 'head_glasses', 'COSTUME': '01', 'SKIN': '4', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_chesse_bread','food_coffee'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [20,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -721,8 +584,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
 {'NAME': 'Renan', 'LASTNAME': 'Pinheiro','GENDER': 'male','ID': '0100','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'thief',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '6', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_cola','food_cake_carrot'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [20,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -733,8 +596,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
  
 {'NAME': 'Diego', 'LASTNAME': 'Donovan','GENDER': 'male','ID': '0024','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'gunslinger',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': 'head_glasses', 'COSTUME': '00', 'SKIN': '8', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_burguer','food_cola'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -745,8 +608,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
 {'NAME': 'Bianca', 'LASTNAME': 'Pacheco','GENDER': 'female','ID': '0120','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'doctor',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '040', 'ACCESORIES': 'head_glasses', 'COSTUME': '01', 'SKIN': '9', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_sushi','food_juice_orange'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -756,8 +619,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
  
 {'NAME': 'Lúcia', 'LASTNAME': 'Figueiredo','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'viúva','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '010', 'SKIN': '2', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -768,8 +631,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Maicon', 'LASTNAME': 'Neves','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -780,8 +643,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Iago', 'LASTNAME': 'Dantas','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'comprometido','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -792,8 +655,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Vinicíus', 'LASTNAME': 'Tavares','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -804,8 +667,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'João', 'LASTNAME': 'Pedro Lima','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'solteiro','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -816,8 +679,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Sofia', 'LASTNAME': 'Torres','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -828,8 +691,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Paulo', 'LASTNAME': 'Sousa','GENDER': 'male','ID': '0013','BLOOD': 'O+','CIVIL': 'casado','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None,'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -840,8 +703,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
 
 {'NAME': 'Pietra', 'LASTNAME': 'Amaral','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'comprometida','CLASS': 'sniper',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0, 'COSTUME': '000', 'SKIN': '0',
-'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '0', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -851,6 +714,9 @@ CHARACTERS = [
 'NEXTLEVEL': [100,150,200,300,300,350,450,500,600],
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0}
 ]
+
+NAMES = ['Sidney','Barreto','Jane','Oliveira','Renan','Pinheiro','Diego','Donovan','Bianca','Pacheco','Lúcia','Figueiredo',
+'Maicon','Neves','Iago','Dantas','Vinícius','Tavares','João','Pedro Lima','Sofia','Torres','Paulo','Sousa','Pietra','Amaral']
 
 CHAPTERS = [
 ['Depois do começo', 'prólogo', 'Desde aquele dia, o mundo inteiro havia mudado,', 'Um fato concreto comprovava o que os antigos cientistas', 'e filósofos tentavam nos dizer há muito tempo,',
@@ -971,8 +837,14 @@ electric
       
 FREAKS = {
 #ANOMALIES
+'eggrapper1': {'NAME': 'MC Ovinho','INFO': ['Ele vai acabar','com sua raça.'],'HEIGHT': '0,10','HABITAT': 'urban','TYPE': 'inorganic',
+'AGILITY': 3,'HP': 12,'RESISTANCE': 0,'PATH': 'stay','HABILITIES': [['Ataque',['O elemento se joga contra o','opontente, se machucando no processo.'],-5,1,100,1]],'BLOOD': 10,'ITEM': None,'SONG': 'EGG_RAP'},
+
+'eggrapper2': {'NAME': 'Ovinho Caipira','INFO': ['Ele vai acabar','com sua raça.'],'HEIGHT': '0,10','HABITAT': 'urban','TYPE': 'inorganic',
+'AGILITY': 3,'HP': 12,'RESISTANCE': 0,'PATH': 'stay','HABILITIES': [['Ataque',['O elemento se joga contra o','opontente, se machucando no processo.'],-5,1,100,1]],'BLOOD': 10,'ITEM': None,'SONG': 'EGG_RAP'},
+
 'ancap': {'NAME': 'Anarcocapitalista','INFO': ['Vamos mesmo tirar sarro de uma ideologia','política utópica? Sim, vamos.'],'HEIGHT': '0,50','HABITAT': 'urban','TYPE': 'inorganic',
-'AGILITY': 3,'HP': 12,'RESISTANCE': 0,'PATH': 'stay','HABILITIES': [['Diálogo',['O elemento tenta lhe convencer.'],-5,1,40,1]],'BLOOD': 10,'ITEM': None,'SONG': 'UNBELIEVEBLE_PEOPLE'},
+'AGILITY': 3,'HP': 12,'RESISTANCE': 0,'PATH': 'stay','HABILITIES': [['Diálogo',['O elemento tenta lhe convencer.'],-5,1,100,1]],'BLOOD': 10,'ITEM': None,'SONG': 'UNBELIEVEBLE_PEOPLE'},
 
 'madladcat': {'NAME': 'Gato Atacado','INFO': ['É um felino sobrenatural que','flutua como um fantasma.','Pequeno e ágil, porém bem frágil.'],'HEIGHT': '0,80','HABITAT': 'jungle','TYPE': 'mammal',
 'AGILITY': 5,'HP': 8,'RESISTANCE': 1,'PATH': 'stealth','HABILITIES': [['Morder',['O felino morde o oponente.'],-5,1,40,1],['Arranhar',['O felino usa suas garras,','para atacar o oponente.'],-3,10,40,10],
@@ -1145,9 +1017,12 @@ ITEMS = {
    
 #CUSTOM CLOTHES
 'head_hairclip': ['xuxinha',['Pra amarrar o cabelo.'],30,1,1,3],
-'head_glasses': ['óculos de grau',['Apenas pra quem precisa, senão você','ganha cegueira.'],30,2,1,1],
-'head_sunglasses': ['óculos escuros',['Pra proteger do sol.'],30,2,1,2],
-'head_cap': ['boné',['Pra proteger do sol e ficar estiloso.'],30,2,1,2],
+'head_cap1': ['boné',['Pra proteger do sol e ficar estiloso.'],30,2,1,1],
+'head_cap2': ['gorro',['Pra proteger do sol e ficar estiloso.'],30,2,1,1],
+'head_glasses1': ['óculos de grau',['Apenas pra quem precisa, senão você','ganha cegueira.'],30,2,1,1],
+'head_glasses2': ['óculos escuros',['Pra quem não tem colírio.'],30,2,1,1],
+'head_glasses3': ['óculos redondos',['Qualquer um que usá-lo se transforma','imediatamente no Harry Potter.'],30,2,1,1],
+'head_glasses4': ['óculos retrô',['Apenas para quem é Hype de verdade.'],30,2,1,1],
 
 'clth_shirt1': ['camisa preta',['O traje predileto dos solitários.'],30,4,1,'01'],
 'clth_shirt2': ['camisa laranja',['Roupa casual.'],30,4,1,'02'],
@@ -1397,7 +1272,8 @@ ITEMS = {
 'jewel_sapphire': ['safira',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
 'jewel_opal': ['opala',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
 'jewel_gold': ['ouro',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
-'jewel_quartz': ['quartzo',['Essa jóia deve custar uma fortuna!'],2000,1,3,0]
+'jewel_quartz': ['quartzo',['Essa jóia deve custar uma fortuna!'],2000,1,3,0],
+'mysterious': ['???',['Você não faz idéia do que é isso.'],0,1,1,0]
 }
  
 INVENTORY = [
@@ -1407,7 +1283,7 @@ INVENTORY = [
 [['clth_shirt1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['bag1','0000','_','_'],['gun_revolver.38','0006','aim1','acc_cartridge'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
  
-[[['head_glasses','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+[[['head_glasses1','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['clth_jacket3','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
 [['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
@@ -1441,7 +1317,8 @@ INVENTORY = [
 STORAGE = [['jewel_ruby','0000','_','_'],['drink_whisky','1503','_','_']]
 
 CHESTS = {
-'1bedroom_202': [False]
+'1bedroom_202': [False],
+'1hauntedhouse_4': [False]
 }
 
 PRODUCTS = [
@@ -1567,269 +1444,284 @@ else: dt = 'Boa noite'
 25 - emoção do personagem
 26 - câmera
 27 - esperar
+28 - tutorial
 '''
  
-DIALOGS = {
-'TEST': [['Vou te dar uma tarefa rapaz!',1,[6,'tarefa'],'Fale com outro cara pra cumprir essa tarefa!',1,'Mas também vou te dar meu número!',1,[7,0],0,'Acho que só falta esse email',1,[5,0],'Já tem tudo o que quer','Agora rapa fora!',1]],
- 
-#OBJECTS
-'MIRROR': [['Que peste feia é essa','ah, sou eu',1],['Estou bonita...?',1],['Bigodin finin','Cabelin na régua',1],['Dá pra sair',1],['Sempre arrasando',1],['Tô bem arrumada',1]],
-'SIDNEY WARDROBE': [['Qual roupa vou vestir agora?',[10,['Casaco xadrez','Ok'],['Blusa preta de banda','Sempre gostei do HUG'],['Blusa social','Essa tá boa']]]],
-'BROKEN CLOCK': [['Isso tá quebrado faz tempo.',1]],
-'SIETRA PORTRAIT': [['Essa foto me traz muitas lembranças...',1,'...lembranças ruins.',1],['...',1,'Eles se davam bem...',1]],
-'JANAGO PORTRAIT': [['Legal.',1],['Essa foto foi em Búzios',1,'Foi o dia em que nós','começamos a morar juntos',1,'A gente comeu muito camarão naquele dia',1]],
-'BED': [['Ah não...',1,'a cama tá bagunçada de novo',1,'...',1,0,'...abracadabra, cama arrumada!',1]],
-'PICTURE': [['É uma pintura bonita',1,'não tô entendendo nada','só sei que é bonita',1]],
-'DIRTY SINK': [['A pia está cheia de louça suja...',1]],
-'DIRTY COOKER': [['Tem arroz frio e uma frigideira engordurada no fogão.',1]],
-'EMPTY FRIDGE': [['Água,sachês de ketchup e ovos...',1,'Considero isso uma geladeira vazia.',1],['Tá na de fazer as compras do mês.']],
-'JANE FRIDGE': [['A visão do paraíso.',1],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
-'OLD PC': [['Esse pc ainda usa Windows XP.',1]],
-'MODERN PC': [['No canto da tela diz "Não é genuíno".',1]],
-'PC GAMER': [['O teclado LED brilhando me deixa','ma',1,'lu',1,'co.',1]],
-'OLD TV': [['O Maicon precisa trocar logo essa TV.',1]],
-'PLUG': ['Você pode encaixar um carregador aqui.',1],
+DIALOGS = {}
 
-#CHESTS
-'EMPTY CHEST': ['Não tem nada aqui...',1],
-'SIDNEY NIGHTSTAND': [[[1,'food_peanut_candy',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
-'HH FRIDGE': [[[1,'drink_beer',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
-'TRASH CAN': [[[1,'melee_bottle',0,1]]],
- 
-#PAPERS & SIGNS
-'TAROT POSTER': ['BÚZIOS E CARTAS','Trago seu amor aos seus pés!','978543322'],
-'MISSING POSTER': ['PROCURA-SE','Talita Manhães','Se você a viu, favor, ligue para: 992120342'],
+def load_dialogs():
+    global DIALOGS
 
-#ENEMIES
-'IRRATIONAL': ['A anomalia não entende nada do que você tá falando',1],
-'TARGET': ['Parece bobo, eu sei','Mas é bom já pegar o jeito da coisa.','Ás vezes você pode negociar com o oponente','E assim poupar sua vida.','Também pode obter informações','Importantes dele',
-'Ou mesmo convencê-lo a parar de lutar'],
- 
-'VINICIUS': [[10,['Eu não quero brigar contigo','Eu também não quero','Mas é preciso'],['Você pode ficar com a recompensa','Você está blefando?',[10,['Vai pegar?','É claro que vou!','...assim que acabar com você!'],['Esqueçe','Agora estou mais invocado!']]]]],
- 
-'EMOHIPSTER': [[10,['O que você escuta?','conhece aquela banda?','HUG','muito boa',[10,['eu também gosto de HUG!','sério?!','ai meu deus! que legal!'],['já ouvi falar','é muito boa cara','você tem que escutar']]],['se manda daqui ô barbudo!','como é que é?','o que você tem contra barba?',[10,['Nada oxe','é bom mesmo'],['Isso não é barba','mas...eu cuido tanto dela...']]]]],
- 
-'HOTMAN': [[10,['Cê tá bem mano?','Claro que não né?? Estou queimando feito palha nessa desgraça!'],['Vaza ou meto chumbo','Eu não tenho medo de você'],['A gente não quer nada contigo',
-'Mas eu quero','Preciso de sangue!!']]],
- 
-#PLACES
-'REWARD':[['Ei! Você não tem sangue nenhum!','Volte quando tiver pego alguma coisa!',1],['Só isso?','Vou dar sua recompensa, mas poderia ter se esforçado mais',1],['Você conseguiu bastante sangue','Aqui está sua recompensa',1],['Uau! isso é muito sangue!','Aqui está sua recompensa pelo seu trabalho duro!',1]],
-'MERCATOR': [['Olá cliente!','Interessado em alguns produtos?',1],['Foi mal cara, mas sem grana, sem acordo.',1],['Espera um pouco cara!','Você tá sem espaço!',1,'Não quer dar para outra pessoa?',1]],
-'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1],['Você não tem dinheiro?',1,'Sério?',1],['Você tá cheio de coisas...','Não sei se posso deixar levar tudo isso.',1]],
-'CASHIER SANDRA': [['Vai pedir alguma coisa?',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
-'CASHIER YASMIN': [['Eu tenho que dormir...','compra logo o que tu quer...',1],['Como é que você leva coisas','que não pode comprar??',1],['Fala sério',1,'Por favor leve só o que puder levar',1]],
+    DIALOGS = {
+    'TEST': [['Vou te dar uma tarefa rapaz!',1,[6,'tarefa'],'Fale com outro cara pra cumprir essa tarefa!',1,'Mas também vou te dar meu número!',1,[7,0],0,'Acho que só falta esse email',1,[5,0],'Já tem tudo o que quer','Agora rapa fora!',1]],
+     
+    #OBJECTS
+    'MIRROR': [['Que peste feia é essa','ah, sou eu',1],['Estou bonita...?',1],['Bigodin finin','Cabelin na régua',1],['Dá pra sair',1],['Sempre arrasando',1],['Tô bem arrumada',1]],
+    'SIDNEY WARDROBE': [['Qual roupa vou vestir agora?',[10,['Casaco xadrez','Ok'],['Blusa preta de banda','Sempre gostei do HUG'],['Blusa social','Essa tá boa']]]],
+    'BROKEN CLOCK': [['Isso tá quebrado faz tempo.',1]],
+    'SIETRA PORTRAIT': [['Essa foto me traz muitas lembranças...',1,'...lembranças ruins.',1],['...',1,'Eles se davam bem...',1]],
+    'JANAGO PORTRAIT': [['Legal.',1],['Essa foto foi em Búzios',1,'Foi o dia em que nós','começamos a morar juntos',1,'A gente comeu muito camarão naquele dia',1]],
+    'BED': [['Ah não...',1,'a cama tá bagunçada de novo',1,'...',1,0,'...abracadabra, cama arrumada!',1]],
+    'PICTURE': [['É uma pintura bonita',1,'não tô entendendo nada','só sei que é bonita',1]],
+    'DIRTY SINK': [['A pia está cheia de louça suja...',1]],
+    'DIRTY COOKER': [['Tem arroz frio e uma frigideira engordurada no fogão.',1]],
+    'EMPTY FRIDGE': [['Água,sachês de ketchup e ovos...',1,'Considero isso uma geladeira vazia.',1],['Tá na de fazer as compras do mês.']],
+    'JANE FRIDGE': [['A visão do paraíso.',1],['O Iago comprou um monte de sorvete.','Esse idiota me conhece.']],
+    'OLD PC': [['Esse pc ainda usa Windows XP.',1]],
+    'MODERN PC': [['No canto da tela diz "Não é genuíno".',1]],
+    'PC GAMER': [['O teclado LED brilhando me deixa','ma',1,'lu',1,'co.',1]],
+    'OLD TV': [['O Maicon precisa trocar logo essa TV.',1]],
+    'PLUG': ['Você pode encaixar um carregador aqui.',1],
 
-'DRITHR SANDRA': [['Licença, aqui é o Drive Thru',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
- 
-'FARMACEUTIC': [['Não sabe que remédios comprar?',[10,['Não...','O que você quer tratar?',[10,['Resfriados e alergias','Se você estiver sentindo algum resfriado,','gripe, tontura ou fraqueza, um\
- simples','xarope já basta'],['Infecções e hemorragias','Esses são problemas fortes, mas não muito graves','Para infecções, use o antibiótico correspondente ao tipo de','contaminação.',0,'Se tiver\
-  hemorragias, primeiro cicatrize a ferida','e depois ponha um band-aid para','evitar mais saída de sangue'],['Contaminação e Mal-estar','Caso se sinta alguma coisa parecida, pode ser','sinal de envenenamento ou\
-   intoxicação, existem','várias pílulas para diversos tipos de tóxicos']],'Mais alguma pergunta?',[12,7]],['Tô de boa','Tudo bem','Se tiver alguma dúvida é só perguntar','Fique á vontade']]]],
- 
-'HOTEL ATTENDANT': [['Bom dia!','O que deseja?',[10,['Uma noite apenas','O custo é de 20 por pessoa',[10,['Ok','Aqui, seu quarto é o N° 902',[0,'chave',20]],['Deixa pra lá','Volte a hora que quiser']]],
-['Estou apenas olhando','Sinta-se á vontade']]]],
-    
-#CITIZENS DIALOG
-'DALIBOR': [['VEM AQUI TODO MUNDO!!',1,0,'Que foi isso?!!',1,0,[26,4],[24,None,(184,370),8],[24,1,(200,330),2],[27,70],'Estão todos os mercenários aqui?',1,0,'Não, tem um lá fora e outro','não chegou ainda',1,0,'Ah pronto',1,'não tenho idade pra essas coisas...',1,
-'seguinte...',1,'vamos fazer assim então',1,'você',1,0,'quem, eu?',1,0,'Sim! você!','Pode falar o nome e sobrenome','de vocês seis?',1,[10,['Não ( nomes padrões )','Não sabe?',1,'Era só o que me faltava...',1,
-'então a mulher do seu lado','vai me dizer',1,'Beleza?',1,[22,False]],['Sim ( nomear personagens )','Ok','Vai falando',1,[22,True]]],'Muito bom','Quando todos chegarem','Nós vamos dar início ao','interrogatório',1,
-[27,20],[26,1],[27,20],'Esquisito',1,'Eu imaginava que um interrogatório','fosse bem mais...',1,'...pesado','digamos assim',1,0,'Verdade...',1,0,[27,30],[21,4,1],[23,'HHBIANCA',1]],
-['Chame todo mundo pra','começar as gravações,','por favor',1],['Estão todos aqui',1,'vamos começar?',1,[10,['Espera um pouco','Venha quando','estiver pronta',1],['Podemos','Excelente',1,'Atenção!','Põe essa máquina','pra rodar!',1]]]],
+    #CHESTS
+    'EMPTY CHEST': ['Não tem nada aqui...',1],
+    'SIDNEY NIGHTSTAND': [[[1,'food_peanut_candy',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
+    'HH FRIDGE': [[[1,'drink_beer',0,1]],[0,'Não deveria mexer nas','coisas dos outros',1]],
+    'TRASH CAN': [[[1,'melee_bottle',0,1]]],
+     
+    #PAPERS & SIGNS
+    'TAROT POSTER': ['BÚZIOS E CARTAS','Trago seu amor aos seus pés!','978543322'],
+    'MISSING POSTER': ['PROCURA-SE','Talita Manhães','Se você a viu, favor, ligue para: 992120342'],
 
-'DDA AGENT 1': [['Tá procurando alguém?',1,[10,['Não','Tudo bem',1,'Se estiver precisando','de ajuda, é só','falar',1],['Sim','Eu vi um homem subindo','as escadas',1,'Deve estar lá','em cima',1]]]],
+    #ENEMIES
+    'IRRATIONAL': ['A anomalia não entende nada do que você tá falando',1],
+    'TARGET': ['Parece bobo, eu sei','Mas é bom já pegar o jeito da coisa.','Ás vezes você pode negociar com o oponente','E assim poupar sua vida.','Também pode obter informações','Importantes dele',
+    'Ou mesmo convencê-lo a parar de lutar'],
+     
+    'VINICIUS': [[10,['Eu não quero brigar contigo','Eu também não quero','Mas é preciso'],['Você pode ficar com a recompensa','Você está blefando?',[10,['Vai pegar?','É claro que vou!','...assim que acabar com você!'],['Esqueçe','Agora estou mais invocado!']]]]],
+     
+    'EMOHIPSTER': [[10,['O que você escuta?','conhece aquela banda?','HUG','muito boa',[10,['eu também gosto de HUG!','sério?!','ai meu deus! que legal!'],['já ouvi falar','é muito boa cara','você tem que escutar']]],['se manda daqui ô barbudo!','como é que é?','o que você tem contra barba?',[10,['Nada oxe','é bom mesmo'],['Isso não é barba','mas...eu cuido tanto dela...']]]]],
+     
+    'HOTMAN': [[10,['Cê tá bem mano?','Claro que não né?? Estou queimando feito palha nessa desgraça!'],['Vaza ou meto chumbo','Eu não tenho medo de você'],['A gente não quer nada contigo',
+    'Mas eu quero','Preciso de sangue!!']]],
+     
+    #PLACES
+    'REWARD':[['Ei! Você não tem sangue nenhum!','Volte quando tiver pego alguma coisa!',1],['Só isso?','Vou dar sua recompensa, mas poderia ter se esforçado mais',1],['Você conseguiu bastante sangue','Aqui está sua recompensa',1],['Uau! isso é muito sangue!','Aqui está sua recompensa pelo seu trabalho duro!',1]],
+    'MERCATOR': [['Olá cliente!','Interessado em alguns produtos?',1],['Foi mal cara, mas sem grana, sem acordo.',1],['Espera um pouco cara!','Você tá sem espaço!',1,'Não quer dar para outra pessoa?',1]],
+    'CASHIER INGRID': [['Os produtos estão nas pratileiras','é só você ir pegar e trazer aqui',1,0,'O quê? você quer que eu vá buscar pra você?!',1],['Você não tem dinheiro?',1,'Sério?',1],['Você tá cheio de coisas...','Não sei se posso deixar levar tudo isso.',1]],
+    'CASHIER SANDRA': [['Vai pedir alguma coisa?',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
+    'CASHIER YASMIN': [['Eu tenho que dormir...','compra logo o que tu quer...',1],['Como é que você leva coisas','que não pode comprar??',1],['Fala sério',1,'Por favor leve só o que puder levar',1]],
 
-'DDA AGENT 2': [['Vocês entraram em encrenca',1,'Tem noção do que seus','preciosos olhos testemunharam?',1,[10,['Do que tá falando?','Não se faça de besta!',1,'Espero que tenha','muita coisa pra',
-'contar para o','Senhor Dalibor!',1],['Nem imagino','Você não tem noção',1,'Nunca antes se','viu um evento','dessa magnitude',1,'Por isso mesmo','nós precisamos que','vocês contem tudo','pra gente',1],
-['Eu tô com pressa','Que isso',1,'Se acalma',1,'Bebe um copo','de água',1,'Você vai ter','bastante tempo','quando falar com','o Senhor Dalibor',1]]]],
+    'DRITHR SANDRA': [['Licença, aqui é o Drive Thru',1],['Você tá sem dinheiro.',1],['Você tá sem espaço',1]],
+     
+    'FARMACEUTIC': [['Não sabe que remédios comprar?',[10,['Não...','O que você quer tratar?',[10,['Resfriados e alergias','Se você estiver sentindo algum resfriado,','gripe, tontura ou fraqueza, um\
+     simples','xarope já basta'],['Infecções e hemorragias','Esses são problemas fortes, mas não muito graves','Para infecções, use o antibiótico correspondente ao tipo de','contaminação.',0,'Se tiver\
+      hemorragias, primeiro cicatrize a ferida','e depois ponha um band-aid para','evitar mais saída de sangue'],['Contaminação e Mal-estar','Caso se sinta alguma coisa parecida, pode ser','sinal de envenenamento ou\
+       intoxicação, existem','várias pílulas para diversos tipos de tóxicos']],'Mais alguma pergunta?',[12,7]],['Tô de boa','Tudo bem','Se tiver alguma dúvida é só perguntar','Fique á vontade']]]],
+     
+    'HOTEL ATTENDANT': [['Bom dia!','O que deseja?',[10,['Uma noite apenas','O custo é de 20 por pessoa',[10,['Ok','Aqui, seu quarto é o N° 902',[0,'chave',20]],['Deixa pra lá','Volte a hora que quiser']]],
+    ['Estou apenas olhando','Sinta-se á vontade']]]],
+        
+    #CITIZENS DIALOG
+    'DALIBOR': [['VEM AQUI TODO MUNDO!!',[28,'RUN'],1,0,'Que foi isso?!!',1,0,[26,4],[24,None,(184,370),8],[24,1,(180,350),2,'stand'],[24,2,(230,380),6,'stand'],[24,3,(200,330),2,'stand'],[24,4,(230,350),4,'stand'],[27,70],[25,4,'BLANKL'],
+    'Estão todos os mercenários aqui?',1,[25,4,'BLANKLD'],0,'Não, tem um lá fora e outro','não chegou ainda',1,[25,4,'BLANKDD'],0,'Ah pronto',1,'não tenho idade pra essas coisas...',1,[25,4,'BLANKD'],
+    'seguinte...',1,'vamos fazer assim então',1,[25,4,'BLANKLD'],'você',1,0,'quem, eu?',1,0,'Sim! você!','Pode falar o nome e sobrenome','de vocês seis?',1,[10,['Não ( nomes padrões )','Não sabe?',1,[25,4,'BLANKLU'],'Era só o que me faltava...',1,[25,4,'BLANKL'],
+    'então a mulher do seu lado','vai me dizer',1,'Beleza?',1,[22,False]],['Sim ( nomear personagens )','Ok','Vai falando',1,[22,True]]],'Muito bom','Quando todos chegarem','Nós vamos dar início ao','interrogatório',1,
+    [24,4,(330,320),3,'stand'],[27,20],[26,1],[27,20],[25,1,'BLANKD'],'Esquisito',1,'Eu imaginava que um interrogatório','fosse bem mais...',1,'...pesado','digamos assim',1,0,'Verdade...',1,[25,1,'BLANKDD'],0,[27,30],[21,4,1],[23,'HHBIANCA',1]],
+    ['Chame todo mundo pra','começar as gravações,','por favor',1],['Estão todos aqui',1,'vamos começar?',1,[10,['Espera um pouco','Venha quando','estiver pronta',1],['Podemos','Excelente',1,'Atenção!','Põe essa máquina','pra rodar!',1]]]],
 
-'HHSIDNEY': [[0,'Oi, ' + CHARACTERS[0]['NAME'] + '.',1]],
+    'DDA AGENT 1': [['Tá procurando alguém?',1,[10,['Não','Tudo bem',1,'Se estiver precisando','de ajuda, é só','falar',1],['Sim','Eu vi um homem subindo','as escadas',1,'Deve estar lá','em cima',1]]]],
 
-'HHBIANCA': [['O que foi?',1,0,'Era Iago','Perguntou se eu tava bem',0,1,'Ah tá',1,2,'Pelo menos ele se preocupa','com você',1,0,[25,None,'BLANKDD'],'Sim',0,1,[27,100],'Percebeu onde a gente','conseguiu chegar?',
-1,0,[25,None,'BLANKLD'],'Como assim?',0,1,'Ás vezes nós não','nos damos conta...',1,'...mas agora a pouco eu','era pesquisadora',1,'E agora além de tudo a gente','sai pra caçar monstros',1,'não é esquisito?',1,
-[10,['Não são monstros','Você entendeu o que eu','quis dizer',1],['Muito esquisito','Não é??',1]],'Isso parece até coisa de filme',1,'Mas isso não é errado?',1,[10,['Acho que não','Mas por que?',1,0,
-'A gente não está salvando','as pessoas?',1,'Eu acho que isso é o','que importa',0,1],['Eu não ligo','Sei não...',1,'Não gosto dessa coisa de matar','bichinhos',1,0,[24,None,(None,None),5],[25,None,'BLANKL'],'Mas não são bichos, garota!',0,1]],
-'Eu sei',1,'Mas mesmo assim...',1,0,'Ei',0,1,'O quê?',1,[10,['Não se culpe por isso',0,'No começo parece que','você está fazendo a coisa','mais cruel do mundo',1,'Se já deve ser difícil',
-'pra quem trabalha na polícia','imagine pra gente',1,'Nós apenas estamos fazendo','o que é melhor pra todos',0,1],['Eu já me acostumei',0,'Não ligue para o que os','outros dizem',1,
-'Eles não são a gente','pra dizer alguma coisa!',1,'Se estivessem no nosso lugar','fariam o mesmo',0,1]],'Sim, mas...',1,'...',1,'...precisa ser matando...?',1,[21,1,1],[23,'DALIBOR',0]],
-[0,'Viu o ' + CHARACTERS[0]['NAME'] + '?',1,0,'Não, não vi...',1,0,'Vê onde ele está, por favor?',1,0,'Tudo bem',1,[18,4]]],
+    'DDA AGENT 2': [['Vocês entraram em encrenca',1,'Tem noção do que seus','preciosos olhos testemunharam?',1,[10,['Do que tá falando?','Não se faça de besta!',1,'Espero que tenha','muita coisa pra',
+    'contar para o','Senhor Dalibor!',1],['Nem imagino','Você não tem noção',1,'Nunca antes se','viu um evento','dessa magnitude',1,'Por isso mesmo','nós precisamos que','vocês contem tudo','pra gente',1],
+    ['Eu tô com pressa','Que isso',1,'Se acalma',1,'Bebe um copo','de água',1,'Você vai ter','bastante tempo','quando falar com','o Senhor Dalibor',1]]]],
 
-'HHDIEGO': [['Aí pessoal,','licença que vou','pegar algo pra','beber',1,'vai querer algo?',1,[10,['Não, obrigado','Ok então',1],['Qualquer coisa serve','Beleza',1]]]],
+    'HHSIDNEY': [[0,'Oi, ' + CHARACTERS[0]['NAME'] + '.',1,[27,50],CHARACTERS[0]['NAME'] + '?',1,0,'Oi' + CHARACTERS[4]['NAME'] + '.',1,0,'O que tá fazendo?',1,0,'Nada não...',1,'Só apreciando a vista...',1,0,'Ah sim...',1,[27,100],
+    0,'A noite não é linda?',1,'É a minha parte favorita','do dia',1,'Ficar vendo as estrelas...',1,'As pessoas não tem mais','tempo para essas coisas','hoje em dia',1,[10,['Verdade',0,'Tem muita coisa que as','pessoas perdem por causa','do tempo delas',1,
+    'as pessoas deveriam aproveitar','mais as coisas a sua volta',1,[27,100]],
+    ['Estava falando com ela?',[27,200],'Não é surpresa nenhuma...',1,'...né?',1]],'O que veio fazer aqui?',1,0,[10,['Queria saber como estava','Ah..',1,'Valeu...',1],['Lá dentro tá chato','Pior...',1]],'']],
 
-'HHLUCY': [['Ei, você viu','se ele já voltou?',1,[10,['Eu ia perguntar isso','É, ele não aparece',1,[10,['Pode procurar ele?','Claro']],['Não vi ele','Ele tá demorando','muito...',1]],'Eu já volto',1]]],
- 
-'BUS WAITER': [['Esse ônibus demora mesmo',1,'Pego ele todo dia pra','descer a serra até a capital',1,'São só 4h de viagem!',1,2]],
-'SQUARE OLD MAN': [['Eu adoro alimentar os pombinhos',1,'ainda mais aqueles que','tem um monte de penas','lindas no rabo',1,[10,['como assim?','elas chegam a hipnotizar...',
-'eu fico olhando e perco','a noção do tempo.',1],['legal','são adoráveis',1]]]],
-'HOMELESS MAN': [['Pode me dar um trocado','por favor?',1,[10,['...','é sempre assim...',1],['Tudo bem',[0,-1],'Deus te abençoe!',1]]]],
-'STREET SWEEPER': [['Hey mano',1,'Posso te falar uma coisa?',1,[10,['É claro','Se estiver com lixo nos','bolsos ou na mochila...',1,'por favor...',1,'...jogue na lixeira',1,
-'Não custa nada',1,'Tem uma em cada esquina da cidade',1,'Fechou?',1],['Agora não...','Tá bom então...',1,'não é como se fosse','te dar uma informação','importante que fosse',
-'mudar sua vida e seu','jeito de agir',1,'bola pra frente',1]]]],
-'YOUNG MOM': [['Meu filho adora brincar','nesse monte de areia',1,'Também gosto porque','o sinal da praça é','muito bom',1,[10,['o quão bom?','quê?',1,[10,['o quão bom?','ah...',
-'dá pra ver as notícias','e mexer na internet',1,'não é muita coisa porque','meu celular é de tecla',1,'mal posso esperar ter','um daqueles celulares novos','que você pode tocar',
-'na tela',1],['esquece','ah tá',1]]],['não é pra tanto','é o que você pensa',1,'pelo menos é melhor','do que em outras cidades',1],['mas é só aqui?','meio que sim',1,'o sinal só é bom',
-'mesmo na praça',1,'mas dá pra usar o sinal','em outros lugares também',1]]]],
-'FUNNY KID': [['Iaaaaaaá!',1,'que fofo',1]],
-'INFORMED MAN': [['Eu sempre vejo as','notícias na televisão',1,'mas quando a internet está','boa eu vejo no celular','também',1,[10,['deveria ver mais jornais','vai por mim, hoje em',
-'dia é mais que necessário',1,'ainda mais com essa onda','de crimes por causa dos mercenários',1,'eles avisam quando tá tendo','caça na região',1],['não gosto muito de notícias',
-'mas por que?',1,[10,['É muita violência','eu também acho',1,'mas é a vida',1,'se não se informar, pode','perder muita coisa importante',1],['Não tenho tempo pra isso','Ler um artigo não',
-'faz mal cara',1,'não demora muito, é bom','parar a correria do dia','pra ler alguma coisa',1],['É tudo mentira','eu concordo',1,'mas sei lá','quem não mente hoje?','eu faço assim, leio a matéria',
-'mas com uma certa desconfiança',1,'eu preciso me informar,','mas se eu sair acreditando','em tudo que vejo,','aí eu posso acabar','espalhando mentiras',1]]]]]],
- 
-'OLD MAN': [['É bom você sempre','tirar dúvidas com o','entendido do assunto.',1,'Minha filha comprou um','antibiótico e pensou que','era pra beber.',0,'Agora ela tá no hospital...','Essa menina...',1]],
-'INJURIED DAUGHTER': [['É bem vergonhoso dizer o motivo',1,'Mas estou internada porque','bebi antibiótico',1,'Devia ter escutado meu pai...',1]],
-'PRETTY MOM': [['Minha filha tá me','pertubando pra levar alguns','doces pra ela.',1,'É assim toda hora,','ela vai parar já já.',1]],
-'PRESSING CHILD': [['Mãe!','Tem tantos doces aqui!','Eu quero!','Eu quero!','EU QUERO!',1]],
- 
-'DOCTOR': [['Você sofreu várias fraturas no corpo','A conta dos cuidados foi de $100 por pessoa']],
-'WORRIED NURSE': [['Você deveria se cuidar mais','É muito comum te ver por aqui']],
-'HINT NURSE': [['Tome cuidado com sua vida!','Não digo por causa da saúde, mas pelo dinheiro',0,'Se não tiver dinheiro da próxima vez, pode','entrar em prejuízo.']],
-'PATIENT': [['Eu quero ir pra casa logo','A comida daqui é horrível!']],
-'IMPATIENT PATIENT': [['Eu tô na fila desde anteontem','Parece até que nunca anda!']],
- 
-'BANK GUARD': [['Ponha qualquer objeto de metal que tiver','na caixa ao lado',1]],
-'UNLUCKY MAN': [['Não é possível','uma coisa dessas!',1,'O caixa acabou de entrar','em manutenção!',1,'ERA MINHA VEZ!',1]],
-'OLD WOMAN': [['Como que faz pra','tirar a telesena aqui?',1]],
-    
-'NPC': ['Oi...eu te conheço?','Você não deveria estar falando com estranhos','Agora não ' + gn + '! Eu tô com pressa!','Afe, mercenários...','Não quero falar com você','Licença'],
-'DOOR': ['Não conheço você','Quem é você?','O que você quer?','Vai embora!'],
-    
-'HOTEL DOOR': ['Esse é meu quarto','Aqui não é seu quarto, ' + gn, gn + 'está perdido?'],
-    
-'KONAMI GUY': ['Hey, sabe o que acontece se você apertar cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A e START?','Merda nenhuma!'],
-    
-#CHARACTERS DIALOG
-'PROLOGUE': [['Hey?','...','Está me ouvindo?','hm?','Você entendeu o que eu disse?','Pra ser sincera, não','...','Estava pensando, com a cabeça em outro lugar...','...sobre o quê você estava pensando?','...eu...eu fiz\
- coisas...','...','...eu fiz coisas que...tantas coisas...que não...pensei direito','...','...eu me arrependo tanto, nada disso deveria ter acontecido, foi tudo por causa de uma briga, e eu trouxe essa desgraça\
- pra minha vida...eu achei que poderia ajudar nós dois, achei que eu seria aquela que iria nos tirar do buraco...','...','...mas no final eu só afundei ainda mais....','é natural pensar coisas assim, mas tente sempre\
- se lembrar que o que você fez você não fez por mal, você estava querendo ajudar, achar uma solução','...sim...','isso não te anima?','nem um pouco...porque eu atrapalhei ao invés de ajudar...não fui inteligente','é\
- difícil','muito...mesmo...','...','você está fazendo atitutes inteligentes agora, está procurando ajuda, reconhecendo seu erro, se afastando daquilo que te traz problema','...sim...','você precisa\
- continuar assim','...','ei','?','me prometa de que você nunca mais vai voltar a pegar em uma arma, certo?','certo! certo!','nem que um monstro apareça no mato ou um bandido invada sua casa, nunca, NUNCA MAIS, encoste\
- em nenhum arma!','...','está me ouvindo?','sim','ótimo...','...','já está na hora de ir','não pode ficar mais um pouco?','desculpa, mas pode continuar amanhã, eu também tenho sanidade mental','claro, \
-desculpa...',[2,'990435671',True]]],
-    
-'CHAPTER1': [['Então...como tá o trampo?','Que trampo?','Você sabe, o de mercenário','...','Tá muito puxado?','...bastante','Acho que já ouviu alguns comentários sobre eles','Sim...até demais, mas nem ligo',
-'Como não?','Mano, foi graças á essa vida que tô onde tô agora, não vou deixar que alguns comentários mudem minha cabeça. Eu gosto do que faço','Sim, mas seria melhor você arranjar\
- alguma outra coisa né?','Isso até eu quero né','Então por que você não sai dessa?','Porque não dá cara! Não vão contratar alguém com ficha suja','Ah, é mesmo...','Além do mais eu já me garanto onde eu tô, se eu trocar de\
-  emprego posso ser demitido de novo','Já passou perrengue demais, não é?','Sim','...sei não, ainda acho melhor você fazer alguma outra coisa, esse negócio de matar e arriscar a própria vida','Que vida?','...','...','...',
-'Eu já tô indo','Deixa que eu pago essa','Sério?','Sim, é por minha conta','Você é demais cara',[6,'Renovar a Carteira']],
-['Teria sido melhor ficar lá no bar',11,'BORA LOGO!','!','NÃO TENHO O DIA TODO!','...','Que saco...','...','Que demora','...','Pra você ver né, até pra isso tem toda essa baboseira','Hã? Ah, sim, sim, sim...','Era pra\
- ser um negócio rapidinho...tranquilo, de boa, mas não! Eu sou obrigada a ficar aqui esperando!','Eu já tô até acostumado','Ai não ia me acostumar nunquinha, deus me livre','É que já é coisa da rotina, todo ano tem isso',
-'É?','Ahã...só que agora saiu mais cedo, geralmente é só lá pra setembro','Você mercenário?','Sou','Ah, pra saber dessas coisas...','Por que? você não é?','Não, mas daqui a pouco já tô virando uma!','Mas aqui\
- não é onde renova a carteira?','Não,disseram que o registro é aqui também','onde?','no último guinchê','Ah sim, agora eu vi','Vem cá, e como é essa coisa toda de mercenário, matar pessoas...','A gente não mata\
- pessoas','Ah sim, desculpa...','Não,  tudo bem, é normal','Então o que vocês fazem exatamente?','Olha, a primeira coisa que você deve saber se quiser virar mercenária, é que certas coisas são totalmente confidenciais',
-'Uh! sério?','Sim, sigiloso','Tipo homens de preto né?','Não é pra tanto, mas é tipo','Mas eu achava que era só matar e ganhar dinheiro!','ihhhh...vai sonhando, é um bicho chato','Sério?','Quer dizer, tirando toda a\
- diversão, ainda é um trabalho, tem que estar sempre disposto, te chamam na hora que querem, é cansativo, tem os chefes, a gente recebe pouco...','QUÊ?','fala baixo!','desculpa','...','...recebe pouco?','depende do quanto\
- você caça','Ah...então se eu caço bastante','ganha bastante, isso aí','Mas o que vocês caçam exatamente?','segredo','Ah! deixa disso! fala logo!','Se quiser saber mesmo, vai ter que esperar até lá dentro','tá\
- bom então...ô Agente G','...','Beleza James Bond','tá já chega','ei já tá na sua vez','ah sim'],
-['Então esse é seu nome?','Sim...' + CHARACTERS[1]['NAME'] + CHARACTERS[1]['LASTNAME'],
-'Ok...Prazer ' + CHARACTERS[1]['NAME'],'Prazer','Então...o que tem que fazer agora?','Bom, agora você pode pegar sua primeira arma ali, e se quiser já pode treinar um pouco de tiro','Você vem comigo?',
-'Não...eu já tenho que ir','Ah por favor! Eu não entendo das coisas aqui!','...','please!',[10,['Tá bom','YASS','Não se empolga, tá','Então tá, onde que pega o brinquedinho?','Me segue',[11,1]],['Agora não','Tudo bem então...\
-A gente se vê por aí','Eu tô aqui todo dia','Beleza!','...','Ah! eu só posso vir aqui nos sábados!','Beleza!','Tchau!','Essa garota tá querendo alguma coisa comigo...',[11,3]]]],
-['É aqui que faz o treinamento?','exatamente','Ok...','...','me ensina a atirar?','Tudo bem',[9,2],'Primeiro põe esses óculos aí','esses?','sim, agora mira, não põe muito perto senão machuca o olho','ah sim',
-'e...aperta o gatilho',[13,'Alvo']],
-['Nossa, mandou muito','Eu sou demais!','Não sério, você já atirou antes?','Um pouquinho','Um pouquinho?!','Tá, eu sei atirar','Se você já sabia atirar, por que pediu minha ajuda?','Vai saber',
-'Ai,ai...','Faz muito tempo já, começei quando...',[3,EMAILS[0].copy()],'Pera aí rapidinho','O que foi?','Chegou email','...','Desculpa ' + CHARACTERS[0]['NAME'] + ', eu tenho que ir!','De novo?',
-'É um caso pra resolver','agora?','É o que eu te falei antes','Posso ir com você?','Vai devagar querida, eu tô em outro nível','Por que não posso ir?','Muita coisa ainda, muita coisa, te explico depois','Pera aí! Mizera...'],
-['Lembra de mim, filho da mãe?','você!','Essa é pra aprender a não mexer comigo!',[9,2],'???','O que você estava fazendo?',[10,[],[]]]],
-    
-'CHAPTER_2': [['Olá?','...','Eu tô apertada sabe?','j-já vou sair!','Eu espero...','...','Finalmente...','...','...você tá bem?','não.','ah...desculpa...','Você não tem culpa de nada','Por que você tá chorando?',
-'Nada demais, sério não precisa se preocupar','...tá bom então...','Só um desgraçado que não liga pra ninguém e só se importa com ele mesmo! Nunca tem tempo pra nada! E ainda cobra de mim!','...é um cara?',
-'A gente não se vê faz meses, só conseguimos se falar por telefone, ele sempre diz que vai voltar algum dia mas nunca vem!','Bom...pelo menos ele se importa...','...','...não?','Ele finge que se importa, fica fazendo falsas promessas e me fazendo de otária!',
-'É seu namorado?','Não...quer dizer, não mais...ele era...','é complicado...','Você acha que deveria esquecer?','Honestamente...','...','Sim, você deveria','Mas eu ainda gosto dele!',
-'Problema seu, você tem que parar de se prender á pessoas que não te fazem feliz, a vida é assim','Nossa que duro','Que nem sua cara bateu no muro','Afe, para!','Tá bom, mas é sério, vai fazer bem pra você, uma hora isso passa',
-'...entendi','ok?','ok','Então tira essa lágrima do rosto e vai se divertir, se quiser posso ir contigo, tá sozinha?','Não, mas pode vir','Ah, obrigada!','Você DEVE vir','Eu sei menina, relaxa! Como se chama?',
-'A menina que veio te caçar','Que isso garota pera aí...','...','...','...Te caçei','Ah fala sério!','Obrigada por me escutar, mas preciso ir direto para o que interessa','Caramba, eu acabei que tinha criado um laço de amizade aqui!',
-'Olha não tem nada a ver comigo, me pediram para fazer isso, tá bom?','Fala logo o que você quer!','Preciso das suas amostras','Elas estão no laboratório','Eu sei que estão no laboratório, você vai me levar até a sala onde estão guardados e entragar para mim',
-'Eu não faria isso','Olha, eu não sou burra e sei que se eu atirar aqui dentro vão me prender, mas eu posso muito bem te fazer ir para meu carro com a pistola nas suas costas!','Você não faria isso','Não mesmo, mas adivinha? eu tô fazendo!',
-'Ei pera!','...?','Tá vindo alguém!','Rápido se escon-',[13,'pietra']],['']],
- 
-'CHAPTER_8': [['Olá?','...','Alguém em casa?','...','...','Olá! Em que posso ajudá-los?','Boa tarde senhor, essa fazenda é sua?','Oh sim, é minha desde que meu avô começou a capinar, quando tudo isso ainda era mato!','...mas só tem mato aqui senhor',
-'Pois é, faz um bom tempo que não tem ninguém para cuidar da minha fazendinha, só resta eu e minha maloca...','Mas esses animais também são seus?','Ah não, apareceram aí! Não são criatuinhas de Deus?',
-'Nossa ' + CHARACTERS[1]['NAME'] + ', tem um Boi Dourado ali!',CHARACTERS[3]['NAME'] + '! Se concentra!','Então...nós somos...','...detetives?','...','...sim! sim, detetive ' + CHARACTERS[3]['NAME'] + ' e minha colega, detetive ' + CHARACTERS[1]['NAME'] + '.',
-'Muito prazer, me chamo Hermes, eu já imaginava que fossem pois não tem uma semana que alguém bate na minha porta!','É mesmo?','Sim! vocês não sabem?','Não, viemos de outra cidade','Ah...vieram de onde?','Vargi...','Itatiaia!','Pera, quê?',
-'Não é que ele','A gente acabou de vir de Itatiaia, mas estamos indo pra Varginha','É, isso mesmo','Interessante...é porque Policiais vieram aqui perguntando um monte de baboseira...umas presepada que não sei nem o nome!','Geóglifos?',
-'Sim, e acho que você gostariam de saber algo a respeito, não é?','Sim, o depoimento dos moradores próximos é muito importante!','Bom, eu não sei nada desses Zoológicos coisa nenhuma, mas por alguma razão todos vem me perguntar','É porque, Sr. Hermes, os Geóglifos estão na sua fazenda',
-'Pois é, mas é justamente porque ela está a tanto tempo parada que não me informo dessas coisas entende? Talvez alguma pessoa tenha invadido meus campos e fez esses desenhos no mato!','Hermes...','Olha ' + CHARACTERS[1]['NAME'] + 'Acho que já conseguimos informações o suficiente do Sr. Hermes, e aliás, acho que um vândalo qualquer seria mais suspeito do que qualquer aposentado de meia-idade','Eu trabalho',
-'Ah, sério?','Sim, eu vendo artesanato','Boas vendas, Hermes','Muito obrigado...', CHARACTERS[3]['NAME'] + '.',CHARACTERS[3]['NAME'] + '! Muito obrigado pela ajuda de vocês!','O prazer é todo nosso!','...','Por que fez isso?',
-'Muita gente já falou com ele, se fizermos perguntas demais ele pode fazer alguma coisa!','O quê? destruir provas?','Exatamente isso','Por que ele faria isso?','É o que estamos tentando descobrir!'],
-['Ainda não entendo como foi tão simpático com aquele velho...','Por que? você acha ele mau?','Não...mas eu desconfio dele, não deveria falar desse jeito com ele','Então o que você sugere?','Seja mais duro?!','Não dá pra gente conseguir nada das pessoas sendo duro com elas','Os policiais conseguem',
-'Ele é um cara muito suspeito, isso a gente já sabe, mas como ninguém conseguiu tirar provas dele, quer dizer que ele é muito bom em guardar segredo','Eu não sei...acho que a gente devia sequestrar ele',
-'Claro que não!','Nossa calma! Eu só tava falando...','...','Então o que a gente vai fazer?','Vamos continuar investigando','Ah sim, claro que sim...','O problema de leigos como você é que eles tentam começar de cima...','Como é que é?','É a verdade',
-'Olha me escuta aqui ' + CHARACTERS[3]['LASTNAME'] + '! Você não sabe quem eu sou e de onde eu vim! Então é bom você ficar calado que aí você ganha mais e não caga pela boca!','Ok...']],
- 
-'VINICIUS': [[[15,'battle_incoming'],'O que tá fazendo aqui?','Quem pergunta sou eu! O que VOCÊ tá fazendo aqui?','Com certeza não é deixar você roubar minha recompensa',0,'E quem disse que ela é sua?','Garoto,melhor sair do meio, ou vai dar\
- muito mal pra nós dois',0,'que assim seja então!',[13,'madladcat','vinicius']]],
-'RENAN': [[[15,'battle_incoming'],'Você mexeu com a turma errada cara!','Tá na hora de aprender uma lição!',[14,0]]],
-'BIANCA': [['Hey ' + CHARACTERS[0]['NAME'] + ', fique com essa lupa, Eu fiz ela apenas para pesquisar anomalias.','Quando enfrentar uma anomalia que não está registrada no bestiário,','Use-a para registrar a anomalia.',[0,'lupa']]],
-'SIDNEY': [['1Não tenho um minuto de paz nessa desgraça!!','2Eu achei que eles iam ficar de boa','1Se tem uma coisa que você tem que saber sobre as pessoas é que elas odeiam pessoas com armas na mão atirando por aí','2Mas você salvou elas! Matou esse...essa...','1...Lata Alada','2Que','1O nome da anomalia','2Noooooosa!','1Vou botar essa no Bestiário','2Tá, mas elas deveriam ter um pouquinho de consideração né?','1Ninguém tem um pingo disso com ninguém da DDA','2Conplicado...','1É gente que nunca viu uma gota de sangue na vida e já ficam chocadas, esse aí é o mesmo pessoal que fica com esses papos de veganismo depois','2hmmm...nah']],
-'JANE': [["I don't wanna to","I not in a good mood, you know...",[10,["It's all right?","Oh, no! I just don't want to cause any trouble"],["Fine then","Yeah"],["But you need to do it","Look, since the last time I put my hand on a gun, it wasn't a wise choice!","I don't want people to suffer from my mistakes!","I just mess everything up...",[10,["You don't","I know you are saying this just to chill me down, but I don't want to fool myself","I have to accept this"],["Everyone makes mistakes","But not everyone kills a person, right?",[10,["What?","Oh, you don't know?","Awwww...I should shut my mouth"],["...","..."]]],["It's hard","At least you recognise"]]]],0,'Well, I have to go...','See you later']],
-'MATT KAI': [['EU AMO PINK FLOYD','EU AMO PINK FLOYD','EU AMO PINK FLOYD','2Esse é o criador do jogo?','1Ele mesmo','2Sem nexo','1Mó fita']],
+    'HHBIANCA': [['O que foi?',1,0,'Era Iago','Perguntou se eu tava bem',0,1,'Ah tá',1,2,'Pelo menos ele se preocupa','com você',1,0,[25,None,'BLANKDD'],'Sim',0,1,[27,100],'Percebeu onde a gente','conseguiu chegar?',
+    1,0,[25,None,'BLANKLD'],'Como assim?',0,1,'Ás vezes nós não','nos damos conta...',1,'...mas agora a pouco eu','era pesquisadora',1,'E agora além de tudo a gente','sai pra caçar monstros',1,'não é esquisito?',1,
+    [10,['Não são monstros','Você entendeu o que eu','quis dizer',1],['Muito esquisito','Não é??',1]],'Isso parece até coisa de filme',1,'Mas isso não é errado?',1,[10,['Acho que não','Mas por que?',1,0,
+    'A gente não está salvando','as pessoas?',1,'Eu acho que isso é o','que importa',0,1],['Eu não ligo','Sei não...',1,'Não gosto dessa coisa de matar','bichinhos',1,0,[24,None,(None,None),5],[25,None,'BLANKL'],'Mas não são bichos, garota!',0,1]],
+    'Eu sei',1,'Mas mesmo assim...',1,0,'Ei',0,1,'O quê?',1,[10,['Não se culpe por isso',0,'No começo parece que','você está fazendo a coisa','mais cruel do mundo',1,'Se já deve ser difícil',
+    'pra quem trabalha na polícia','imagine pra gente',1,'Nós apenas estamos fazendo','o que é melhor pra todos',0,1],['Eu já me acostumei',0,'Não ligue para o que os','outros dizem',1,
+    'Eles não são a gente','pra dizer alguma coisa!',1,'Se estivessem no nosso lugar','fariam o mesmo',0,1]],'Sim, mas...',1,'...',1,'...precisa ser matando...?',1,[21,1,1],[23,'DALIBOR',0]],
+    [0,'Viu o ' + CHARACTERS[0]['NAME'] + '?',1,[25,1,'BLANKD'],0,'Não, não vi...',1,0,'Vê onde ele está, por favor?',1,0,'Tudo bem',1,[18,4]]],
 
-#CONTACTS CALL
-'989074454': [['Sidney']],
-    
-'991124257': [['Oi! Sou eu, a Jane']],
-  
-'990435671': [[[CHARACTERS[1]['NAME']+'! Precisamos de você aqui AGORA!','Eu sei que você saiu e coisa e tal, mas a gente PRECISA DE VOCÊ!','Estamos na Av. Jobim, venha logo!',[4, 'Urgência na Av. Jobim']],
-['Caramba '+CHARACTERS[1]['NAME']+', será que você não entende a gravidade da situação??','Só você pode deter essa anomalia!']]],
-    
-'926148930': [['E aí mano? Beleza?','Então, aquela parada da transferência deu certo, adivinha?','Amanhã á noite eu tô indo pra Nova Friburgo!',0,'Tá tendo umas paradas estranhas lá, e me mandaram examinar','Vamos aproveitar pra gente se ver, beleza?']],
-  
-'976564008': [['Agora não, ' + CHARACTERS[0]['NAME'] + '! Eu tô trabalhando!','Me ligue depois, estou fazendo coisa importante aqui!']],
-  
-'940028922': [['Oh, olá! como vai, '+CHARACTERS[0]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],
-['oie']],
-    
-'990271802': [['Garoto, o chefe quer te ver o mais cedo possível na delegacia',1,'Espero que não tenha feito merda...',1,'Bláblabla','blablabla','blablabalbala','blablablaba',1,0,'entendeu?',1]],
-    
-'987690021': [['Paulo']],
-  
-'953478809': [[dt + ', em que posso ajudar?',[10,['uma pizza grande','já estamos á caminho',1,[17,'pizza',0,3]],['uma pizza média','já estamos á caminho',1,[17,'pizza',3]]]]],
-  
-'909236521': [[dt + ', correios']],
-  
-'923778988': [['Alô?',1,CHARACTERS[0]['NAME'] + '! a quanto tempo cara!',1,'Precisando de ajuda em','carregar algumas coisas?',1,'Não tem problema, o pai tá aí','pra resolver já já!',1,[17,'maicon',0,3]]],
-  
-'969696969': [['Olá ' + prps + ' cliente, em que posso ajudar?','você está a procura de meus serviços?','chegarei em instantes',1,[17,'mercador',0,3]]],
-  
-'977904623': [['Hey!','Você está bem?','Onde você tá?','O que tá acontecendo?','Você se machucou?',[10,['Eu tô bem','Mesmo?',1,'Ufa...',1],['Fique calmo','Não consigo me acalmar',1]],'Eu estava preocupado','com você',1,
-'mas graças a','Deus você está bem',1,'Aquela mulher chamando','vocês aos prantos me','deixou assustado',1,'Você deve estar','cansada depois de','tudo o que passou',1,'Engraçado, não é?',1,'Você mal saiu','dessa coisa de mercenária',
-'e já tá na ativa','novamente',1,'Mas assim...',1,'...',[10,['Pode falar','não...','é que...',1,'Não quero que a gente','se afaste de novo',1,'Não agora que tá','tudo dando muito certo',1,'Não precisa ser','que nem seu amigo','mercenário',1,
-'ah é, esqueci','de te contar',1,'Eu fiquei sabendo','dele e tudo isso','sobre aquela garota',1,'bem problemático',1,'Não...',1,'Esquece eu só','falei besteira',1,'Só quero que','você não seja','ausente como eu','fui com você',1,'entende?',1,
-[10,['Sim','Ainda bem que','entendeu',1],['Não','Esquece isso',1]]],
-['Eu já ligo de volta','Tudo bem','Você deve estar','muito ocupada agora',1]]
-,'A gente se fala mais','em casa, então',1,'te amo, ok?',1]],
-  
-'923578103': [['Sofia']],
-  
-'960428331': [['Vinícius']],
- 
-'978543322': [['Oi, em que posso ajudar?','Ah...eu já parei de fazer isso há muitos anos','Tchau']],
+    'HHDIEGO': [['Aí pessoal,','licença que vou','pegar algo pra','beber',1,'vai querer algo?',1,[10,['Não, obrigado','Ok então',1],['Qualquer coisa serve','Beleza',1]]]],
 
-#ADVICE
-'ADVICE': ['Desculpe interromper','Mas é uma história muito longa','para se contar.',1,'Não vai querer continuar amanhã?','Nós gravamos tudo o que você falou',1,'E então?',[10,['Tudo bem','Ótimo','rapazes, guardem suas coisas'],['Espere um pouco','Tá bom então...','vamos prosseguir']]]
-}
+    'HHLUCY': [['Ei, você viu','se ele já voltou?',1,[10,['Eu ia perguntar isso','É, ele não aparece',1,[10,['Pode procurar ele?','Claro']],['Não vi ele','Ele tá demorando','muito...',1]],'Eu já volto',1]]],
+
+    'HHBASEMENT': [['O que é isso?',1,[16,'TREASURE'],[27,100],[1,'mysterious',0,1],'Que esquisito.','Preciso mostrar pra ' + CHARACTERS[4]['NAME'] + ' depois.',1,'Espera',1,'Ah não...',1,[13,'eggrapper1']]],
+     
+    'BUS WAITER': [['Esse ônibus demora mesmo',1,'Pego ele todo dia pra','descer a serra até a capital',1,'São só 4h de viagem!',1,2]],
+    'SQUARE OLD MAN': [['Eu adoro alimentar os pombinhos',1,'ainda mais aqueles que','tem um monte de penas','lindas no rabo',1,[10,['como assim?','elas chegam a hipnotizar...',
+    'eu fico olhando e perco','a noção do tempo.',1],['legal','são adoráveis',1]]]],
+    'HOMELESS MAN': [['Pode me dar um trocado','por favor?',1,[10,['...','é sempre assim...',1],['Tudo bem',[0,-1],'Deus te abençoe!',1]]]],
+    'STREET SWEEPER': [['Hey mano',1,'Posso te falar uma coisa?',1,[10,['É claro','Se estiver com lixo nos','bolsos ou na mochila...',1,'por favor...',1,'...jogue na lixeira',1,
+    'Não custa nada',1,'Tem uma em cada esquina da cidade',1,'Fechou?',1],['Agora não...','Tá bom então...',1,'não é como se fosse','te dar uma informação','importante que fosse',
+    'mudar sua vida e seu','jeito de agir',1,'bola pra frente',1]]]],
+    'YOUNG MOM': [['Meu filho adora brincar','nesse monte de areia',1,'Também gosto porque','o sinal da praça é','muito bom',1,[10,['o quão bom?','quê?',1,[10,['o quão bom?','ah...',
+    'dá pra ver as notícias','e mexer na internet',1,'não é muita coisa porque','meu celular é de tecla',1,'mal posso esperar ter','um daqueles celulares novos','que você pode tocar',
+    'na tela',1],['esquece','ah tá',1]]],['não é pra tanto','é o que você pensa',1,'pelo menos é melhor','do que em outras cidades',1],['mas é só aqui?','meio que sim',1,'o sinal só é bom',
+    'mesmo na praça',1,'mas dá pra usar o sinal','em outros lugares também',1]]]],
+    'FUNNY KID': [['Iaaaaaaá!',1,'que fofo',1]],
+    'INFORMED MAN': [['Eu sempre vejo as','notícias na televisão',1,'mas quando a internet está','boa eu vejo no celular','também',1,[10,['deveria ver mais jornais','vai por mim, hoje em',
+    'dia é mais que necessário',1,'ainda mais com essa onda','de crimes por causa dos mercenários',1,'eles avisam quando tá tendo','caça na região',1],['não gosto muito de notícias',
+    'mas por que?',1,[10,['É muita violência','eu também acho',1,'mas é a vida',1,'se não se informar, pode','perder muita coisa importante',1],['Não tenho tempo pra isso','Ler um artigo não',
+    'faz mal cara',1,'não demora muito, é bom','parar a correria do dia','pra ler alguma coisa',1],['É tudo mentira','eu concordo',1,'mas sei lá','quem não mente hoje?','eu faço assim, leio a matéria',
+    'mas com uma certa desconfiança',1,'eu preciso me informar,','mas se eu sair acreditando','em tudo que vejo,','aí eu posso acabar','espalhando mentiras',1]]]]]],
+     
+    'OLD MAN': [['É bom você sempre','tirar dúvidas com o','entendido do assunto.',1,'Minha filha comprou um','antibiótico e pensou que','era pra beber.',0,'Agora ela tá no hospital...','Essa menina...',1]],
+    'INJURIED DAUGHTER': [['É bem vergonhoso dizer o motivo',1,'Mas estou internada porque','bebi antibiótico',1,'Devia ter escutado meu pai...',1]],
+    'PRETTY MOM': [['Minha filha tá me','pertubando pra levar alguns','doces pra ela.',1,'É assim toda hora,','ela vai parar já já.',1]],
+    'PRESSING CHILD': [['Mãe!','Tem tantos doces aqui!','Eu quero!','Eu quero!','EU QUERO!',1]],
+     
+    'DOCTOR': [['Você sofreu várias fraturas no corpo','A conta dos cuidados foi de $100 por pessoa']],
+    'WORRIED NURSE': [['Você deveria se cuidar mais','É muito comum te ver por aqui']],
+    'HINT NURSE': [['Tome cuidado com sua vida!','Não digo por causa da saúde, mas pelo dinheiro',0,'Se não tiver dinheiro da próxima vez, pode','entrar em prejuízo.']],
+    'PATIENT': [['Eu quero ir pra casa logo','A comida daqui é horrível!']],
+    'IMPATIENT PATIENT': [['Eu tô na fila desde anteontem','Parece até que nunca anda!']],
+     
+    'BANK GUARD': [['Ponha qualquer objeto de metal que tiver','na caixa ao lado',1]],
+    'UNLUCKY MAN': [['Não é possível','uma coisa dessas!',1,'O caixa acabou de entrar','em manutenção!',1,'ERA MINHA VEZ!',1]],
+    'OLD WOMAN': [['Como que faz pra','tirar a telesena aqui?',1]],
+        
+    'NPC': ['Oi...eu te conheço?','Você não deveria estar falando com estranhos','Agora não ' + gn + '! Eu tô com pressa!','Afe, mercenários...','Não quero falar com você','Licença'],
+    'DOOR': ['Não conheço você','Quem é você?','O que você quer?','Vai embora!'],
+        
+    'HOTEL DOOR': ['Esse é meu quarto','Aqui não é seu quarto, ' + gn, gn + 'está perdido?'],
+        
+    'KONAMI GUY': ['Hey, sabe o que acontece se você apertar cima, cima, baixo, baixo, esquerda, direita, esquerda, direita, B, A e START?','Merda nenhuma!'],
+        
+    #CHARACTERS DIALOG
+    'PROLOGUE': [['Hey?','...','Está me ouvindo?','hm?','Você entendeu o que eu disse?','Pra ser sincera, não','...','Estava pensando, com a cabeça em outro lugar...','...sobre o quê você estava pensando?','...eu...eu fiz\
+     coisas...','...','...eu fiz coisas que...tantas coisas...que não...pensei direito','...','...eu me arrependo tanto, nada disso deveria ter acontecido, foi tudo por causa de uma briga, e eu trouxe essa desgraça\
+     pra minha vida...eu achei que poderia ajudar nós dois, achei que eu seria aquela que iria nos tirar do buraco...','...','...mas no final eu só afundei ainda mais....','é natural pensar coisas assim, mas tente sempre\
+     se lembrar que o que você fez você não fez por mal, você estava querendo ajudar, achar uma solução','...sim...','isso não te anima?','nem um pouco...porque eu atrapalhei ao invés de ajudar...não fui inteligente','é\
+     difícil','muito...mesmo...','...','você está fazendo atitutes inteligentes agora, está procurando ajuda, reconhecendo seu erro, se afastando daquilo que te traz problema','...sim...','você precisa\
+     continuar assim','...','ei','?','me prometa de que você nunca mais vai voltar a pegar em uma arma, certo?','certo! certo!','nem que um monstro apareça no mato ou um bandido invada sua casa, nunca, NUNCA MAIS, encoste\
+     em nenhum arma!','...','está me ouvindo?','sim','ótimo...','...','já está na hora de ir','não pode ficar mais um pouco?','desculpa, mas pode continuar amanhã, eu também tenho sanidade mental','claro, \
+    desculpa...',[2,'990435671',True]]],
+        
+    'CHAPTER1': [['Então...como tá o trampo?','Que trampo?','Você sabe, o de mercenário','...','Tá muito puxado?','...bastante','Acho que já ouviu alguns comentários sobre eles','Sim...até demais, mas nem ligo',
+    'Como não?','Mano, foi graças á essa vida que tô onde tô agora, não vou deixar que alguns comentários mudem minha cabeça. Eu gosto do que faço','Sim, mas seria melhor você arranjar\
+     alguma outra coisa né?','Isso até eu quero né','Então por que você não sai dessa?','Porque não dá cara! Não vão contratar alguém com ficha suja','Ah, é mesmo...','Além do mais eu já me garanto onde eu tô, se eu trocar de\
+      emprego posso ser demitido de novo','Já passou perrengue demais, não é?','Sim','...sei não, ainda acho melhor você fazer alguma outra coisa, esse negócio de matar e arriscar a própria vida','Que vida?','...','...','...',
+    'Eu já tô indo','Deixa que eu pago essa','Sério?','Sim, é por minha conta','Você é demais cara',[6,'Renovar a Carteira']],
+    ['Teria sido melhor ficar lá no bar',11,'BORA LOGO!','!','NÃO TENHO O DIA TODO!','...','Que saco...','...','Que demora','...','Pra você ver né, até pra isso tem toda essa baboseira','Hã? Ah, sim, sim, sim...','Era pra\
+     ser um negócio rapidinho...tranquilo, de boa, mas não! Eu sou obrigada a ficar aqui esperando!','Eu já tô até acostumado','Ai não ia me acostumar nunquinha, deus me livre','É que já é coisa da rotina, todo ano tem isso',
+    'É?','Ahã...só que agora saiu mais cedo, geralmente é só lá pra setembro','Você mercenário?','Sou','Ah, pra saber dessas coisas...','Por que? você não é?','Não, mas daqui a pouco já tô virando uma!','Mas aqui\
+     não é onde renova a carteira?','Não,disseram que o registro é aqui também','onde?','no último guinchê','Ah sim, agora eu vi','Vem cá, e como é essa coisa toda de mercenário, matar pessoas...','A gente não mata\
+     pessoas','Ah sim, desculpa...','Não,  tudo bem, é normal','Então o que vocês fazem exatamente?','Olha, a primeira coisa que você deve saber se quiser virar mercenária, é que certas coisas são totalmente confidenciais',
+    'Uh! sério?','Sim, sigiloso','Tipo homens de preto né?','Não é pra tanto, mas é tipo','Mas eu achava que era só matar e ganhar dinheiro!','ihhhh...vai sonhando, é um bicho chato','Sério?','Quer dizer, tirando toda a\
+     diversão, ainda é um trabalho, tem que estar sempre disposto, te chamam na hora que querem, é cansativo, tem os chefes, a gente recebe pouco...','QUÊ?','fala baixo!','desculpa','...','...recebe pouco?','depende do quanto\
+     você caça','Ah...então se eu caço bastante','ganha bastante, isso aí','Mas o que vocês caçam exatamente?','segredo','Ah! deixa disso! fala logo!','Se quiser saber mesmo, vai ter que esperar até lá dentro','tá\
+     bom então...ô Agente G','...','Beleza James Bond','tá já chega','ei já tá na sua vez','ah sim'],
+    ['Então esse é seu nome?','Sim...' + CHARACTERS[1]['NAME'] + CHARACTERS[1]['LASTNAME'],
+    'Ok...Prazer ' + CHARACTERS[1]['NAME'],'Prazer','Então...o que tem que fazer agora?','Bom, agora você pode pegar sua primeira arma ali, e se quiser já pode treinar um pouco de tiro','Você vem comigo?',
+    'Não...eu já tenho que ir','Ah por favor! Eu não entendo das coisas aqui!','...','please!',[10,['Tá bom','YASS','Não se empolga, tá','Então tá, onde que pega o brinquedinho?','Me segue',[11,1]],['Agora não','Tudo bem então...\
+    A gente se vê por aí','Eu tô aqui todo dia','Beleza!','...','Ah! eu só posso vir aqui nos sábados!','Beleza!','Tchau!','Essa garota tá querendo alguma coisa comigo...',[11,3]]]],
+    ['É aqui que faz o treinamento?','exatamente','Ok...','...','me ensina a atirar?','Tudo bem',[9,2],'Primeiro põe esses óculos aí','esses?','sim, agora mira, não põe muito perto senão machuca o olho','ah sim',
+    'e...aperta o gatilho',[13,'Alvo']],
+    ['Nossa, mandou muito','Eu sou demais!','Não sério, você já atirou antes?','Um pouquinho','Um pouquinho?!','Tá, eu sei atirar','Se você já sabia atirar, por que pediu minha ajuda?','Vai saber',
+    'Ai,ai...','Faz muito tempo já, começei quando...',[3,EMAILS[0].copy()],'Pera aí rapidinho','O que foi?','Chegou email','...','Desculpa ' + CHARACTERS[0]['NAME'] + ', eu tenho que ir!','De novo?',
+    'É um caso pra resolver','agora?','É o que eu te falei antes','Posso ir com você?','Vai devagar querida, eu tô em outro nível','Por que não posso ir?','Muita coisa ainda, muita coisa, te explico depois','Pera aí! Mizera...'],
+    ['Lembra de mim, filho da mãe?','você!','Essa é pra aprender a não mexer comigo!',[9,2],'???','O que você estava fazendo?',[10,[],[]]]],
+        
+    'CHAPTER_2': [['Olá?','...','Eu tô apertada sabe?','j-já vou sair!','Eu espero...','...','Finalmente...','...','...você tá bem?','não.','ah...desculpa...','Você não tem culpa de nada','Por que você tá chorando?',
+    'Nada demais, sério não precisa se preocupar','...tá bom então...','Só um desgraçado que não liga pra ninguém e só se importa com ele mesmo! Nunca tem tempo pra nada! E ainda cobra de mim!','...é um cara?',
+    'A gente não se vê faz meses, só conseguimos se falar por telefone, ele sempre diz que vai voltar algum dia mas nunca vem!','Bom...pelo menos ele se importa...','...','...não?','Ele finge que se importa, fica fazendo falsas promessas e me fazendo de otária!',
+    'É seu namorado?','Não...quer dizer, não mais...ele era...','é complicado...','Você acha que deveria esquecer?','Honestamente...','...','Sim, você deveria','Mas eu ainda gosto dele!',
+    'Problema seu, você tem que parar de se prender á pessoas que não te fazem feliz, a vida é assim','Nossa que duro','Que nem sua cara bateu no muro','Afe, para!','Tá bom, mas é sério, vai fazer bem pra você, uma hora isso passa',
+    '...entendi','ok?','ok','Então tira essa lágrima do rosto e vai se divertir, se quiser posso ir contigo, tá sozinha?','Não, mas pode vir','Ah, obrigada!','Você DEVE vir','Eu sei menina, relaxa! Como se chama?',
+    'A menina que veio te caçar','Que isso garota pera aí...','...','...','...Te caçei','Ah fala sério!','Obrigada por me escutar, mas preciso ir direto para o que interessa','Caramba, eu acabei que tinha criado um laço de amizade aqui!',
+    'Olha não tem nada a ver comigo, me pediram para fazer isso, tá bom?','Fala logo o que você quer!','Preciso das suas amostras','Elas estão no laboratório','Eu sei que estão no laboratório, você vai me levar até a sala onde estão guardados e entragar para mim',
+    'Eu não faria isso','Olha, eu não sou burra e sei que se eu atirar aqui dentro vão me prender, mas eu posso muito bem te fazer ir para meu carro com a pistola nas suas costas!','Você não faria isso','Não mesmo, mas adivinha? eu tô fazendo!',
+    'Ei pera!','...?','Tá vindo alguém!','Rápido se escon-',[13,'pietra']],['']],
+     
+    'CHAPTER_8': [['Olá?','...','Alguém em casa?','...','...','Olá! Em que posso ajudá-los?','Boa tarde senhor, essa fazenda é sua?','Oh sim, é minha desde que meu avô começou a capinar, quando tudo isso ainda era mato!','...mas só tem mato aqui senhor',
+    'Pois é, faz um bom tempo que não tem ninguém para cuidar da minha fazendinha, só resta eu e minha maloca...','Mas esses animais também são seus?','Ah não, apareceram aí! Não são criatuinhas de Deus?',
+    'Nossa ' + CHARACTERS[1]['NAME'] + ', tem um Boi Dourado ali!',CHARACTERS[3]['NAME'] + '! Se concentra!','Então...nós somos...','...detetives?','...','...sim! sim, detetive ' + CHARACTERS[3]['NAME'] + ' e minha colega, detetive ' + CHARACTERS[1]['NAME'] + '.',
+    'Muito prazer, me chamo Hermes, eu já imaginava que fossem pois não tem uma semana que alguém bate na minha porta!','É mesmo?','Sim! vocês não sabem?','Não, viemos de outra cidade','Ah...vieram de onde?','Vargi...','Itatiaia!','Pera, quê?',
+    'Não é que ele','A gente acabou de vir de Itatiaia, mas estamos indo pra Varginha','É, isso mesmo','Interessante...é porque Policiais vieram aqui perguntando um monte de baboseira...umas presepada que não sei nem o nome!','Geóglifos?',
+    'Sim, e acho que você gostariam de saber algo a respeito, não é?','Sim, o depoimento dos moradores próximos é muito importante!','Bom, eu não sei nada desses Zoológicos coisa nenhuma, mas por alguma razão todos vem me perguntar','É porque, Sr. Hermes, os Geóglifos estão na sua fazenda',
+    'Pois é, mas é justamente porque ela está a tanto tempo parada que não me informo dessas coisas entende? Talvez alguma pessoa tenha invadido meus campos e fez esses desenhos no mato!','Hermes...','Olha ' + CHARACTERS[1]['NAME'] + 'Acho que já conseguimos informações o suficiente do Sr. Hermes, e aliás, acho que um vândalo qualquer seria mais suspeito do que qualquer aposentado de meia-idade','Eu trabalho',
+    'Ah, sério?','Sim, eu vendo artesanato','Boas vendas, Hermes','Muito obrigado...', CHARACTERS[3]['NAME'] + '.',CHARACTERS[3]['NAME'] + '! Muito obrigado pela ajuda de vocês!','O prazer é todo nosso!','...','Por que fez isso?',
+    'Muita gente já falou com ele, se fizermos perguntas demais ele pode fazer alguma coisa!','O quê? destruir provas?','Exatamente isso','Por que ele faria isso?','É o que estamos tentando descobrir!'],
+    ['Ainda não entendo como foi tão simpático com aquele velho...','Por que? você acha ele mau?','Não...mas eu desconfio dele, não deveria falar desse jeito com ele','Então o que você sugere?','Seja mais duro?!','Não dá pra gente conseguir nada das pessoas sendo duro com elas','Os policiais conseguem',
+    'Ele é um cara muito suspeito, isso a gente já sabe, mas como ninguém conseguiu tirar provas dele, quer dizer que ele é muito bom em guardar segredo','Eu não sei...acho que a gente devia sequestrar ele',
+    'Claro que não!','Nossa calma! Eu só tava falando...','...','Então o que a gente vai fazer?','Vamos continuar investigando','Ah sim, claro que sim...','O problema de leigos como você é que eles tentam começar de cima...','Como é que é?','É a verdade',
+    'Olha me escuta aqui ' + CHARACTERS[3]['LASTNAME'] + '! Você não sabe quem eu sou e de onde eu vim! Então é bom você ficar calado que aí você ganha mais e não caga pela boca!','Ok...']],
+     
+    'VINICIUS': [[[15,'battle_incoming'],'O que tá fazendo aqui?','Quem pergunta sou eu! O que VOCÊ tá fazendo aqui?','Com certeza não é deixar você roubar minha recompensa',0,'E quem disse que ela é sua?','Garoto,melhor sair do meio, ou vai dar\
+     muito mal pra nós dois',0,'que assim seja então!',[13,'madladcat','vinicius']]],
+    'RENAN': [[[15,'battle_incoming'],'Você mexeu com a turma errada cara!','Tá na hora de aprender uma lição!',[14,0]]],
+    'BIANCA': [['Hey ' + CHARACTERS[0]['NAME'] + ', fique com essa lupa, Eu fiz ela apenas para pesquisar anomalias.','Quando enfrentar uma anomalia que não está registrada no bestiário,','Use-a para registrar a anomalia.',[0,'lupa']]],
+    'SIDNEY': [['1Não tenho um minuto de paz nessa desgraça!!','2Eu achei que eles iam ficar de boa','1Se tem uma coisa que você tem que saber sobre as pessoas é que elas odeiam pessoas com armas na mão atirando por aí','2Mas você salvou elas! Matou esse...essa...','1...Lata Alada','2Que','1O nome da anomalia','2Noooooosa!','1Vou botar essa no Bestiário','2Tá, mas elas deveriam ter um pouquinho de consideração né?','1Ninguém tem um pingo disso com ninguém da DDA','2Conplicado...','1É gente que nunca viu uma gota de sangue na vida e já ficam chocadas, esse aí é o mesmo pessoal que fica com esses papos de veganismo depois','2hmmm...nah']],
+    'JANE': [["I don't wanna to","I not in a good mood, you know...",[10,["It's all right?","Oh, no! I just don't want to cause any trouble"],["Fine then","Yeah"],["But you need to do it","Look, since the last time I put my hand on a gun, it wasn't a wise choice!","I don't want people to suffer from my mistakes!","I just mess everything up...",[10,["You don't","I know you are saying this just to chill me down, but I don't want to fool myself","I have to accept this"],["Everyone makes mistakes","But not everyone kills a person, right?",[10,["What?","Oh, you don't know?","Awwww...I should shut my mouth"],["...","..."]]],["It's hard","At least you recognise"]]]],0,'Well, I have to go...','See you later']],
+    'MATT KAI': [['EU AMO PINK FLOYD','EU AMO PINK FLOYD','EU AMO PINK FLOYD','2Esse é o criador do jogo?','1Ele mesmo','2Sem nexo','1Mó fita']],
+
+    #CONTACTS CALL
+    '989074454': [['Sidney']],
+        
+    '991124257': [['Oi! Sou eu, a Jane']],
+      
+    '990435671': [[[CHARACTERS[1]['NAME']+'! Precisamos de você aqui AGORA!','Eu sei que você saiu e coisa e tal, mas a gente PRECISA DE VOCÊ!','Estamos na Av. Jobim, venha logo!',[4, 'Urgência na Av. Jobim']],
+    ['Caramba '+CHARACTERS[1]['NAME']+', será que você não entende a gravidade da situação??','Só você pode deter essa anomalia!']]],
+        
+    '926148930': [['E aí mano? Beleza?','Então, aquela parada da transferência deu certo, adivinha?','Amanhã á noite eu tô indo pra Nova Friburgo!',0,'Tá tendo umas paradas estranhas lá, e me mandaram examinar','Vamos aproveitar pra gente se ver, beleza?']],
+      
+    '976564008': [['Agora não, ' + CHARACTERS[0]['NAME'] + '! Eu tô trabalhando!','Me ligue depois, estou fazendo coisa importante aqui!']],
+      
+    '940028922': [['Oh, olá! como vai, '+CHARACTERS[0]['NAME']+'?','Tenho andado ocupada esses dias, muita coisa pra fazer...','Não dá pra falar com você agora, desculpa','Me ligue mais tarde, ok?'],
+    ['oie']],
+        
+    '990271802': [['Garoto, o chefe quer te ver o mais cedo possível na delegacia',1,'Espero que não tenha feito merda...',1,'Bláblabla','blablabla','blablabalbala','blablablaba',1,0,'entendeu?',1]],
+        
+    '987690021': [['Paulo']],
+      
+    '953478809': [[dt + ', em que posso ajudar?',[10,['uma pizza grande','já estamos á caminho',1,[17,'pizza',0,3]],['uma pizza média','já estamos á caminho',1,[17,'pizza',3]]]]],
+      
+    '909236521': [[dt + ', correios']],
+      
+    '923778988': [['Alô?',1,CHARACTERS[0]['NAME'] + '! a quanto tempo cara!',1,'Precisando de ajuda em','carregar algumas coisas?',1,'Não tem problema, o pai tá aí','pra resolver já já!',1,[17,'maicon',0,3]]],
+      
+    '969696969': [['Olá ' + prps + ' cliente, em que posso ajudar?','você está a procura de meus serviços?','chegarei em instantes',1,[17,'mercador',0,3]]],
+      
+    '977904623': [['Hey!','Você está bem?','Onde você tá?','O que tá acontecendo?','Você se machucou?',[10,['Eu tô bem','Mesmo?',1,'Ufa...',1],['Fique calmo','Não consigo me acalmar',1]],'Eu estava preocupado','com você',1,
+    'mas graças a','Deus você está bem',1,'Aquela mulher chamando','vocês aos prantos me','deixou assustado',1,'Você deve estar','cansada depois de','tudo o que passou',1,'Engraçado, não é?',1,'Você mal saiu','dessa coisa de mercenária',
+    'e já tá na ativa','novamente',1,'Mas assim...',1,'...',[10,['Pode falar','não...','é que...',1,'Não quero que a gente','se afaste de novo',1,'Não agora que tá','tudo dando muito certo',1,'Não precisa ser','que nem seu amigo','mercenário',1,
+    'ah é, esqueci','de te contar',1,'Eu fiquei sabendo','dele e tudo isso','sobre aquela garota',1,'bem problemático',1,'Não...',1,'Esquece eu só','falei besteira',1,'Só quero que','você não seja','ausente como eu','fui com você',1,'entende?',1,
+    [10,['Sim','Ainda bem que','entendeu',1],['Não','Esquece isso',1]]],
+    ['Eu já ligo de volta','Tudo bem','Você deve estar','muito ocupada agora',1]]
+    ,'A gente se fala mais','em casa, então',1,'te amo, ok?',1]],
+      
+    '923578103': [['Sofia']],
+      
+    '960428331': [['Vinícius']],
+     
+    '978543322': [['Oi, em que posso ajudar?','Ah...eu já parei de fazer isso há muitos anos','Tchau']],
+
+    #ADVICE
+    'ADVICE': ['Desculpe interromper','Mas é uma história muito longa','para se contar.',1,'Não vai querer continuar amanhã?','Nós gravamos tudo o que você falou',1,'E então?',[10,['Tudo bem','Ótimo','rapazes, guardem suas coisas'],['Espere um pouco','Tá bom então...','vamos prosseguir']]]
+    }
 
 DLGSAV = {
 '1hauntedhouse_0': [0,0,0,0,0],
 '1hauntedhouse_1': [0,0],
 '1hauntedhouse_2': [0,0],
 '1hauntedhouse_3': [0,0],
+'1hauntedhouse_4': [0]
 }
 
 SIGNS = {
 'INN': 'pousada', 'PUB': 'bar', 'HOTEL': 'hotel', 'DRUGSTORE': 'drogaria', 'BAKERY': 'padaria', 'BAZAAR': 'bazar', 'MARKET': 'mercado', 'BANK': 'banco','GAS': 'posto','HOSPITAL': 'hospital',
 'POLICE': 'delegacia', 'SHOP': 'loja'
 }
-    
-RADIO = {'0': [],'1':[],'2':[],'3':[],'4':[],'5':[],'6':[],'7':[],'8':[],'9':[]}
-  
-for i in range(0,10):
-    for j in os.listdir('Songs/FM_'+str(i)):
-        RADIO[str(i)].append(j)
+
+TUTORIALS = {
+'RUN': ['Pressione H para','correr'],
+'RUN': ['Pressione H para','correr'],
+'RUN': ['Pressione H para','correr'],
+'RUN': ['Pressione H para','correr'],
+'RUN': ['Pressione H para','correr'],
+}
      
-MANUAL = [['CONTROLES',['Aperte ' + pygame.key.name(LEFT) + ', ' + pygame.key.name(RIGHT) + ', ' + pygame.key.name(UP) + ' e ' + pygame.key.name(DOWN) + ' para mover seu personagem']],\
-['CELULAR',['O celular é o equivalente ao','menu do jogo, acesse-o','apertando ' + pygame.key.name(PHONE) + '.','\
+MANUAL = [['CONTROLES',['Aperte ' + pygame.key.name(resources.LEFT) + ', ' + pygame.key.name(resources.RIGHT) + ', ' + pygame.key.name(resources.UP) + ' e ' + pygame.key.name(resources.DOWN) + ' para mover seu personagem']],\
+['CELULAR',['O celular é o equivalente ao','menu do jogo, acesse-o','apertando ' + pygame.key.name(resources.PHONE) + '.','\
 ','Na barra superior do celular,','aparecem informações de data,','hora, sinal e carga.','\
 ','Atente-se á carga do celular:','ao se esgotar, você fica','incapacitado de utilizá-lo, para','carregar, use o carregador.','Utilize carregadores portáteis','ao se afastar da área urbana.','\
 ','Os créditos servem para fazer','ligações, recarregue-os na','farmácia.','\
@@ -1925,3 +1817,11 @@ ACHIEVEMENTS = [
 ['Fugir é sabedoria','Fuja de uma batalha 20 vezes',0,''],
 ['Podre de Rico','Consiga 1.000.000.000 em dinheiro vivo',0,'']
 ]
+
+LOADING = ['Hello World!','Carregando cabeças dos personagens','Carregando corpo dos personagens','Carregando animações de batalha','Iniciando Mixer','Carregando músicas','Carregando mais músicas']
+
+MESSAGES = [['Não feche o jogo se','o ícone de carregamento','aparecer no canto da tela'],
+['Esta é uma obra de ficção,','e quaisquer semelhanças com','acontecimentos reais são','mera coincidência.'],
+['Uma certa porcentagem da','população sofre de condições','como eplepsia e convulsões,','por isso sempre consulte','seu médico antes de jogar'],
+['Caso esteja carregando o jogo','pela primeira vez, ele irá','demorar para carregar','todos os recursos'],
+['Conecte-se na Steam ou','No Google Play para salvar','seus dados']]
