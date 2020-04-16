@@ -3,6 +3,9 @@ import sqlite3
 import pygame
 import os
 
+VERSION = '0.0.1'
+DEBUG = True
+
 SPRITES = {}
 SOUND = {}
 SONGS = {}
@@ -23,7 +26,7 @@ ID = 0
 LANG = 'PT'
 GAMETIME = 0
 CHAPTER = 0
-MAP = 0
+MAP = 1
 PX = 0
 PY = 0
 TIME = [0,0,0]
@@ -33,19 +36,21 @@ CHAPTER = 0
 SCENE = 0
 MORALITY = 0
 
-SFX = 0.8
-MSC = 0.6
-UP = pygame.K_w
-DOWN = pygame.K_s
-LEFT = pygame.K_a
-RIGHT = pygame.K_d
-ACT = pygame.K_g
-RUN = pygame.K_h
-PHONE = pygame.K_BACKSPACE
-BAG = pygame.K_RETURN
+SFX = 1.0
+MSC = 1.0
+UP = [pygame.K_w,pygame.K_UP]
+DOWN = [pygame.K_s,pygame.K_DOWN]
+LEFT = [pygame.K_a,pygame.K_LEFT]
+RIGHT = [pygame.K_d,pygame.K_RIGHT]
+ACT = [pygame.K_g,pygame.K_KP0]
+RUN = [pygame.K_h,pygame.K_KP_ENTER]
+PHONE = [pygame.K_BACKSPACE,pygame.K_KP_MULTIPLY]
+BAG = [pygame.K_RETURN,pygame.K_KP_MINUS]
 SPEED = 2
 COLOR = [255,10,10]
 BORDER = 0
+CENSORSHIP = True
+HINTS = True
 
 PARTY = [[0,4,3]]
 FORMATION = 0
@@ -62,10 +67,13 @@ CREDIT = 10
 BATTERY = 360
 GAS = 100.0
 
+TASKPIN = False
+MINIMAP = False
+
 CHARACTERS = [
 {'NAME': 'Sidney','LASTNAME': 'Barreto','GENDER': 'male','ID': '0064','BLOOD': 'A+','CIVIL': 'solteiro','CLASS': 'gunslinger',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
-'HAIR': '011', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '7', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 0,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '001', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '5', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_coxinha','drink_whisky'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100],
@@ -76,7 +84,7 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
 {'NAME': 'Jane', 'LASTNAME': 'Oliveira','GENDER': 'female','ID': '0094','BLOOD': 'O-','CIVIL': 'casada','CLASS': 'rifler',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'LEVEL': 0,'SKILL': 0,'HP': 10,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
 'HAIR': '011', 'ACCESORIES': 'head_glasses', 'COSTUME': '01', 'SKIN': '4', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_chesse_bread','food_coffee'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
@@ -88,8 +96,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
   
 {'NAME': 'Renan', 'LASTNAME': 'Pinheiro','GENDER': 'male','ID': '0100','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'thief',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
-'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '6', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 10,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '021', 'ACCESORIES': None, 'COSTUME': '00', 'SKIN': '6', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_cola','food_cake_carrot'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [20,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -100,8 +108,8 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0},
  
 {'NAME': 'Diego', 'LASTNAME': 'Donovan','GENDER': 'male','ID': '0024','BLOOD': 'A-','CIVIL': 'solteiro','CLASS': 'gunslinger',
-'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
-'HAIR': '000', 'ACCESORIES': 'head_glasses', 'COSTUME': '00', 'SKIN': '8', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'LEVEL': 0,'SKILL': 0,'HP': 10,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
+'HAIR': '031', 'ACCESORIES': 'head_glasses', 'COSTUME': '00', 'SKIN': '8', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_burguer','food_cola'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [10,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -113,7 +121,7 @@ CHARACTERS = [
   
 {'NAME': 'Bianca', 'LASTNAME': 'Pacheco','GENDER': 'female','ID': '0120','BLOOD': 'O+','CIVIL': 'casada','CLASS': 'doctor',
 'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
-'HAIR': '040', 'ACCESORIES': 'head_glasses', 'COSTUME': '01', 'SKIN': '9', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'HAIR': '041', 'ACCESORIES': 'head_glasses', 'COSTUME': '01', 'SKIN': '9', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_sushi','food_juice_orange'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -124,7 +132,7 @@ CHARACTERS = [
  
 {'NAME': 'Lúcia', 'LASTNAME': 'Figueiredo','GENDER': 'female','ID': '0013','BLOOD': 'O+','CIVIL': 'viúva','CLASS': 'sniper',
 'LEVEL': 0,'SKILL': 0,'HP': 0,'BARHP': 10,'XP': 0,'MAXXP': 100,'HEALTH': 0, 'DMGTIM': 100, 'SHK': 0,
-'HAIR': '000', 'ACCESORIES': None, 'COSTUME': '010', 'SKIN': '2', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
+'HAIR': '051', 'ACCESORIES': None, 'COSTUME': '01', 'SKIN': '1', 'HUNGER': 720, 'THIRST': 360, 'SLEEP': 1000,
 'FAVFOOD': ['food_juice_orange','food_fish'],
 'STRENGHT': [0,1,1,1,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5],
 'ATTACK': [30,5,5,5,6,6,6,6,7,7,7,7,7,8,8,8,8,8,8,9,9,9,9,9,9,9],
@@ -219,7 +227,9 @@ CHARACTERS = [
 'CARISM': 0, 'INTIMIDATION': 0, 'STAMINA': 0, 'ATLETISM': 0, 'FURTIVITY': 0, 'CRAFTING': 0, 'FORCE': 0, 'MEDICINE': 0, 'IMUNITY': 0, 'COORDENATION': 0}
 ]
 
-def recent_data(m):
+DLGSAV = {}
+
+def recent_data(m,opt=0):
     global FILES, ID, CHAPTER, GAMETIME, LANG
     tbl = sqlite3.connect('userdata.db')
     com = tbl.cursor()
@@ -245,7 +255,7 @@ def recent_data(m):
             FILES = [[0],[0],[0],['PT']]
 
     elif m == 1:
-        com.execute("UPDATE recent SET chp = :chp, gt = :gt, lang = :lang WHERE id = :id",{'id': ID,'chp': CHAPTER,'gt': GAMETIME,'lang': LANG})
+        com.execute("UPDATE recent SET chp = :chp, gt = :gt, lang = :lang WHERE id = :id",{'id': opt,'chp': CHAPTER,'gt': GAMETIME,'lang': LANG})
         tbl.commit()
     elif m == 2:
         FILES[0].append(0)
@@ -262,7 +272,7 @@ def recent_data(m):
     tbl.close()
 
 def new_data():
-    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, INVENTORY, WEATHER, BORDER,\
+    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, INVENTORY, WEATHER, BORDER, CHARACTERS, TASKPIN, MINIMAP, SCENE, CENSORSHIP, HINT,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, ACHIEVEMENTS
  
     tbl = sqlite3.connect('userdata.db')
@@ -271,25 +281,28 @@ def new_data():
     LANG = 'PT'
     SFX = 0.8
     MSC = 0.6
-    UP = pygame.K_w
-    DOWN = pygame.K_s
-    LEFT = pygame.K_a
-    RIGHT = pygame.K_d
-    ACT = pygame.K_g
-    RUN = pygame.K_h
-    PHONE = pygame.K_BACKSPACE
-    BAG = pygame.K_RETURN
+    UP = [pygame.K_w,pygame.K_UP]
+    DOWN = [pygame.K_s,pygame.K_DOWN]
+    LEFT = [pygame.K_a,pygame.K_LEFT]
+    RIGHT = [pygame.K_d,pygame.K_RIGHT]
+    ACT = [pygame.K_g,pygame.K_KP0]
+    RUN = [pygame.K_h,pygame.K_KP_ENTER]
+    PHONE = [pygame.K_BACKSPACE,pygame.K_KP_MULTIPLY]
+    BAG = [pygame.K_RETURN,pygame.K_KP_MINUS]
     SPEED = 2
     COLOR = [242,30,30]
     BORDER = 0
+    CENSORSHIP = True
+    HINT = True
       
     MAP = 1
     PX = 184
     PY = 476
     TIME = [0,32,0]
     DATE = [25,12,2007,1]
-    WEATHER = 0
+    WEATHER = 1
     CHAPTER = 0
+    SCENE = 0
     MORALITY = 0
     GAMETIME = 0
     FORMATION = 0
@@ -301,11 +314,11 @@ def new_data():
     GAS = 100.0
      
     for i in range(6):
-        database.CHARACTERS[i]['NAME'] = ''
-        database.CHARACTERS[i]['LASTNAME'] = ''
-        database.CHARACTERS[i]['LEVEL'] = 0
+        CHARACTERS[i]['NAME'] = ''
+        CHARACTERS[i]['LASTNAME'] = ''
+        CHARACTERS[i]['LEVEL'] = 0
  
-    PARTY = [[1]]
+    PARTY = [[1,2]]
     CONTACTS = [['Maicon','923778988'],['Mercador','969696969'],['Pizza Delivery','953478809']]
     CALLHIST = []
     INBOX = []
@@ -319,8 +332,8 @@ def new_data():
     database.INVENTORY = [
     [[['_','0000','_','_'],['phone','360100','_','_'],['wallet','00005000000300','credit_card','id_card0'],['locksmith1','02020000','key_bedroom','key_vehicle'],['_','0000','_','_']],
     [['amulet1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
-    [['clth_jacket1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
-    [['clth_shirt1','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
+    [['clth_jacket2','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['ammo.38','0000','_','_'],['_','0000','_','_']],
+    [['clth_shirt2','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
     [['bag1','0000','_','_'],['gun_revolver.38','0006','aim1','acc_cartridge'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']]],
      
     [[['head_glasses1','0000','_','_'],['food_peanut_candy','0000','_','_'],['_','0000','_','_'],['_','0000','_','_'],['_','0000','_','_']],
@@ -357,8 +370,10 @@ def new_data():
     database.STORAGE = [['bandolier','0000','_','_']]
       
     try:
-        com.execute("CREATE TABLE settings (id integer,lang text,sfx integer,msc integer,up text,down text,left text,right text,act text,run text,phone text,inventory text,speed integer,color1 integer,color2 integer,color3 integer,border integer)")
-        com.execute("CREATE TABLE data (id integer,gt integer,fr integer,map integer,x integer,y integer,time text,date text,weather integer,chapter integer,morality integer,atm integer,money integer,credit integer,battery integer,gas integer)")
+        com.execute("CREATE TABLE settings (id integer,lang text,sfx integer,msc integer,up text,down text,left text,right text,act text,run text,phone text,inventory text,speed integer,color1 integer,color2 integer,color3 integer,border integer,\
+            censor integer,hint integer)")
+        com.execute("CREATE TABLE data (id integer,gt integer,fr integer,map integer,x integer,y integer,time text,date text,weather integer,chapter integer,scene integer,morality integer,atm integer,money integer,credit integer,battery integer,\
+            gas integer,taskpin integer,minimap integer)")
         print('table created')
     except: pass
       
@@ -370,9 +385,8 @@ def new_data():
         com.execute("DELETE FROM settings WHERE id=" + str(ID))
         com.execute("DELETE FROM data WHERE id=" + str(ID))
      
-    print(ID)
-    com.execute("INSERT INTO settings VALUES (" + str(ID) + ",'PT',0.8,0.6,'W','S','A','D','G','H','BACKSPACE','RETURN',2,255,255,255,0)")
-    com.execute("INSERT INTO data VALUES (" + str(ID) + ",0,0,1,0,0,'0830','1003001',0,0,0,0,0,255,10,10)")
+    com.execute("INSERT INTO settings VALUES (" + str(ID) + ",'PT',0.8,0.6,'W','S','A','D','G','H','BACKSPACE','RETURN',2,255,255,255,0,1,1)")
+    com.execute("INSERT INTO data VALUES (" + str(ID) + ",0,0,1,0,0,'0830','25122007',0,0,0,0,0,0,255,10,10,0,0)")
       
     com.execute("DROP TABLE IF EXISTS characters" + str(ID))
     com.execute("CREATE TABLE characters" + str(ID) + " (n integer,name text,lastname text,gender text,level integer,xp integer)")
@@ -384,6 +398,10 @@ def new_data():
     com.execute("INSERT INTO characters" + str(ID) + " VALUES(5,'','','female',0,0)")
     tbl.commit()
       
+    com.execute("DROP TABLE IF EXISTS dlgsav" + str(ID))
+    com.execute("CREATE TABLE dlgsav" + str(ID) + " (who text,vl integer)")
+    for i in DLGSAV: com.execute("INSERT INTO dlgsav" + str(ID) + " VALUES('" + i + "',0)")
+
     com.execute("DROP TABLE IF EXISTS party" + str(ID))
     com.execute("CREATE TABLE party" + str(ID) + " (n integer,p1 integer,p2 integer,p3 integer)")
       
@@ -444,10 +462,10 @@ def new_data():
      
     com.close()
     tbl.close()
-    database.load_dialogs()
+    database.load_dialogs(True)
 
 def load_data():
-    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, WEATHER, BORDER,\
+    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, WEATHER, BORDER, TASKPIN, MINIMAP, SCENE, CENSORSHIP, HINT,\
     FORMATION, MAP, PX, PY, TIME, DATE, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, PARTY, CONTACTS, CALLHIST, INBOX, TASKS, TACTICAL, BESTIARY, INVENTORY
       
     tbl = sqlite3.connect('userdata.db')
@@ -462,28 +480,28 @@ def load_data():
     com.execute("SELECT msc FROM settings")
     MSC = com.fetchall()[ID][0]
     com.execute("SELECT up FROM settings")
-    UP = int(com.fetchall()[ID][0])
-    if UP == 'W': UP = pygame.K_w
+    UP[0] = int(com.fetchall()[ID][0])
+    if UP[0] == 'W': UP[0] = pygame.K_w
     com.execute("SELECT down FROM settings")
-    DOWN = int(com.fetchall()[ID][0])
-    if DOWN == 'S': DOWN = pygame.K_s
+    DOWN[0] = int(com.fetchall()[ID][0])
+    if DOWN[0] == 'S': DOWN[0] = pygame.K_s
     com.execute("SELECT left FROM settings")
-    LEFT = int(com.fetchall()[ID][0])
-    if LEFT == 'A': LEFT = pygame.K_a
+    LEFT[0] = int(com.fetchall()[ID][0])
+    if LEFT[0] == 'A': LEFT[0] = pygame.K_a
     com.execute("SELECT right FROM settings")
-    RIGHT = int(com.fetchall()[ID][0])
-    if RIGHT == 'D': RIGHT = pygame.K_d
+    RIGHT[0] = int(com.fetchall()[ID][0])
+    if RIGHT[0] == 'D': RIGHT[0] = pygame.K_d
     com.execute("SELECT act FROM settings")
-    ACT = int(com.fetchall()[ID][0])
-    if ACT == 'SPACE': ACT = pygame.K_SPACE
+    ACT[0] = int(com.fetchall()[ID][0])
+    if ACT[0] == 'SPACE': ACT[0] = pygame.K_SPACE
     com.execute("SELECT run FROM settings")
-    RUN = int(com.fetchall()[ID][0])
-    if RUN == 'SPACE': RUN = pygame.K_SPACE
+    RUN[0] = int(com.fetchall()[ID][0])
+    if RUN[0] == 'SPACE': RUN[0] = pygame.K_SPACE
     com.execute("SELECT phone FROM settings")
     PHONE = int(com.fetchall()[ID][0])
-    if PHONE == 'BACKSPACE': PHONE = pygame.K_BACKSPACE
+    if PHONE[0] == 'BACKSPACE': PHONE[0] = pygame.K_BACKSPACE
     com.execute("SELECT inventory FROM settings")
-    BAG = int(com.fetchall()[ID][0])
+    BAG[0] = int(com.fetchall()[ID][0])
     com.execute("SELECT speed FROM settings")
     SPEED = com.fetchall()[ID][0]
     com.execute("SELECT color1 FROM settings")
@@ -494,6 +512,10 @@ def load_data():
     COLOR[2] = com.fetchall()[ID][0]
     com.execute("SELECT border FROM settings")
     BORDER = com.fetchall()[ID][0]
+    com.execute("SELECT censor FROM settings")
+    CENSORSHIP = bool(com.fetchall()[ID][0])
+    com.execute("SELECT hint FROM settings")
+    HINT = bool(com.fetchall()[ID][0])
       
     com.execute("SELECT gt FROM data")
     GAMETIME = com.fetchall()[ID][0]
@@ -515,6 +537,8 @@ def load_data():
     WEATHER = com.fetchall()[ID][0]
     com.execute("SELECT chapter FROM data")
     CHAPTER = com.fetchall()[ID][0]
+    com.execute("SELECT scene FROM data")
+    SCENE = com.fetchall()[ID][0]
     com.execute("SELECT morality FROM data")
     MORALITY = com.fetchall()[ID][0]
     com.execute("SELECT atm FROM data")
@@ -527,15 +551,25 @@ def load_data():
     BATTERY = com.fetchall()[ID][0]
     com.execute("SELECT gas FROM data")
     GAS = com.fetchall()[ID][0]
+    com.execute("SELECT taskpin FROM data")
+    if com.fetchall()[ID][0] == 0: TASKPIN = False
+    if com.fetchall()[ID][0] == 1: TASKPIN = True
+    com.execute("SELECT minimap FROM data")
+    if com.fetchall()[ID][0] == 0: MINIMAP = False
+    if com.fetchall()[ID][0] == 1: MINIMAP = True
       
     com.execute("SELECT * FROM characters" + str(ID))
     res = com.fetchall()
-    for i in range(len(database.CHARACTERS)):
-        database.CHARACTERS[i]['NAME'] = res[i][1]
-        database.CHARACTERS[i]['LASTNAME'] = res[i][2]
-        database.CHARACTERS[i]['GENDER'] = res[i][3]
-        database.CHARACTERS[i]['LEVEL'] = res[i][4]
-        database.CHARACTERS[i]['XP'] = res[i][5]
+    for i in range(len(CHARACTERS)):
+        CHARACTERS[i]['NAME'] = res[i][1]
+        CHARACTERS[i]['LASTNAME'] = res[i][2]
+        CHARACTERS[i]['GENDER'] = res[i][3]
+        CHARACTERS[i]['LEVEL'] = res[i][4]
+        CHARACTERS[i]['XP'] = res[i][5]
+
+    com.execute("SELECT * FROM dlgsav" + str(ID))
+    res = com.fetchall()
+    for i in res: DLGSAV[i[0]] = i[1]
       
     com.execute("SELECT * FROM party" + str(ID))
     res = com.fetchall()
@@ -607,10 +641,10 @@ def load_data():
     CONTACTS = [['Sidney','989074454'],['Jane','991124257'],['Renan','990435671'],['Diego','926148930'],['Bianca','976564008'],['Lúcia','990271802'],['Maicon','923778988'],['Mercador','969696969'],['Pizza Delivery','953478809']]
     TASKS = [['test',False],['yeey',False],['test',False],['wow',False],['yikes',False],['yeeey',False],['lol',False],['test',False],['hau',False]]
     CREDIT = 3
-    load_dialogs()
+    database.load_dialogs()
 
 def save_data():
-    global ID, MAP, PX, PY, TIME, DATE, WEATHER, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, FORMATION
+    global ID, MAP, PX, PY, TIME, DATE, WEATHER, CHAPTER, MORALITY, ATM, MONEY, CREDIT, BATTERY, GAS, GAMETIME, FORMATION, CHARACTERS, TASKPIN, MINIMAP, DLGSAV, SCENE
  
     tbl = sqlite3.connect('userdata.db')
     com = tbl.cursor()
@@ -629,12 +663,18 @@ def save_data():
     else: yy = str(DATE[2])
     dt = dd + mm + yy + str(DATE[3])
  
-    com.execute("""UPDATE data SET gt = :gt,fr = :fr,map = :map,x = :x,y = :y,time = :tm,date = :dt,weather = :weather,chapter = :chapter,morality = :morality,atm = :atm,money =:money,credit = :credit,battery = :battery,gas = :gas WHERE id = :id""",
-    {'id': ID,'gt': GAMETIME,'fr': FORMATION,'map': MAP,'x': PX,'y': PY,'tm': ts,'dt': dt,'weather': WEATHER,'chapter': CHAPTER,'morality': MORALITY,'atm': ATM,'money': MONEY,'credit': CREDIT,'battery': BATTERY,'gas': GAS})
+    com.execute("""UPDATE data SET gt = :gt,fr = :fr,map = :map,x = :x,y = :y,time = :tm,date = :dt,weather = :weather,chapter = :chapter,scene = :scene,morality = :morality,atm = :atm,money =:money,credit = :credit,battery = :battery,gas = :gas,\
+        taskpin = :taskpin,minimap = :minimap WHERE id = :id""",
+    {'id': ID,'gt': GAMETIME,'fr': FORMATION,'map': MAP,'x': PX,'y': PY,'tm': ts,'dt': dt,'weather': WEATHER,'chapter': CHAPTER,'scene': SCENE,'morality': MORALITY,'atm': ATM,'money': MONEY,'credit': CREDIT,'battery': BATTERY,'gas': GAS,
+    'taskpin': TASKPIN,'minimap': MINIMAP})
     tbl.commit()
  
-    for i in range(len(database.CHARACTERS)):
-        com.execute("""UPDATE characters""" + str(ID) + """ SET level = :level, xp = :xp WHERE n = :n""",{'n': i,'level': database.CHARACTERS[i]['LEVEL'],'xp': database.CHARACTERS[i]['XP']})
+    for i in range(len(CHARACTERS)):
+        com.execute("""UPDATE characters""" + str(ID) + """ SET level = :level, xp = :xp WHERE n = :n""",{'n': i,'level': CHARACTERS[i]['LEVEL'],'xp': CHARACTERS[i]['XP']})
+        tbl.commit()
+
+    for i in DLGSAV:
+        com.execute("""UPDATE dlgsav""" + str(ID) + """ SET vl = :vl WHERE who = :who""",{'who': i,'vl': DLGSAV[i]})
         tbl.commit()
     '''
     for n in range(len(INVENTORY)):
@@ -644,15 +684,15 @@ def save_data():
     tbl.close()
 
 def save_sett():
-    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, BORDER
+    global ID, LANG, SFX, MSC, UP, DOWN, LEFT, RIGHT, ACT, RUN, PHONE, BAG, SPEED, COLOR, BORDER, CENSORSHIP, HINT
       
     tbl = sqlite3.connect('userdata.db')
     com = tbl.cursor()
       
     com.execute("UPDATE settings SET lang = :lang,sfx = :sfx,msc = :msc,up = :up,down = :down,left = :left,right = :right,act = :act,run = :run,phone = :phone,inventory = :inventory,\
-        speed = :speed,color1 = :color1,color2 = :color2,color3 = :color3,border = :border WHERE id = :id",
-        {'id': ID,'lang': LANG,'sfx': SFX,'msc': MSC,'up': UP,'down': DOWN,'left': LEFT,'right': RIGHT,'act': ACT,'run': RUN,'phone': PHONE,'inventory': BAG,
-        'speed': SPEED,'color1': COLOR[0],'color2': COLOR[1],'color3': COLOR[2],'border': BORDER})
+        speed = :speed,color1 = :color1,color2 = :color2,color3 = :color3,border = :border,censor = :censor,hint = :hint WHERE id = :id",
+        {'id': ID,'lang': LANG,'sfx': SFX,'msc': MSC,'up': UP[0],'down': DOWN[0],'left': LEFT[0],'right': RIGHT[0],'act': ACT[0],'run': RUN[0],'phone': PHONE[0],'inventory': BAG[0],
+        'speed': SPEED,'color1': COLOR[0],'color2': COLOR[1],'color3': COLOR[2],'border': BORDER,'censor': int(CENSORSHIP),'hint': int(HINT)})
     tbl.commit()
       
     com.close()
@@ -663,9 +703,9 @@ def char_entry():
     tbl = sqlite3.connect('userdata.db')
     com = tbl.cursor()
       
-    for i in range(len(database.CHARACTERS)):
+    for i in range(len(CHARACTERS)):
         com.execute("UPDATE characters" + str(ID) + " SET name = :name, lastname = :lastname,gender = :gender,level = :level WHERE n = :n",
-            {'n': i,'name': database.CHARACTERS[i]['NAME'],'lastname': database.CHARACTERS[i]['LASTNAME'],'gender': database.CHARACTERS[i]['GENDER'],'level': database.CHARACTERS[i]['LEVEL']})
+            {'n': i,'name': CHARACTERS[i]['NAME'],'lastname': CHARACTERS[i]['LASTNAME'],'gender': CHARACTERS[i]['GENDER'],'level': CHARACTERS[i]['LEVEL']})
         tbl.commit()
       
     com.close()
@@ -888,6 +928,15 @@ def heads(p,w,h):
     SPRITES['BLANKRD_' + str(pt) + str(h) + str(w)] = []
     SPRITES['BLANKR_' + str(pt) + str(h) + str(w)] = []
     SPRITES['BLANKRU_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKU_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKDD_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKD_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKLD_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKL_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKLU_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKRD_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKR_' + str(pt) + str(h) + str(w)] = []
+    SPRITES['TALKRU_' + str(pt) + str(h) + str(w)] = []
 
     SPRITES['BLANKU_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'U',w,h))
     for i in range(2): SPRITES['BLANKDD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankDD',w,h,i))
@@ -898,6 +947,15 @@ def heads(p,w,h):
     for i in range(2): SPRITES['BLANKRD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankRD',w,h,i))
     for i in range(2): SPRITES['BLANKR_' + str(pt) + str(h) + str(w)].append(pygame.transform.flip(color_sprite('head',pt,'blankH',w,h,i),True,False))
     SPRITES['BLANKRU_' + str(pt) + str(h) + str(w)].append(pygame.transform.flip(color_sprite('head',pt,'HU',w,h),True,False))
+    SPRITES['TALKU_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'U',w,h))
+    for i in range(2): SPRITES['TALKDD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankDD',w,h,i))
+    for i in range(2): SPRITES['TALKD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankD',w,h,i))
+    for i in range(2): SPRITES['TALKLD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankLD',w,h,i))
+    for i in range(2): SPRITES['TALKL_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankH',w,h,i))
+    SPRITES['TALKLU_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'HU',w,h))
+    for i in range(2): SPRITES['TALKRD_' + str(pt) + str(h) + str(w)].append(color_sprite('head',pt,'blankRD',w,h,i))
+    for i in range(2): SPRITES['TALKR_' + str(pt) + str(h) + str(w)].append(pygame.transform.flip(color_sprite('head',pt,'blankH',w,h,i),True,False))
+    SPRITES['TALKRU_' + str(pt) + str(h) + str(w)].append(pygame.transform.flip(color_sprite('head',pt,'HU',w,h),True,False))
 
 def bodies(w,t):
     global SPRITES
