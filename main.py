@@ -23,8 +23,8 @@ else: import database_PT as database
 
 class Loading():
 	def __init__(self):
-		self.screen = pygame.display.set_mode((1200, 800), pygame.RESIZABLE)
-		self.display = pygame.Surface((600, 400))
+		self.screen = pygame.display.set_mode(resources.SCREEN_SIZE, pygame.RESIZABLE)
+		self.display = pygame.Surface(resources.SURFACE_SIZE)
 		self.monotype = pygame.font.Font('Fonts/monotype.ttf', 15)
 		self.load = 0
 		self.classrun = True
@@ -37,7 +37,7 @@ class Loading():
 	def callresources(self):
 		self.load = 2
 		self.txt = 1
-		for w in range(resources.RANGE_SKIN):
+		'''for w in range(resources.RANGE_SKIN):
 			for p in range(resources.RANGE_FACE):
 				for h in range(resources.RANGE_HAIR):
 					resources.heads(p,w,h)
@@ -46,7 +46,7 @@ class Loading():
 		for w in range(resources.RANGE_SKIN):
 			for t in range(resources.RANGE_COSTUME):
 				resources.bodies(w,t)
-				self.run()
+				self.run()'''
 		self.txt = 3
 		resources.battlesprites()
 		self.txt = 4
@@ -90,8 +90,8 @@ class Loading():
 
 class Title:
 	def __init__(self):
-		self.screen = pygame.display.set_mode((1200, 800), pygame.RESIZABLE)
-		self.display = pygame.Surface((600, 400))
+		self.screen = pygame.display.set_mode(resources.SCREEN_SIZE, pygame.RESIZABLE)
+		self.display = pygame.Surface(resources.SURFACE_SIZE)
 		self.monotype = pygame.font.Font('Fonts/monotype.ttf', 15)
 		self.sfx = pygame.mixer.Channel(0)
 		self.ton = pygame.mixer.Channel(1)
@@ -163,7 +163,7 @@ class Title:
 					self.msc.play(audio)
 			if self.transtype in [0,4] and self.transpeed < 0: self.transform = round(random.randint(200,300))
 			if self.transtype in [1,4]:
-				img = pygame.image.load('Backgrounds/tv_' + str(self.tv) + '.png').convert()
+				img = pygame.image.load('Backgrounds/chp_' + str(self.tv) + '.png').convert()
 				self.rectrot = img.get_rect(center=pygame.Rect(0,0,600,400).center)
 
 	def run(self):
@@ -221,7 +221,7 @@ class Title:
 				self.display.blit(pygame.image.load('Backgrounds/noise_' + str(self.noise) + '.png'), (0, 0))
 			else:
 				self.transform += self.transpeed
-				img = pygame.image.load('Backgrounds/tv_' + str(self.tv) + '.png').convert()
+				img = pygame.image.load('Backgrounds/chp_' + str(self.tv) + '.png').convert()
 				if self.transtype == 0:
 					img = pygame.transform.scale(img,(img.get_rect().width + round(self.transform * 2),img.get_rect().height + round(self.transform * 2)))
 					self.display.blit(img, (600 - img.get_rect().width, 600 - img.get_rect().height))

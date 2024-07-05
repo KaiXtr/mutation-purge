@@ -6,6 +6,10 @@ import os
 VERSION = '0.0.1'
 DEBUG = True
 
+RESCALE = 1
+SCREEN_SIZE = (800,500)# (1200,800)
+SURFACE_SIZE = (int(SCREEN_SIZE[0] * RESCALE),int(SCREEN_SIZE[0] * RESCALE))# (1200,800)
+
 SPRITES = {}
 SOUND = {}
 SONGS = {}
@@ -18,7 +22,7 @@ RANGE_HAIR = 8
 RANGE_FACE = 6
 RANGE_COSTUME = 2
 RANGE_SKIN = 10
-RANGE_RADIO = 10
+RANGE_RADIO = 5
 RANGE_BORDER = 7
 
 FILES = []
@@ -1036,13 +1040,13 @@ def sfx(j):
 def music():
     global SONGS
     SONGS = {
-    'FATE_OCCURRENCES': pygame.mixer.Sound('Music/fate_occurrences.ogg'),
+    'FATE_OCCURRENCES': pygame.mixer.Sound('Music/fate_occurrences.mp3'),
     #'BEYOND_THE_CLOUDS': pygame.mixer.Sound('Music/beyond_the_clouds.wav'), #'SIERRA_STREETS': pygame.mixer.Sound('Music/sierra_streets.wav'),
-    'HEY_SAM': pygame.mixer.Sound('Music/hey_sam.wav'), 'URBAN_PLAGUE': pygame.mixer.Sound('Music/urban_plague.wav'),
-    'EGG_RAP': pygame.mixer.Sound('Music/egg_rap.wav'),
-    'CIGARUTO': pygame.mixer.Sound('Music/cigaruto.wav'),
-    'EMOS_HERMANOS': pygame.mixer.Sound('Music/emos_hermanos.wav'),
-    'ONCE_YOU_BECOME_FOREVER_YOU_ARE': pygame.mixer.Sound('Music/once_you_become_forever_you_are.wav'),
+    'HEY_SAM': pygame.mixer.Sound('Music/hey_sam.mp3'), 'URBAN_PLAGUE': pygame.mixer.Sound('Music/urban_plague.mp3'),
+    'EGG_RAP': pygame.mixer.Sound('Music/egg_rap.mp3'),
+    'CIGARUTO': pygame.mixer.Sound('Music/cigaruto.mp3'),
+    'EMOS_HERMANOS': pygame.mixer.Sound('Music/emos_hermanos.mp3'),
+    'ONCE_YOU_BECOME_FOREVER_YOU_ARE': pygame.mixer.Sound('Music/once_you_become_forever_you_are.mp3'),
     }
 
 def radio(i):
