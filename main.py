@@ -28,14 +28,17 @@ import random
 import webbrowser
 import sys
 
+SCREEN_SIZE = (600,400) #(1200, 800)
+RESCALE = 2
+
 class Game:
 	def __init__(self):
 		#GAME SETTINGS
 		pygame.init()
 		pygame.display.set_caption('Mutation Purge')
 		pygame.display.set_icon(pygame.image.load('Icon.png'))
-		self.screen = pygame.display.set_mode((1200, 800), pygame.RESIZABLE)
-		self.display = pygame.Surface((600, 400))
+		self.screen = pygame.display.set_mode(SCREEN_SIZE, pygame.RESIZABLE)
+		self.display = pygame.Surface((int(SCREEN_SIZE[0] * RESCALE), int(SCREEN_SIZE[1] * RESCALE)))
 		self.displayzw = 600
 		self.displayzh = 400
 		self.displayx = 0
